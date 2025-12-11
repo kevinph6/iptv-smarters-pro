@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1764973812989,
+      "tag": "0000_groovy_unicorn",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1764974851372,
+      "tag": "0001_lumpy_satana",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1765041141439,
+      "tag": "0002_absent_aaron_stack",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1765335108315,
+      "tag": "0003_living_hiroim",
+      "breakpoints": true
+    }
+  ]
+}
