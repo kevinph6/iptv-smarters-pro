@@ -4,6 +4,6 @@
   "startupCommands": [
     "bun install; bun run dev"
   ],
-  "vercelProjectId": "prj_rvhuBI5nNwd0nlnBpgAatoz6PUMc",
-  "deployedWithUserToken": false
+  "vercelProjectId": "prj_dk7Og9DLc9rigbeQuOqanhpUJqC9",
+  "deployedWithUserToken": true
 }
