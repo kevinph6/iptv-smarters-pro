@@ -7,55 +7,50 @@ export function middleware(request: NextRequest) {
   
   console.log('🔥 MIDDLEWARE RUNNING');
   console.log('Hostname:', hostname);
-  console.log('Country (CF):', request.headers.get('cf-ipcountry'));
-  console.log('Country (Vercel):', request.geo?.country);
-  console.log('Country (Final):', country);
+  console.log('Country:', country);
   console.log('Path:', request.nextUrl.pathname);
   
-  // 1. SUBDOMAIN CHECK: Handle restricted subdomain
+  // Skip API routes
+  if (request.nextUrl.pathname.startsWith('/api/')) {
+    return NextResponse.next();
+  }
+  
+  const isBot = /googlebot|bingbot|slurp|duckduckbot|yandexbot|baiduspider/i.test(userAgent);
+  const allowedCountries = ['FR', 'BE', 'GF', 'GP', 'MQ', 'MF', 'BL'];
+  const normalizedCountry = country?.toUpperCase() || '';
+  
+  // 1. HANDLE RESTRICTED SUBDOMAIN
   if (hostname === 'restricted.abonnement-iptv-smarterspro.fr') {
-    const allowedCountries = ['FR', 'BE', 'GF', 'GP', 'MQ', 'MF', 'BL'];
-    const normalizedCountry = country?.toUpperCase() || '';
-    const isBot = /googlebot|bingbot|slurp|duckduckbot|yandexbot|baiduspider/i.test(userAgent);
+    console.log('🎯 On restricted subdomain');
     
-    if (normalizedCountry && allowedCountries.includes(normalizedCountry)) {
-      console.log('✅ Allowed country on restricted subdomain - redirecting to main site');
+    // If allowed country or bot, redirect to main site
+    if ((normalizedCountry && allowedCountries.includes(normalizedCountry)) || isBot) {
+      console.log('✅ Redirecting allowed user to main site');
       return NextResponse.redirect(new URL('https://abonnement-iptv-smarterspro.fr', request.url));
     }
     
-    if (isBot) {
-      console.log('🤖 Bot on restricted subdomain - redirecting to main site');
-      return NextResponse.redirect(new URL('https://abonnement-iptv-smarterspro.fr', request.url));
-    }
-    
-    console.log('🚫 Blocked country - showing restricted page');
+    // Otherwise, REWRITE to show /geo-restricted content
+    console.log('🚫 Showing restricted page');
     return NextResponse.rewrite(new URL('/geo-restricted', request.url));
   }
   
-  // 2. BOT DETECTION
-  const isBot = /googlebot|bingbot|slurp|duckduckbot|yandexbot|baiduspider/i.test(userAgent);
-  
-  // 3. GEO-RESTRICTION
-  const allowedCountries = ['FR', 'BE', 'GF', 'GP', 'MQ', 'MF', 'BL'];
-  
-  if (hostname.includes('abonnement-iptv-smarterspro.fr') && 
-      !hostname.includes('restricted.') &&
-      !request.nextUrl.pathname.startsWith('/api/')) {
+  // 2. GEO-RESTRICTION ON MAIN DOMAIN
+  if (hostname.includes('abonnement-iptv-smarterspro.fr') && !hostname.includes('restricted.')) {
     
-    const normalizedCountry = country?.toUpperCase() || '';
-    
+    // Block non-allowed countries
     if (normalizedCountry && !allowedCountries.includes(normalizedCountry) && !isBot) {
-      console.log('🚫 BLOCKING COUNTRY:', normalizedCountry);
+      console.log('🚫 BLOCKING:', normalizedCountry);
       return NextResponse.redirect(new URL('https://restricted.abonnement-iptv-smarterspro.fr', request.url));
     }
     
+    // Block if no country detected (except bots)
     if (!normalizedCountry && !isBot) {
-      console.log('⚠️ No country detected - blocking by default');
+      console.log('⚠️ No country - blocking');
       return NextResponse.redirect(new URL('https://restricted.abonnement-iptv-smarterspro.fr', request.url));
     }
   }
   
-  // 4. PROTECTED ROUTES
+  // 3. PROTECTED ROUTES
   if (request.nextUrl.pathname.startsWith('/vxodnasait')) {
     return handleProtectedRoutes(request);
   }
