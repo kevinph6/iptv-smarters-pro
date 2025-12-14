@@ -318,7 +318,9 @@ export default function LandingV2Content() {
         <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-blue-900/20 blur-[150px] animate-pulse-slow" />
         <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-purple-900/20 blur-[150px] animate-pulse-slow delay-75" />
         <div className="absolute top-[40%] left-[30%] w-[40%] h-[40%] bg-indigo-900/10 blur-[120px]" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-150 contrast-150" />
+        <div className="absolute inset-0 opacity-20 brightness-150 contrast-150" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+        }} />
       </div>
 
       {/* --- Navbar --- */}
@@ -485,9 +487,15 @@ export default function LandingV2Content() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10" />
                 
                 {/* Simulated VOD Interface Background */}
-                <div className="absolute inset-0 grid grid-cols-4 gap-2 opacity-30 transform rotate-[-5deg] scale-110 pointer-events-none">
+                <div className="absolute inset-0 grid grid-cols-4 gap-2 opacity-30 transform rotate-[-5deg] scale-110 pointer-events-none p-4">
                    {[...Array(16)].map((_, i) => (
-                     <div key={i} className="aspect-[2/3] rounded-lg bg-white/10 border border-white/5 animate-pulse" style={{ animationDelay: `${i * 0.1}s` }} />
+                     <div 
+                       key={i} 
+                       className={`aspect-[2/3] rounded-lg border border-white/5 animate-pulse ${
+                         i % 3 === 0 ? 'bg-red-500/20' : i % 2 === 0 ? 'bg-blue-500/20' : 'bg-gray-500/20'
+                       }`}
+                       style={{ animationDelay: `${i * 0.1}s` }} 
+                     />
                    ))}
                 </div>
 
