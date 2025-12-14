@@ -57,12 +57,12 @@ const CHANNELS = [
 ];
 
 const APPS = [
-  { name: 'SMART IPTV', color: 'from-blue-600 to-blue-400', initials: 'SI' },
-  { name: 'DUPLEX PLAY', color: 'from-purple-600 to-indigo-400', initials: 'DP' },
-  { name: 'FLIX IPTV', color: 'from-green-500 to-emerald-400', initials: 'FI' },
-  { name: 'IBO PLAYER', color: 'from-red-500 to-orange-400', initials: 'IB' },
-  { name: 'NET IPTV', color: 'from-cyan-500 to-blue-400', initials: 'NI' },
-  { name: 'SET IPTV', color: 'from-pink-500 to-rose-400', initials: 'ST' },
+  { name: 'SMART IPTV', color: 'from-blue-600 to-blue-400', initials: 'SI', icon: Tv },
+  { name: 'DUPLEX PLAY', color: 'from-purple-600 to-indigo-400', initials: 'DP', icon: Layers },
+  { name: 'FLIX IPTV', color: 'from-green-500 to-emerald-400', initials: 'FI', icon: Film },
+  { name: 'IBO PLAYER', color: 'from-red-500 to-orange-400', initials: 'IB', icon: Play },
+  { name: 'NET IPTV', color: 'from-cyan-500 to-blue-400', initials: 'NI', icon: Globe },
+  { name: 'SET IPTV', color: 'from-pink-500 to-rose-400', initials: 'ST', icon: Monitor },
 ];
 
 const PRICING_STANDARD = [
@@ -227,57 +227,54 @@ const MagneticButton = ({ children, className = "", onClick, primary = false }: 
   );
 };
 
-// New Component for Simulated Video
+// Improved Simulated Video with Real Image Background
 const StreamSimulation = () => {
   return (
-    <div className="relative w-full h-full bg-black overflow-hidden flex items-center justify-center">
-      {/* Background Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px]" />
-      
-      {/* Moving Particles */}
-      <motion.div 
-        animate={{ opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 3, repeat: Infinity }}
-        className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 via-transparent to-purple-900/20"
-      />
+    <div className="relative w-full h-full bg-black overflow-hidden flex items-center justify-center group">
+      {/* Real Stadium Background */}
+      <div className="absolute inset-0 z-0">
+        <Image 
+          src="https://images.unsplash.com/photo-1522770179533-24471fcdba45?q=80&w=1000&auto=format&fit=crop" 
+          alt="Live Match" 
+          fill
+          className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+        />
+        <div className="absolute inset-0 bg-black/40" />
+      </div>
+
+      {/* Moving Particles/Overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] z-10" />
       
       {/* Center Content */}
-      <div className="relative z-10 flex flex-col items-center gap-4">
+      <div className="relative z-20 flex flex-col items-center gap-4">
         <motion.div 
-          animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
-          transition={{ duration: 5, repeat: Infinity }}
-          className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-[0_0_50px_rgba(59,130,246,0.5)]"
+          whileHover={{ scale: 1.2 }}
+          className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-[0_0_50px_rgba(59,130,246,0.5)] cursor-pointer hover:bg-white/30 transition-colors"
         >
           <Play size={32} className="fill-white ml-2" />
         </motion.div>
         <div className="text-center">
           <motion.div 
-            animate={{ opacity: [0.5, 1, 0.5] }}
+            animate={{ opacity: [0.8, 1, 0.8] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="text-white font-bold tracking-widest text-xl mb-1"
+            className="text-white font-bold tracking-widest text-xl mb-1 drop-shadow-lg"
           >
             4K ULTRA HD
           </motion.div>
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center gap-2 bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm">
             <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-            <span className="text-xs text-gray-400 font-mono">LIVE FEED • 60FPS • HDR10+</span>
+            <span className="text-xs text-white font-mono">LIVE FEED • 60FPS</span>
           </div>
         </div>
       </div>
 
-      {/* Animated Lines */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(5)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ x: "-100%" }}
-            animate={{ x: "200%" }}
-            transition={{ duration: 2, repeat: Infinity, delay: i * 0.4, ease: "linear" }}
-            className="absolute top-1/2 h-[1px] w-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
-            style={{ top: `${20 + i * 15}%` }}
-          />
-        ))}
-      </div>
+      {/* Animated Scanline */}
+      <motion.div
+        initial={{ top: "-10%" }}
+        animate={{ top: "110%" }}
+        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+        className="absolute left-0 right-0 h-20 bg-gradient-to-b from-transparent via-white/5 to-transparent z-10 pointer-events-none"
+      />
     </div>
   );
 };
@@ -288,11 +285,11 @@ const FeatureCard = ({ icon: Icon, title, desc, delay }: any) => (
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.8, delay }}
     viewport={{ once: true }}
-    className="group relative p-8 rounded-3xl bg-[#0a0a0a] border border-white/5 hover:border-white/20 transition-all duration-500 overflow-hidden"
+    className="group relative p-8 rounded-3xl bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/5 hover:border-white/20 transition-all duration-500 overflow-hidden"
   >
     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 group-hover:opacity-100 opacity-0 transition-opacity duration-500" />
     <div className="relative z-10">
-      <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 text-white">
+      <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 text-white shadow-lg shadow-white/5">
         <Icon size={28} strokeWidth={1.5} />
       </div>
       <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-blue-400 transition-colors">{title}</h3>
@@ -313,14 +310,22 @@ export default function LandingV2Content() {
     <div className="min-h-screen bg-black text-white font-sans selection:bg-blue-500 selection:text-white overflow-x-hidden">
       <ScrollProgress />
       
-      {/* --- Ambient Background --- */}
+      {/* --- Ambient Background with Real Image --- */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-blue-900/20 blur-[150px] animate-pulse-slow" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-purple-900/20 blur-[150px] animate-pulse-slow delay-75" />
-        <div className="absolute top-[40%] left-[30%] w-[40%] h-[40%] bg-indigo-900/10 blur-[120px]" />
-        <div className="absolute inset-0 opacity-20 brightness-150 contrast-150" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
-        }} />
+        {/* Cinematic Background Image */}
+        <div className="absolute inset-0 z-0">
+           <Image 
+             src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
+             alt="Background"
+             fill
+             className="object-cover opacity-20"
+             priority
+           />
+           <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
+        </div>
+
+        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-blue-900/20 blur-[150px] animate-pulse-slow mix-blend-screen" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-purple-900/20 blur-[150px] animate-pulse-slow delay-75 mix-blend-screen" />
       </div>
 
       {/* --- Navbar --- */}
@@ -358,23 +363,26 @@ export default function LandingV2Content() {
       </nav>
 
       {/* --- Hero Section --- */}
-      <section id="hero" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+      <section id="hero" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden perspective-1000">
         <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
           
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            initial={{ opacity: 0, scale: 0.9, rotateX: 20 }}
+            animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
             className="mb-12 inline-flex flex-col items-center"
+            style={{ transformStyle: "preserve-3d" }}
           >
-             <div className="flex items-center gap-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-sm">
-               <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-               <span className="text-xs font-medium tracking-wide uppercase text-gray-300">Serveurs France : Opérationnels</span>
+             <div className="flex items-center gap-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-sm shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+               <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_#22c55e]" />
+               <span className="text-xs font-medium tracking-wide uppercase text-gray-200">Serveurs France : Opérationnels</span>
              </div>
              
-             <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9] mb-8 mix-blend-overlay opacity-90">
-               <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">CINÉMA</span>
-               <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">ILLIMITÉ</span>
+             <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9] mb-8 relative">
+               <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 drop-shadow-2xl">CINÉMA</span>
+               <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 drop-shadow-2xl">ILLIMITÉ</span>
+               {/* Glow Effect */}
+               <div className="absolute inset-0 blur-3xl bg-blue-500/20 rounded-full -z-10" />
              </h1>
           </motion.div>
 
@@ -382,10 +390,10 @@ export default function LandingV2Content() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed"
+            className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto mb-12 leading-relaxed font-light"
           >
-            Découvrez <span className="text-white font-bold">IPTV SMARTERS PRO</span>. L'abonnement IPTV Premium qui redéfinit vos soirées. 
-            <span className="block mt-2 text-blue-400">4K UHD • Anti-Freeze 8.0 • +160,000 Contenus</span>
+            Découvrez <span className="text-white font-bold glow-text">IPTV SMARTERS PRO</span>. L'abonnement IPTV Premium qui redéfinit vos soirées. 
+            <span className="block mt-4 text-blue-400 font-medium tracking-wide">4K UHD • Anti-Freeze 8.0 • +160,000 Contenus</span>
           </motion.p>
 
           <motion.div 
@@ -421,7 +429,7 @@ export default function LandingV2Content() {
         <motion.div 
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 2 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-gray-600 mix-blend-difference"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 mix-blend-difference"
         >
            <ChevronDown size={32} />
         </motion.div>
@@ -432,8 +440,8 @@ export default function LandingV2Content() {
         <div className="flex animate-marquee whitespace-nowrap gap-20 items-center">
           {[...CHANNELS, ...CHANNELS, ...CHANNELS].map((c, i) => (
             <div key={i} className="flex items-center gap-4 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-               <div className={`w-3 h-3 rounded-full ${c.color}`} />
-               <span className="text-2xl font-bold tracking-tight">{c.name}</span>
+               <div className={`w-3 h-3 rounded-full ${c.color} shadow-[0_0_10px_currentColor]`} />
+               <span className="text-2xl font-bold tracking-tight text-white">{c.name}</span>
             </div>
           ))}
         </div>
@@ -447,7 +455,7 @@ export default function LandingV2Content() {
               <span className="text-blue-500 font-bold tracking-wider uppercase text-sm mb-4 block">Pourquoi Nous ?</span>
               <h2 className="text-5xl md:text-7xl font-bold tracking-tighter leading-none mb-6">
                 L'EXCELLENCE <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-white to-red-500">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-white to-red-500 animate-gradient-x">
                   À LA FRANÇAISE
                 </span>
               </h2>
@@ -457,9 +465,9 @@ export default function LandingV2Content() {
             </div>
             <div className="hidden md:block">
               <div className="flex items-center gap-4 text-sm font-bold text-gray-400">
-                 <div className="px-4 py-2 rounded-full border border-white/10 bg-white/5">4K HDR</div>
-                 <div className="px-4 py-2 rounded-full border border-white/10 bg-white/5">DOLBY ATMOS</div>
-                 <div className="px-4 py-2 rounded-full border border-white/10 bg-white/5">AI UPSCALING</div>
+                 <div className="px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">4K HDR</div>
+                 <div className="px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">DOLBY ATMOS</div>
+                 <div className="px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">AI UPSCALING</div>
               </div>
             </div>
           </div>
@@ -486,17 +494,14 @@ export default function LandingV2Content() {
              <div className="md:col-span-2 relative rounded-3xl overflow-hidden min-h-[400px] group border border-white/5 bg-[#0a0a0a]">
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10" />
                 
-                {/* Simulated VOD Interface Background */}
-                <div className="absolute inset-0 grid grid-cols-4 gap-2 opacity-30 transform rotate-[-5deg] scale-110 pointer-events-none p-4">
-                   {[...Array(16)].map((_, i) => (
-                     <div 
-                       key={i} 
-                       className={`aspect-[2/3] rounded-lg border border-white/5 animate-pulse ${
-                         i % 3 === 0 ? 'bg-red-500/20' : i % 2 === 0 ? 'bg-blue-500/20' : 'bg-gray-500/20'
-                       }`}
-                       style={{ animationDelay: `${i * 0.1}s` }} 
-                     />
-                   ))}
+                {/* Real VOD Background Image */}
+                <div className="absolute inset-0 z-0">
+                  <Image 
+                    src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=3456&auto=format&fit=crop" 
+                    alt="VOD Library" 
+                    fill
+                    className="object-cover opacity-50 group-hover:scale-105 transition-transform duration-700"
+                  />
                 </div>
 
                 <div className="absolute bottom-10 left-10 z-20 max-w-lg">
@@ -522,7 +527,9 @@ export default function LandingV2Content() {
         <div className="max-w-7xl mx-auto text-center">
            <h2 className="text-3xl md:text-5xl font-bold mb-16">Compatible Partout</h2>
            <div className="flex flex-wrap justify-center gap-8 md:gap-16">
-             {APPS.map((app, i) => (
+             {APPS.map((app, i) => {
+               const Icon = (app as any).icon;
+               return (
                <motion.div 
                  key={i}
                  initial={{ opacity: 0, y: 20 }}
@@ -531,17 +538,23 @@ export default function LandingV2Content() {
                  whileHover={{ y: -10 }}
                  className="flex flex-col items-center gap-4 group cursor-pointer"
                >
-                 <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br ${app.color} p-[1px] shadow-xl group-hover:shadow-2xl group-hover:shadow-${app.color.split('-')[1]}-500/30 transition-all duration-300`}>
-                   <div className="w-full h-full rounded-[23px] bg-black flex items-center justify-center relative overflow-hidden">
+                 <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br ${app.color} p-[1px] shadow-xl group-hover:shadow-2xl group-hover:shadow-${app.color.split('-')[1]}-500/50 transition-all duration-300 relative`}>
+                   <div className="w-full h-full rounded-[23px] bg-black/90 backdrop-blur-xl flex items-center justify-center relative overflow-hidden">
+                     {/* Glossy Effect */}
+                     <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
+                     
                      <div className={`absolute inset-0 bg-gradient-to-br ${app.color} opacity-10 group-hover:opacity-20 transition-opacity`} />
-                     <span className={`text-2xl font-black bg-gradient-to-br ${app.color} bg-clip-text text-transparent`}>
-                       {app.initials}
-                     </span>
+                     <div className="flex flex-col items-center gap-1">
+                       <Icon size={24} className={`text-${app.color.split('-')[1]}-400`} />
+                       <span className={`text-xl font-black bg-gradient-to-br ${app.color} bg-clip-text text-transparent`}>
+                         {app.initials}
+                       </span>
+                     </div>
                    </div>
                  </div>
                  <span className="text-xs font-bold tracking-widest text-gray-500 group-hover:text-white transition-colors">{app.name}</span>
                </motion.div>
-             ))}
+             )})}
            </div>
         </div>
       </section>
@@ -581,9 +594,9 @@ export default function LandingV2Content() {
                 transition={{ delay: i * 0.1 }}
                 className={`relative group rounded-3xl p-[1px] ${plan.popular ? 'bg-gradient-to-b from-amber-500 to-red-600' : 'bg-white/10 hover:bg-white/20'}`}
               >
-                <div className="h-full bg-[#050505] rounded-[23px] p-6 flex flex-col relative overflow-hidden">
+                <div className="h-full bg-[#050505] rounded-[23px] p-6 flex flex-col relative overflow-hidden backdrop-blur-md">
                   {plan.popular && (
-                    <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-amber-500 to-red-500" />
+                    <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-amber-500 to-red-500 shadow-[0_0_20px_rgba(245,158,11,0.5)]" />
                   )}
                   
                   <div className="mb-6">
@@ -593,13 +606,13 @@ export default function LandingV2Content() {
 
                   <div className="flex items-start gap-1 mb-8">
                     <span className="text-lg font-bold text-gray-500 mt-2">€</span>
-                    <span className="text-7xl font-black tracking-tighter">{plan.price}</span>
+                    <span className="text-7xl font-black tracking-tighter text-white">{plan.price}</span>
                     <span className="text-lg font-bold text-gray-500 mt-2">.{plan.cents}</span>
                   </div>
 
                   {(plan as any).bonus && (
                     <div className="mb-6">
-                      <div className="inline-block px-3 py-1 rounded-lg bg-gradient-to-r from-amber-500/20 to-red-500/20 border border-amber-500/30 text-amber-500 text-xs font-bold animate-pulse">
+                      <div className="inline-block px-3 py-1 rounded-lg bg-gradient-to-r from-amber-500/20 to-red-500/20 border border-amber-500/30 text-amber-500 text-xs font-bold animate-pulse shadow-[0_0_10px_rgba(245,158,11,0.2)]">
                         {(plan as any).bonus}
                       </div>
                     </div>
@@ -616,7 +629,7 @@ export default function LandingV2Content() {
 
                   <button 
                     onClick={() => router.push(plan.href)}
-                    className={`w-full py-4 rounded-xl font-bold text-sm tracking-wide transition-all duration-300 ${plan.popular ? 'bg-gradient-to-r from-amber-500 to-red-600 text-white hover:shadow-lg hover:shadow-amber-900/40' : 'bg-white/5 text-white hover:bg-white/10'}`}
+                    className={`w-full py-4 rounded-xl font-bold text-sm tracking-wide transition-all duration-300 ${plan.popular ? 'bg-gradient-to-r from-amber-500 to-red-600 text-white hover:shadow-lg hover:shadow-amber-900/40 hover:scale-[1.02]' : 'bg-white/5 text-white hover:bg-white/10 hover:scale-[1.02]'}`}
                   >
                     CHOISIR CE PACK
                   </button>
@@ -635,16 +648,16 @@ export default function LandingV2Content() {
       {/* --- Comparison Video Section --- */}
       <section id="comparison" className="relative z-20 py-32 px-6 border-t border-white/5">
          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative">
-               <div className="absolute -inset-4 bg-blue-500/20 blur-2xl rounded-full opacity-50" />
-               <div className="relative rounded-2xl overflow-hidden aspect-video border border-white/10 shadow-2xl bg-black">
+            <div className="relative group">
+               <div className="absolute -inset-4 bg-blue-500/20 blur-2xl rounded-full opacity-50 group-hover:opacity-75 transition-opacity" />
+               <div className="relative rounded-2xl overflow-hidden aspect-video border border-white/10 shadow-2xl bg-black transform group-hover:scale-[1.02] transition-transform duration-500">
                  <StreamSimulation />
                  <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between z-20">
                     <div>
-                      <div className="text-white font-bold">LIVE PREVIEW</div>
+                      <div className="text-white font-bold drop-shadow-md">LIVE PREVIEW</div>
                       <div className="text-xs text-gray-300">4K HDR • 60 FPS</div>
                     </div>
-                    <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center shadow-lg">
                       <Activity size={20} className="text-green-400" />
                     </div>
                  </div>
@@ -664,11 +677,11 @@ export default function LandingV2Content() {
                <div className="space-y-4">
                  <div className="p-4 rounded-xl bg-green-900/10 border border-green-500/20 flex items-center justify-between">
                     <span className="font-bold text-green-400">IPTV SMARTERS PRO</span>
-                    <span className="text-sm text-green-500">100% STABLE</span>
+                    <span className="text-sm text-green-500 font-bold">100% STABLE</span>
                  </div>
-                 <div className="p-4 rounded-xl bg-red-900/10 border border-red-500/20 flex items-center justify-between opacity-60">
+                 <div className="p-4 rounded-xl bg-red-900/10 border border-red-500/20 flex items-center justify-between opacity-60 grayscale hover:grayscale-0 transition-all">
                     <span className="font-bold text-red-400">AUTRES FOURNISSEURS</span>
-                    <span className="text-sm text-red-500">COUPURES FRÉQUENTES</span>
+                    <span className="text-sm text-red-500 font-bold">COUPURES FRÉQUENTES</span>
                  </div>
                </div>
             </div>
@@ -678,7 +691,7 @@ export default function LandingV2Content() {
       {/* --- Reseller --- */}
       <section id="reseller" className="relative z-20 py-24 px-6 bg-[#0a0a0a] border-y border-white/5">
         <div className="max-w-4xl mx-auto text-center">
-           <div className="inline-block p-4 rounded-full bg-green-500/10 mb-6">
+           <div className="inline-block p-4 rounded-full bg-green-500/10 mb-6 border border-green-500/20">
              <TrendingUp size={32} className="text-green-500" />
            </div>
            <h2 className="text-4xl font-bold mb-6">Devenez Partenaire & Gagnez</h2>
@@ -688,7 +701,7 @@ export default function LandingV2Content() {
            </p>
            <button 
              onClick={() => window.open('https://wa.me/212628461599', '_blank')}
-             className="px-8 py-4 rounded-full bg-[#25D366] text-white font-bold hover:brightness-110 transition-all flex items-center gap-2 mx-auto"
+             className="px-8 py-4 rounded-full bg-[#25D366] text-white font-bold hover:brightness-110 hover:shadow-[0_0_20px_rgba(37,211,102,0.4)] transition-all flex items-center gap-2 mx-auto"
            >
              <MessageCircle size={20} />
              CONTACTER SUR WHATSAPP
@@ -702,7 +715,7 @@ export default function LandingV2Content() {
             <h2 className="text-4xl font-bold mb-12 text-center">Questions Fréquentes</h2>
             <div className="space-y-4">
               {FAQ.map((item, i) => (
-                <div key={i} className="group bg-white/5 rounded-2xl border border-white/5 overflow-hidden transition-all hover:bg-white/10">
+                <div key={i} className="group bg-white/5 rounded-2xl border border-white/5 overflow-hidden transition-all hover:bg-white/10 hover:border-white/10">
                    <details className="group">
                      <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
                        <span className="font-bold text-lg">{item.q}</span>
@@ -722,12 +735,16 @@ export default function LandingV2Content() {
       <footer className="relative z-20 pt-24 pb-12 px-6 bg-black border-t border-white/10">
          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             <div className="col-span-1 md:col-span-2">
-               <h3 className="text-2xl font-black tracking-tighter mb-6">IPTV SMARTERS PRO</h3>
+               <div className="flex items-center gap-2 mb-6">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center">
+                      <Play size={14} className="fill-white ml-0.5" />
+                  </div>
+                  <h3 className="text-2xl font-black tracking-tighter">IPTV SMARTERS PRO</h3>
+               </div>
                <p className="text-gray-500 max-w-sm mb-6">
                  Le leader incontesté de l'IPTV en France. Qualité premium, technologie de pointe et satisfaction client sont nos priorités.
                </p>
                <div className="flex gap-4">
-                 {/* Socials placeholders */}
                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer"><Globe size={18}/></div>
                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer"><MessageCircle size={18}/></div>
                </div>
@@ -773,6 +790,21 @@ export default function LandingV2Content() {
         }
         .animate-pulse-slow {
           animation: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .animate-gradient-x {
+          background-size: 200% 200%;
+          animation: gradient-x 15s ease infinite;
+        }
+        @keyframes gradient-x {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+        .glow-text {
+          text-shadow: 0 0 20px rgba(255,255,255,0.5);
         }
       `}</style>
     </div>
