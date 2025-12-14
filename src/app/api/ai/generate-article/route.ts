@@ -56,7 +56,7 @@ FORMAT DE RÉPONSE (JSON):
         'X-Title': 'IPTV Blog Generator',
       },
       body: JSON.stringify({
-        model: 'openai/gpt-4o',
+        model: 'openai/gpt-5.2-pro',
         messages: [
           {
             role: 'system',
