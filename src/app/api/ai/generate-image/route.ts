@@ -8,9 +8,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Topic is required' }, { status: 400 });
     }
 
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.OPENROUTER_API_KEY;
     if (!apiKey) {
-      return NextResponse.json({ error: 'OpenAI API key not configured' }, { status: 500 });
+      return NextResponse.json({ error: 'OpenRouter API key not configured' }, { status: 500 });
     }
 
     const prompt = `Create a professional, modern featured image for a blog article about "${topic}" in the IPTV and streaming industry. 
@@ -23,14 +23,17 @@ The image should be:
 - High quality, suitable for web use
 - Futuristic streaming/entertainment vibe`;
 
-    const response = await fetch('https://api.openai.com/v1/images/generations', {
+    // OpenRouter supports image generation via specific models
+    const response = await fetch('https://openrouter.ai/api/v1/images/generations', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`,
+        'HTTP-Referer': process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000',
+        'X-Title': 'IPTV Blog Generator',
       },
       body: JSON.stringify({
-        model: 'dall-e-3',
+        model: 'openai/dall-e-3',
         prompt: prompt,
         n: 1,
         size: '1792x1024',
@@ -41,8 +44,13 @@ The image should be:
 
     if (!response.ok) {
       const error = await response.json();
-      console.error('DALL-E API error:', error);
-      return NextResponse.json({ error: 'Failed to generate image' }, { status: 500 });
+      console.error('OpenRouter Image API error:', error);
+      
+      // Fallback: Generate a placeholder image URL or use a stock image service
+      return NextResponse.json({ 
+        imageUrl: `https://placehold.co/1792x1024/6366f1/ffffff?text=${encodeURIComponent(topic.substring(0, 30))}`,
+        message: 'Image generation not available, using placeholder'
+      });
     }
 
     const data = await response.json();
