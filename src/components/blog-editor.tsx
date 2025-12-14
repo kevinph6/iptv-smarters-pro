@@ -9,7 +9,7 @@ import 'react-quill-new/dist/quill.snow.css';
 const ReactQuill = dynamic(() => import('react-quill-new'), { 
   ssr: false,
   loading: () => (
-    <div className="flex items-center justify-center h-[400px] bg-white/5 rounded-lg">
+    <div className="flex items-center justify-center h-[400px] bg-white rounded-lg border border-gray-200">
       <Loader2 className="w-8 h-8 text-purple-500 animate-spin" />
     </div>
   )
@@ -26,7 +26,12 @@ export const BlogEditor = ({ value, onChange, imageUrl, onImageChange }: BlogEdi
   const [editorMode, setEditorMode] = useState<'visual' | 'html'>('visual');
   const [uploading, setUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState(imageUrl || '');
+  const [mounted, setMounted] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     setImagePreview(imageUrl || '');
@@ -213,6 +218,13 @@ export const BlogEditor = ({ value, onChange, imageUrl, onImageChange }: BlogEdi
         </div>
       </div>
 
+      {/* Content Label */}
+      <div>
+        <label className="text-white font-semibold mb-2 block">
+          Contenu <span className="text-red-400">*</span>
+        </label>
+      </div>
+
       {/* Editor Mode Toggle */}
       <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg p-1">
         <button
@@ -242,23 +254,24 @@ export const BlogEditor = ({ value, onChange, imageUrl, onImageChange }: BlogEdi
       </div>
 
       {/* Editor Content */}
-      <div className="bg-white/5 border border-white/10 rounded-lg overflow-hidden">
+      <div className="rounded-lg overflow-hidden">
         {editorMode === 'visual' ? (
           <div className="prose-editor">
-            <ReactQuill
-              theme="snow"
-              value={value}
-              onChange={onChange}
-              modules={modules}
-              formats={formats}
-              className="bg-white text-black min-h-[400px]"
-              placeholder="Commencez à écrire votre article..."
-            />
+            {mounted && (
+              <ReactQuill
+                theme="snow"
+                value={value || ''}
+                onChange={(content) => onChange(content || '')}
+                modules={modules}
+                formats={formats}
+                placeholder="Commencez à écrire votre article..."
+              />
+            )}
           </div>
         ) : (
-          <div className="p-4">
+          <div className="bg-white/5 border border-white/10 rounded-lg p-4">
             <textarea
-              value={value}
+              value={value || ''}
               onChange={(e) => onChange(e.target.value)}
               className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500 h-96 resize-y font-mono text-sm"
               placeholder="<h2>Introduction</h2><p>Votre contenu HTML ici...</p>"
@@ -273,7 +286,7 @@ export const BlogEditor = ({ value, onChange, imageUrl, onImageChange }: BlogEdi
       {/* Character Count */}
       <div className="flex justify-between text-white/40 text-sm">
         <span>Contenu</span>
-        <span>{value.length} caractères</span>
+        <span>{(value || '').length} caractères</span>
       </div>
     </div>
   );
