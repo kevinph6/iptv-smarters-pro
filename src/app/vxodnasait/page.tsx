@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Plus, Edit, Trash2, Eye, Calendar, User, Loader2, LogOut } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Calendar, User, Loader2, LogOut, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { authClient, useSession } from '@/lib/auth-client';
 
@@ -143,6 +143,13 @@ export default function AdminDashboard() {
               </p>
             </div>
             <div className="flex items-center gap-4">
+              <Link
+                href="/vxodnasait/generate"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white font-bold rounded-lg hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all duration-300"
+              >
+                <Sparkles className="w-5 h-5" />
+                Générer avec IA
+              </Link>
               <Link
                 href="/vxodnasait/posts/new"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold rounded-lg hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] transition-all duration-300"
