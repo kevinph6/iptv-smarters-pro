@@ -266,6 +266,7 @@ nextjs-portal {
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   border: 1px solid #e5e7eb;
+  background: white;
 }
 
 .prose-editor .ql-toolbar {
@@ -283,14 +284,19 @@ nextjs-portal {
 
 .prose-editor .ql-container.ql-snow {
   border: 1px solid #e5e7eb;
+  background: white;
 }
 
 .prose-editor .ql-editor {
   min-height: 400px;
   max-height: 600px;
   overflow-y: auto;
-  background: white;
-  color: #1f2937;
+  background: white !important;
+  color: #1f2937 !important;
+}
+
+.prose-editor .ql-editor * {
+  color: #1f2937 !important;
 }
 
 .prose-editor .ql-editor h1,
@@ -299,11 +305,47 @@ nextjs-portal {
 .prose-editor .ql-editor h4,
 .prose-editor .ql-editor h5,
 .prose-editor .ql-editor h6 {
-  color: #1f2937;
+  color: #111827 !important;
+  background: transparent;
 }
 
 .prose-editor .ql-editor p {
-  color: #374151;
+  color: #374151 !important;
+  background: transparent;
+}
+
+.prose-editor .ql-editor ul,
+.prose-editor .ql-editor ol,
+.prose-editor .ql-editor li {
+  color: #374151 !important;
+}
+
+.prose-editor .ql-editor strong,
+.prose-editor .ql-editor b {
+  color: #111827 !important;
+}
+
+.prose-editor .ql-editor a {
+  color: #2563eb !important;
+}
+
+.prose-editor .ql-editor blockquote {
+  color: #4b5563 !important;
+  border-left: 4px solid #d1d5db;
+  padding-left: 1rem;
+  background: #f9fafb;
+}
+
+.prose-editor .ql-editor pre,
+.prose-editor .ql-editor code {
+  color: #1f2937 !important;
+  background: #f3f4f6;
+}
+
+/* Text selection in editor */
+.prose-editor .ql-editor ::selection {
+  background: #fbbf24 !important;
+  color: #1f2937 !important;
 }
 
 .prose-editor .ql-editor.ql-blank::before {
