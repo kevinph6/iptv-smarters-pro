@@ -384,6 +384,12 @@ export default function RootLayout({
         <link rel="alternate" hrefLang="x-default" href={baseUrl} />
       </head>
       <body className={`${inter.className} antialiased`}>
+        <Script
+          id="orchids-browser-logs"
+          src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts/orchids-browser-logs.js"
+          strategy="afterInteractive"
+          data-orchids-project-id="4333d292-4a82-4247-86b6-117a058e7bdd"
+        />
         <ErrorReporter />
         {children}
         <VisualEditsMessenger />
