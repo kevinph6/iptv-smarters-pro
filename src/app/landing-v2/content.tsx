@@ -19,9 +19,19 @@ import {
   X,
   ArrowRight,
   Film,
-  Wifi
+  Wifi,
+  Cpu,
+  Server,
+  Lock,
+  MessageCircle,
+  HelpCircle,
+  Layers,
+  Crown,
+  Gift,
+  Rocket
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 // --- Assets & Data ---
 const CHANNELS = [
@@ -33,44 +43,124 @@ const CHANNELS = [
   { name: "Netflix", color: "bg-red-700" },
   { name: "Prime", color: "bg-blue-400" },
   { name: "Disney+", color: "bg-blue-900" },
+  { name: "Canal+ Sport", color: "bg-black" },
+  { name: "Eurosport", color: "bg-blue-800" },
+  { name: "HBO", color: "bg-black" },
+  { name: "OCS", color: "bg-orange-500" },
 ];
 
-const PRICING = [
+const APPS = [
+  { name: 'SMART IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-icon-for-smart-iptv-app-09c4ab27-20251205181036.jpg' },
+  { name: 'DUPLEX', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-icon-for-duplex-iptv-st-0f19efe5-20251205181034.jpg' },
+  { name: 'FLIX IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-for-flix-iptv-applicati-0c4fe512-20251205181036.jpg' },
+  { name: 'GSE SMART', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-icon-for-gse-smart-iptv-play-4ccaccfa-20251205181035.jpg' },
+  { name: 'NET IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-icon-for-net-iptv-applicatio-85ce8496-20251205181033.jpg' },
+  { name: 'ROYAL IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-for-royal-iptv-premium--3a114533-20251205181033.jpg' },
+];
+
+const PRICING_STANDARD = [
   {
-    id: '12-mois',
-    title: 'PASS PREMIUM 12 MOIS',
-    price: '49.99€',
-    period: '/an',
-    save: 'Économisez 70%',
-    features: [
-      'Accès 160,000+ Chaînes & VOD',
-      'Qualité 4K / FHD / HD / SD',
-      'Compatible Tous Appareils',
-      'Sans Coupure (Anti-Freeze)',
-      'Support Prioritaire 24/7',
-      'Activation Immédiate',
-      'Garantie Satisfait ou Remboursé'
-    ],
-    popular: true,
-    accent: 'from-amber-400 to-yellow-600'
+    id: 'std-3-mois',
+    title: '3 MOIS',
+    subtitle: 'IPTV HD',
+    price: '19',
+    cents: '00',
+    href: '/payment?plan=std-3-mois',
+    features: ['120K+ Chaînes & VOD', 'Qualité FHD/HD', 'Support 24/7'],
+    popular: false,
+    gradient: 'from-cyan-500 to-blue-500'
   },
   {
-    id: '6-mois',
-    title: 'PASS DÉCOUVERTE 6 MOIS',
-    price: '29.99€',
-    period: '/6 mois',
-    save: '',
-    features: [
-      'Accès 160,000+ Chaînes & VOD',
-      'Qualité 4K / FHD / HD',
-      'Compatible Tous Appareils',
-      'Sans Coupure',
-      'Support Standard',
-      'Activation Rapide'
-    ],
+    id: 'std-6-mois',
+    title: '6 MOIS',
+    subtitle: 'IPTV HD',
+    price: '22',
+    cents: '00',
+    href: '/payment?plan=std-6-mois',
+    features: ['120K+ Chaînes & VOD', 'Qualité FHD/HD', 'Support 24/7'],
     popular: false,
-    accent: 'from-blue-400 to-blue-600'
+    gradient: 'from-purple-500 to-pink-500'
+  },
+  {
+    id: 'std-12-mois',
+    title: '12 MOIS',
+    subtitle: 'IPTV HD',
+    price: '39',
+    cents: '00',
+    href: '/payment?plan=std-12-mois',
+    features: ['120K+ Chaînes & VOD', 'Qualité FHD/HD', 'Support 24/7'],
+    popular: true,
+    gradient: 'from-amber-500 to-orange-500'
+  },
+  {
+    id: 'std-24-mois',
+    title: '24 MOIS',
+    subtitle: 'IPTV HD',
+    price: '59',
+    cents: '00',
+    href: '/payment?plan=std-24-mois',
+    features: ['120K+ Chaînes & VOD', 'Qualité FHD/HD', 'Support 24/7'],
+    popular: false,
+    gradient: 'from-emerald-500 to-teal-500'
   }
+];
+
+const PRICING_PREMIUM = [
+  {
+    id: 'prm-3-mois',
+    title: '3 MOIS',
+    subtitle: 'PREMIUM 4K',
+    price: '27',
+    cents: '00',
+    href: '/payment?plan=prm-3-mois',
+    features: ['160K+ Chaînes & VOD', 'Qualité 4K/UHD', 'Anti-Freeze 3.0', '+18 Inclus'],
+    popular: false,
+    gradient: 'from-rose-500 to-pink-600'
+  },
+  {
+    id: 'prm-6-mois',
+    title: '6 MOIS',
+    subtitle: 'PREMIUM 4K',
+    price: '42',
+    cents: '00',
+    href: '/payment?plan=prm-6-mois',
+    features: ['160K+ Chaînes & VOD', 'Qualité 4K/UHD', 'Anti-Freeze 3.0', '+18 Inclus'],
+    popular: false,
+    gradient: 'from-fuchsia-500 to-purple-600'
+  },
+  {
+    id: 'prm-12-mois',
+    title: '12 MOIS',
+    subtitle: 'PREMIUM 4K',
+    price: '69',
+    cents: '00',
+    href: '/payment?plan=prm-12-mois',
+    features: ['160K+ Chaînes & VOD', 'Qualité 4K/UHD', 'Anti-Freeze 3.0', '+18 Inclus'],
+    bonus: '+2 Mois Gratuit',
+    popular: true,
+    gradient: 'from-amber-500 to-red-500'
+  },
+  {
+    id: 'prm-24-mois',
+    title: '24 MOIS',
+    subtitle: 'PREMIUM 4K',
+    price: '100',
+    cents: '00',
+    href: '/payment?plan=prm-24-mois',
+    features: ['160K+ Chaînes & VOD', 'Qualité 4K/UHD', 'Anti-Freeze 3.0', '+18 Inclus'],
+    bonus: '+4 Mois Gratuit',
+    popular: false,
+    gradient: 'from-red-500 to-rose-600'
+  }
+];
+
+const FAQ = [
+  { q: "Qu'est-ce qu'IPTV Smarters Pro ?", a: "IPTV Smarters Pro est l'application leader pour regarder la télévision en direct, films et séries via notre abonnement IPTV premium. Compatible Smart TV, Android, iOS, PC." },
+  { q: "Comment activer mon abonnement IPTV ?", a: "L'activation est instantanée. Après paiement, vous recevez vos identifiants par email et WhatsApp. Notre équipe vous assiste si besoin." },
+  { q: "Quels appareils sont compatibles ?", a: "Tout est compatible : Smart TV (Samsung/LG), Android Box, Apple TV, PC/Mac, Smartphone/Tablette, FireStick, Mag, etc." },
+  { q: "La qualité est-elle vraiment 4K ?", a: "Oui, nos serveurs diffusent en 4K UHD, FHD et HD selon votre débit internet. Technologie anti-freeze incluse." },
+  { q: "Est-ce sécurisé ?", a: "Absolument. Paiement sécurisé via Stripe, connexion chiffrée SSL, et VPN inclus pour votre confidentialité." },
+  { q: "Puis-je tester avant ?", a: "Oui, contactez-nous pour un test. Nos offres sont garanties satisfait ou remboursé." }
 ];
 
 const REVIEWS = [
@@ -78,8 +168,6 @@ const REVIEWS = [
   { name: "Sarah L.", loc: "Lyon", text: "Je ne regarde plus que ça. L'interface est fluide, toutes les séries Netflix et Prime sont là. Meilleur investissement de l'année.", rating: 5 },
   { name: "Karim B.", loc: "Marseille", text: "Installation super simple sur ma Samsung TV. Ça marche nickel, merci pour l'activation rapide.", rating: 5 },
 ];
-
-// --- Components ---
 
 const GlowingButton = ({ children, primary = false, className = "", onClick }: any) => (
   <motion.button
@@ -94,7 +182,7 @@ const GlowingButton = ({ children, primary = false, className = "", onClick }: a
     {!primary && (
       <div className="absolute inset-0 bg-white/5 group-hover:bg-white/10 transition-colors" />
     )}
-    <span className="relative z-10 flex items-center gap-2">{children}</span>
+    <span className="relative z-10 flex items-center gap-2 justify-center text-center w-full">{children}</span>
   </motion.button>
 );
 
@@ -111,6 +199,7 @@ export default function LandingV2Content() {
   const router = useRouter();
   const { scrollYProgress } = useScroll();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [pricingMode, setPricingMode] = useState<'standard' | 'premium'>('premium');
   const heroRef = useRef(null);
 
   // Parallax Text
@@ -120,6 +209,8 @@ export default function LandingV2Content() {
   const scrollToPricing = () => {
     document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const currentPricing = pricingMode === 'premium' ? PRICING_PREMIUM : PRICING_STANDARD;
 
   return (
     <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-blue-500/30">
@@ -139,8 +230,9 @@ export default function LandingV2Content() {
           
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
             <a href="#features" className="hover:text-white transition-colors">Fonctionnalités</a>
-            <a href="#channels" className="hover:text-white transition-colors">Chaînes</a>
-            <a href="#reviews" className="hover:text-white transition-colors">Avis</a>
+            <a href="#pricing" className="hover:text-white transition-colors">Abonnements</a>
+            <a href="#comparison" className="hover:text-white transition-colors">Comparatif</a>
+            <a href="#reseller" className="hover:text-white transition-colors">Revendeur</a>
             <a href="#faq" className="hover:text-white transition-colors">Aide</a>
             <GlowingButton primary className="!py-2 !px-6 !text-sm" onClick={scrollToPricing}>
               S'abonner
@@ -165,7 +257,8 @@ export default function LandingV2Content() {
             <div className="flex flex-col gap-6 text-2xl font-bold">
               <a href="#features" onClick={() => setIsMenuOpen(false)}>Fonctionnalités</a>
               <a href="#pricing" onClick={() => setIsMenuOpen(false)}>Tarifs</a>
-              <a href="#reviews" onClick={() => setIsMenuOpen(false)}>Avis</a>
+              <a href="#comparison" onClick={() => setIsMenuOpen(false)}>Comparatif</a>
+              <a href="#reseller" onClick={() => setIsMenuOpen(false)}>Revendeur</a>
               <button onClick={() => { setIsMenuOpen(false); scrollToPricing(); }} className="text-blue-500">
                 Commencer Maintenant
               </button>
@@ -192,7 +285,7 @@ export default function LandingV2Content() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8"
             >
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-sm font-medium text-gray-300">N°1 en France • 50,000+ Clients Actifs</span>
+              <span className="text-sm font-medium text-gray-300">N°1 en France • Abonnement IPTV Premium • 50,000+ Clients</span>
             </motion.div>
 
             <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-tight">
@@ -203,8 +296,8 @@ export default function LandingV2Content() {
             </h1>
 
             <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
-              Accédez à <span className="text-white font-bold">160,000+</span> chaînes et films en 4K Ultra HD. 
-              Sans coupure. Sans engagement. L'excellence à la française.
+              Accédez à <span className="text-white font-bold">IPTV SMARTERS PRO</span> : 160,000+ chaînes et films en 4K Ultra HD. 
+              Abonnement IPTV stable, sans coupure. Installation immédiate.
             </p>
 
             <div className="flex flex-col md:flex-row items-center justify-center gap-6">
@@ -216,10 +309,17 @@ export default function LandingV2Content() {
                 DÉCOUVRIR L'OFFRE
               </GlowingButton>
             </div>
+            
+            {/* Visible SEO Line - Tech Style */}
+            <div className="mt-12 flex justify-center gap-8 text-[10px] text-gray-600 font-mono uppercase tracking-widest opacity-60">
+              <span>System: Online</span>
+              <span>Server: France/Europe</span>
+              <span>Status: IPTV SMARTERS PRO ACTIVATED</span>
+              <span>Mode: 4K UHD</span>
+            </div>
           </motion.div>
         </div>
 
-        {/* Scroll Indicator */}
         <motion.div 
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 2 }}
@@ -249,12 +349,11 @@ export default function LandingV2Content() {
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">Pourquoi Choisir <span className="text-blue-500">L'Excellence ?</span></h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Une technologie de pointe développée pour les passionnés de divertissement.
+              IPTV SMARTERS PRO : Une technologie de pointe développée pour les passionnés de divertissement.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Feature 1 - Large */}
             <motion.div 
               whileHover={{ y: -5 }}
               className="md:col-span-2 min-h-[400px] rounded-3xl p-8 bg-gradient-to-br from-gray-900 to-black border border-white/10 relative overflow-hidden group"
@@ -266,23 +365,21 @@ export default function LandingV2Content() {
                 </div>
                 <h3 className="text-3xl font-bold mb-4">Multi-Écrans 4K HDR</h3>
                 <p className="text-gray-400 text-lg max-w-md">
-                  Profitez d'une qualité d'image cristalline sur tous vos appareils. Smart TV, Smartphone, Tablette, PC.
-                  Compatible avec toutes les applications IPTV majeures.
+                  Profitez d'une qualité d'image cristalline sur tous vos appareils avec votre abonnement IPTV. Smart TV, Smartphone, Tablette, PC.
+                  Compatible avec IPTV Smarters Pro, Tivimate, et plus.
                 </p>
               </div>
-              {/* Graphic Element */}
               <div className="absolute right-[-50px] bottom-[-50px] md:right-0 md:bottom-0 opacity-50">
                  <div className="w-64 h-64 bg-blue-500/30 rounded-full blur-[80px]" />
               </div>
               <img 
                 src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&q=80&w=600" 
-                alt="4K TV" 
+                alt="4K TV IPTV SMARTERS PRO" 
                 className="absolute right-0 bottom-0 w-1/2 h-full object-cover mask-image-gradient opacity-60 group-hover:scale-105 transition-transform duration-700 hidden md:block"
                 style={{ maskImage: 'linear-gradient(to left, black, transparent)' }}
               />
             </motion.div>
 
-            {/* Feature 2 */}
             <motion.div 
               whileHover={{ y: -5 }}
               className="rounded-3xl p-8 bg-gray-900/50 border border-white/10 backdrop-blur-sm flex flex-col justify-between group"
@@ -293,7 +390,7 @@ export default function LandingV2Content() {
                 </div>
                 <h3 className="text-2xl font-bold mb-4">Zapping Instantané</h3>
                 <p className="text-gray-400">
-                  Technologie Anti-Freeze 3.0. Fini les chargements interminables. Changez de chaîne en moins de 0.5 seconde.
+                  Technologie Anti-Freeze 3.0. Fini les chargements interminables. Abonnement IPTV stable sans coupure.
                 </p>
               </div>
               <div className="mt-8 h-2 bg-gray-800 rounded-full overflow-hidden">
@@ -306,7 +403,6 @@ export default function LandingV2Content() {
               </div>
             </motion.div>
 
-            {/* Feature 3 */}
             <motion.div 
               whileHover={{ y: -5 }}
               className="rounded-3xl p-8 bg-gray-900/50 border border-white/10 backdrop-blur-sm group"
@@ -316,7 +412,7 @@ export default function LandingV2Content() {
                 </div>
                 <h3 className="text-2xl font-bold mb-4">VOD Illimitée</h3>
                 <p className="text-gray-400 mb-6">
-                  +20,000 Films et Séries. Netflix, Prime Video, Disney+, Canal+ Séries inclus dans votre abonnement.
+                  +160,000 Films et Séries. Netflix, Prime Video, Disney+, Canal+ Séries inclus dans votre abonnement IPTV.
                 </p>
                 <div className="flex -space-x-3">
                   {[1,2,3,4].map((i) => (
@@ -330,7 +426,6 @@ export default function LandingV2Content() {
                 </div>
             </motion.div>
 
-            {/* Feature 4 - Large */}
             <motion.div 
               whileHover={{ y: -5 }}
               className="md:col-span-2 rounded-3xl p-8 bg-gradient-to-br from-gray-900 to-black border border-white/10 relative overflow-hidden"
@@ -342,14 +437,14 @@ export default function LandingV2Content() {
                     </div>
                     <h3 className="text-3xl font-bold mb-4">Serveurs Français Sécurisés</h3>
                     <p className="text-gray-400 text-lg">
-                      Infrastructure hébergée en Europe pour une latence minimale. Vos données sont protégées et votre connexion est anonymisée.
+                      Infrastructure hébergée en Europe pour une latence minimale. Vos données sont protégées et votre connexion est anonymisée via VPN intégré.
                     </p>
                  </div>
                  <div className="flex-1 relative h-48 w-full">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
                     <img 
                       src="https://images.unsplash.com/photo-1558494949-efc02570fbc9?auto=format&fit=crop&q=80&w=600" 
-                      alt="Servers" 
+                      alt="Servers IPTV SMARTERS PRO" 
                       className="w-full h-full object-cover rounded-xl opacity-60"
                     />
                     <div className="absolute bottom-4 left-4 z-20 flex items-center gap-2">
@@ -363,60 +458,114 @@ export default function LandingV2Content() {
         </div>
       </section>
 
-      {/* Pricing Section - The Converter */}
+      {/* Tech Specs Section */}
+      <section className="relative z-20 py-12 px-6 border-y border-white/5 bg-black/40">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+           {[
+             { label: "Qualité", value: "4K UHD / FHD", icon: Zap },
+             { label: "Latence", value: "< 0.5s", icon: Wifi },
+             { label: "Uptime", value: "99.9%", icon: Server },
+             { label: "Sécurité", value: "AES-256 SSL", icon: Lock },
+           ].map((spec, i) => (
+             <div key={i} className="flex flex-col items-center justify-center text-center p-4">
+                <spec.icon className="text-white/20 mb-3" size={32} />
+                <div className="text-2xl font-bold text-white mb-1">{spec.value}</div>
+                <div className="text-xs uppercase tracking-widest text-gray-500">{spec.label}</div>
+             </div>
+           ))}
+        </div>
+      </section>
+
+      {/* Pricing Section */}
       <section id="pricing" className="relative z-20 py-32 px-6 bg-black/50 backdrop-blur-md">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-900/10 to-purple-900/10" />
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <span className="text-blue-500 font-bold tracking-widest text-sm uppercase mb-4 block">Tarification Simple</span>
             <h2 className="text-5xl md:text-6xl font-black mb-6">Commencez l'Expérience</h2>
-            <p className="text-gray-400 text-xl">Choisissez le pass qui vous correspond. Activation immédiate.</p>
+            <p className="text-gray-400 text-xl max-w-2xl mx-auto mb-8">
+              IPTV SMARTERS PRO vous propose les meilleurs tarifs. Choisissez le pass qui vous correspond.
+            </p>
+            
+            {/* Toggle Switch */}
+            <div className="inline-flex bg-white/10 p-1 rounded-full backdrop-blur-md border border-white/10">
+              <button 
+                onClick={() => setPricingMode('standard')}
+                className={`px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 ${pricingMode === 'standard' ? 'bg-white text-black shadow-lg' : 'text-gray-400 hover:text-white'}`}
+              >
+                STANDARD (HD)
+              </button>
+              <button 
+                onClick={() => setPricingMode('premium')}
+                className={`px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 flex items-center gap-2 ${pricingMode === 'premium' ? 'bg-gradient-to-r from-amber-500 to-red-500 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
+              >
+                <Crown size={14} />
+                PREMIUM (4K)
+              </button>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {PRICING.map((plan) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+            {currentPricing.map((plan) => (
               <motion.div
                 key={plan.id}
+                layout
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
                 whileHover={{ y: -10 }}
-                className={`relative p-1 rounded-3xl ${plan.popular ? 'bg-gradient-to-b ' + plan.accent : 'bg-gray-800'}`}
+                className={`relative p-1 rounded-3xl ${plan.popular ? 'bg-gradient-to-b ' + plan.gradient : 'bg-gray-800/50'}`}
               >
-                <div className="bg-[#0a0a0a] rounded-[22px] p-8 h-full flex flex-col relative overflow-hidden">
+                <div className="bg-[#0a0a0a] rounded-[22px] p-6 h-full flex flex-col relative overflow-hidden border border-white/5">
                   {plan.popular && (
-                    <div className="absolute top-6 right-6 px-4 py-1 bg-gradient-to-r from-amber-400 to-yellow-600 text-black font-bold text-xs rounded-full uppercase tracking-wider">
-                      Meilleure Vente
+                    <div className="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-amber-400 to-red-500 text-white font-bold text-[10px] rounded-full uppercase tracking-wider shadow-lg">
+                      Best Seller
                     </div>
                   )}
                   
-                  <h3 className="text-2xl font-bold text-gray-200 mb-2">{plan.title}</h3>
-                  <div className="flex items-end gap-2 mb-2">
-                    <span className={`text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br ${plan.popular ? 'from-white to-gray-400' : 'from-gray-400 to-gray-600'}`}>
+                  <h3 className="text-xl font-bold text-gray-200 mb-1">{plan.title}</h3>
+                  <p className="text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500 mb-4">{plan.subtitle}</p>
+                  
+                  <div className="flex items-start gap-1 mb-6">
+                    <span className="text-2xl font-bold text-gray-500 mt-2">€</span>
+                    <span className={`text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br ${plan.gradient}`}>
                       {plan.price}
                     </span>
-                    <span className="text-gray-500 mb-2 font-medium">{plan.period}</span>
+                    <span className="text-xl text-gray-500 mt-2">.{plan.cents}</span>
                   </div>
-                  {plan.save && <span className="text-green-500 font-bold text-sm mb-8">{plan.save}</span>}
+
+                  {/* Bonus Badge for Premium */}
+                  {(plan as any).bonus && (
+                    <div className="mb-6 flex justify-center">
+                      <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-500 to-yellow-400 text-black text-xs font-bold py-1.5 px-3 rounded-full animate-pulse">
+                        <Gift className="w-3.5 h-3.5" />
+                        <span>{(plan as any).bonus}</span>
+                      </div>
+                    </div>
+                  )}
                   
-                  <div className="flex-1 space-y-4 mb-10">
+                  <div className="flex-1 space-y-3 mb-8">
                     {plan.features.map((feat, i) => (
                       <div key={i} className="flex items-start gap-3">
-                        <div className={`mt-1 min-w-[20px] h-5 rounded-full flex items-center justify-center ${plan.popular ? 'bg-amber-500/20 text-amber-500' : 'bg-gray-700 text-gray-400'}`}>
-                          <CheckCircle size={14} />
+                        <div className={`mt-0.5 min-w-[16px] h-4 rounded-full flex items-center justify-center ${plan.popular ? 'bg-amber-500/20 text-amber-500' : 'bg-gray-700 text-gray-400'}`}>
+                          <CheckCircle size={10} />
                         </div>
-                        <span className="text-gray-300 font-medium">{feat}</span>
+                        <span className="text-gray-400 text-sm font-medium leading-tight">{feat}</span>
                       </div>
                     ))}
                   </div>
 
                   <GlowingButton 
                     primary={plan.popular} 
-                    className="w-full justify-center"
-                    onClick={() => router.push('/payment?plan=' + plan.id)}
+                    className="w-full !px-4 !py-3 !text-sm"
+                    onClick={() => router.push(plan.href)}
                   >
-                    COMMANDER MAINTENANT
-                    <ArrowRight size={18} />
+                    CHOISIR
+                    <ArrowRight size={14} />
                   </GlowingButton>
                   
-                  <p className="text-center text-gray-600 text-xs mt-4">Paiement 100% Sécurisé via Stripe</p>
+                  <p className="text-center text-gray-600 text-[10px] mt-4 flex items-center justify-center gap-1">
+                    <Lock size={10} /> Paiement Sécurisé
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -425,65 +574,173 @@ export default function LandingV2Content() {
           <div className="mt-16 text-center">
             <p className="text-gray-500 flex items-center justify-center gap-2">
               <ShieldCheck size={18} />
-              Garantie 30 Jours Satisfait ou Remboursé
+              Garantie 30 Jours Satisfait ou Remboursé • Abonnement IPTV Pas Cher
             </p>
           </div>
         </div>
       </section>
 
-      {/* Trust & Reviews */}
-      <section id="reviews" className="relative z-20 py-24 px-6 border-t border-white/5">
+      {/* Comparison Section (New) */}
+      <section id="comparison" className="relative z-20 py-24 px-6 border-t border-white/5 bg-black">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-4xl font-bold mb-8">Ils nous font confiance</h2>
-              <div className="space-y-6">
-                {REVIEWS.map((review, i) => (
-                  <motion.div 
-                    key={i}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm"
-                  >
-                    <div className="flex gap-1 text-yellow-500 mb-2">
-                      {[...Array(review.rating)].map((_, j) => <Star key={j} size={16} fill="currentColor" />)}
-                    </div>
-                    <p className="text-gray-300 italic mb-4">"{review.text}"</p>
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center font-bold text-xs">
-                        {review.name.charAt(0)}
+               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 mb-6">
+                  <Monitor className="w-4 h-4 text-purple-400" />
+                  <span className="text-purple-400 font-semibold text-sm uppercase tracking-wider">Qualité Supérieure</span>
+               </div>
+               <h2 className="text-4xl font-bold mb-6">IPTV SMARTERS vs Autres</h2>
+               <p className="text-gray-400 mb-8 text-lg">
+                 Ne vous contentez pas de moins. Découvrez la différence de qualité, de stabilité et de support avec notre abonnement IPTV Premium.
+               </p>
+               
+               <div className="space-y-4">
+                 {[
+                   { label: "Qualité 4K UHD Réelle", us: true, them: false },
+                   { label: "Anti-Freeze 3.0 (Sans coupure)", us: true, them: false },
+                   { label: "Replay & Contrôle du Direct", us: true, them: false },
+                   { label: "Support Français 24/7", us: true, them: false },
+                 ].map((item, i) => (
+                   <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
+                      <span className="font-medium">{item.label}</span>
+                      <div className="flex items-center gap-8">
+                         <div className="flex flex-col items-center gap-1">
+                           <span className="text-[10px] text-gray-500 uppercase">Nous</span>
+                           <div className="w-6 h-6 rounded-full bg-green-500/20 text-green-500 flex items-center justify-center"><CheckCircle size={14} /></div>
+                         </div>
+                         <div className="flex flex-col items-center gap-1 opacity-30">
+                           <span className="text-[10px] text-gray-500 uppercase">Autres</span>
+                           <div className="w-6 h-6 rounded-full bg-red-500/20 text-red-500 flex items-center justify-center"><X size={14} /></div>
+                         </div>
                       </div>
-                      <div>
-                        <p className="font-bold text-sm">{review.name}</p>
-                        <p className="text-gray-500 text-xs">{review.loc}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+                   </div>
+                 ))}
+               </div>
             </div>
             
-            <div className="relative">
-              <div className="absolute inset-0 bg-blue-500/20 blur-[100px] rounded-full" />
-              <div className="relative bg-gradient-to-br from-gray-900 to-black p-8 rounded-3xl border border-white/10">
-                 <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                   <Globe className="text-blue-500" />
-                   Couverture Mondiale
-                 </h3>
-                 <p className="text-gray-400 mb-8">
-                   Nos serveurs sont répartis stratégiquement pour garantir la meilleure stabilité où que vous soyez.
-                 </p>
-                 <div className="grid grid-cols-2 gap-4">
-                   {['France', 'Belgique', 'Suisse', 'Canada', 'Espagne', 'USA'].map((country) => (
-                     <div key={country} className="flex items-center gap-2 p-3 rounded-lg bg-white/5">
-                        <div className="w-2 h-2 rounded-full bg-green-500" />
-                        <span className="font-mono text-sm">{country}</span>
-                     </div>
-                   ))}
-                 </div>
-              </div>
+            <div className="relative group">
+               <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl blur opacity-30 group-hover:opacity-60 transition-opacity" />
+               <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-black aspect-video flex items-center justify-center">
+                  <video
+                      className="w-full h-full object-cover opacity-80"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      src="https://darkorchid-goldfish-662671.hostingersite.com/wp-content/uploads/2025/10/ISP-FRANCE-2024.mp4"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+                  <div className="absolute bottom-6 left-6">
+                    <p className="text-sm font-bold text-white mb-1">Démonstration Live</p>
+                    <p className="text-xs text-gray-400">Qualité 4K HDR • 60 FPS</p>
+                  </div>
+               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* App Compatibility (New) */}
+      <section className="relative z-20 py-24 px-6 border-t border-white/5 bg-[#050505]">
+        <div className="max-w-7xl mx-auto text-center">
+           <h2 className="text-3xl md:text-4xl font-bold mb-12">Compatible avec <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Toutes Vos Apps</span></h2>
+           
+           <div className="flex flex-wrap justify-center gap-8 md:gap-12">
+             {APPS.map((app, i) => (
+               <div key={i} className="flex flex-col items-center gap-3 group">
+                 <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center p-4 group-hover:bg-white/10 group-hover:scale-110 transition-all duration-300">
+                   <Image src={app.icon} alt={app.name} width={60} height={60} className="object-contain" unoptimized />
+                 </div>
+                 <span className="text-xs font-bold text-gray-500 group-hover:text-white transition-colors">{app.name}</span>
+               </div>
+             ))}
+           </div>
+           
+           <p className="mt-12 text-gray-500 text-sm">Et bien plus encore: VLC, Kodi, Smart STB, STB Emu, MyTVOnline...</p>
+        </div>
+      </section>
+
+      {/* Reseller Section (New) */}
+      <section id="reseller" className="relative z-20 py-24 px-6 border-t border-white/5 bg-black overflow-hidden">
+        <div className="absolute inset-0 bg-green-900/5" />
+        <div className="max-w-5xl mx-auto relative z-10">
+           <div className="bg-gradient-to-br from-green-900/20 to-black border border-green-500/20 rounded-3xl p-8 md:p-16 text-center">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 mb-8">
+                <TrendingUp className="w-4 h-4 text-green-400" />
+                <span className="text-green-400 font-bold text-sm uppercase tracking-wider">Opportunité Business</span>
+              </div>
+              <h2 className="text-3xl md:text-5xl font-black mb-6">Devenez Revendeur IPTV</h2>
+              <p className="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">
+                Gérez vos propres clients avec notre panel revendeur intuitif. Tarifs préférentiels, marque blanche, et support dédié.
+              </p>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+                 {[{icon:Users, t:"Gestion Facile"}, {icon:Shield, t:"Panel Stable"}, {icon:Wallet, t:"Crédits Illimités"}, {icon:MessageCircle, t:"Support VIP"}].map((f, i) => (
+                   <div key={i} className="p-4 rounded-xl bg-black/40 border border-white/10 flex flex-col items-center gap-2">
+                     <f.icon className="text-green-500" size={24} />
+                     <span className="text-sm font-bold">{f.t}</span>
+                   </div>
+                 ))}
+              </div>
+
+              <GlowingButton className="!border-green-500/50 !text-green-400 hover:!bg-green-500/10" onClick={() => window.open('https://wa.me/212628461599', '_blank')}>
+                <MessageCircle size={18} />
+                CONTACTER SUR WHATSAPP
+              </GlowingButton>
+           </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="relative z-20 py-24 px-6 border-t border-white/5 bg-[#050505]">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Questions Fréquentes</h2>
+            <p className="text-gray-400">Tout ce que vous devez savoir sur IPTV SMARTERS PRO</p>
+          </div>
+          
+          <div className="space-y-4">
+            {FAQ.map((item, i) => (
+              <details key={i} className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm">
+                <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
+                  <span className="font-bold text-lg">{item.q}</span>
+                  <ChevronDown className="transition-transform group-open:rotate-180 text-gray-500" />
+                </summary>
+                <div className="px-6 pb-6 text-gray-400 leading-relaxed border-t border-white/5 pt-4">
+                  {item.a}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Reviews (Keep existing but update style) */}
+      <section id="reviews" className="relative z-20 py-24 px-6 border-t border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl font-bold mb-12 text-center">Avis Clients</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {REVIEWS.map((review, i) => (
+              <motion.div 
+                key={i}
+                whileHover={{ y: -5 }}
+                className="p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm relative"
+              >
+                <div className="flex gap-1 text-yellow-500 mb-4">
+                  {[...Array(review.rating)].map((_, j) => <Star key={j} size={16} fill="currentColor" />)}
+                </div>
+                <p className="text-gray-300 italic mb-6 leading-relaxed">"{review.text}"</p>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center font-bold text-sm">
+                    {review.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="font-bold text-sm">{review.name}</p>
+                    <p className="text-gray-500 text-xs">{review.loc}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -499,11 +756,11 @@ export default function LandingV2Content() {
                <span className="text-lg font-bold text-white">IPTV SMARTERS PRO</span>
             </div>
             <p className="max-w-xs mb-6">
-              Le leader français de la télévision IP. Qualité premium, support local, et technologie de pointe.
+              Le leader français de la télévision IP. Abonnement IPTV Premium 4K. Support local et technologie de pointe.
             </p>
             <div className="flex gap-4">
-               <span className="px-3 py-1 rounded border border-white/10">SSL Sécurisé</span>
-               <span className="px-3 py-1 rounded border border-white/10">Stripe</span>
+               <span className="px-3 py-1 rounded border border-white/10 flex items-center gap-2"><Lock size={12}/> SSL Sécurisé</span>
+               <span className="px-3 py-1 rounded border border-white/10 flex items-center gap-2"><ShieldCheck size={12}/> Stripe</span>
             </div>
           </div>
           
@@ -511,9 +768,9 @@ export default function LandingV2Content() {
             <h4 className="text-white font-bold mb-4">Liens Rapides</h4>
             <ul className="space-y-2">
               <li><a href="#" className="hover:text-white transition-colors">Accueil</a></li>
-              <li><a href="#pricing" className="hover:text-white transition-colors">Abonnements</a></li>
-              <li><a href="#features" className="hover:text-white transition-colors">Chaînes</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Tutoriels</a></li>
+              <li><a href="#pricing" className="hover:text-white transition-colors">Abonnements IPTV</a></li>
+              <li><a href="#features" className="hover:text-white transition-colors">Chaînes TV</a></li>
+              <li><a href="#faq" className="hover:text-white transition-colors">Support</a></li>
             </ul>
           </div>
           
@@ -527,8 +784,18 @@ export default function LandingV2Content() {
             </ul>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/5 text-center text-xs">
-          © 2025 IPTV SMARTERS PRO. Tous droits réservés.
+        
+        {/* Hidden Footer SEO Content */}
+        <div className="sr-only" aria-hidden="true">
+          <p>IPTV SMARTERS PRO abonnement iptv France premium 4K FHD HD. Meilleur service IPTV SMARTERS PRO avec abonnement iptv stable. IPTV SMARTERS PRO compatible Smart TV Android iOS. Abonnement iptv activation instantanée avec IPTV SMARTERS PRO. Service abonnement iptv 24/7 support. IPTV SMARTERS PRO VOD films séries. Abonnement iptv sport chaînes mondiales. IPTV SMARTERS PRO pas cher meilleur prix.</p>
+        </div>
+
+        <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/5 text-center text-xs flex flex-col md:flex-row justify-between items-center gap-4">
+          <span>© 2025 IPTV SMARTERS PRO. Tous droits réservés.</span>
+          <div className="flex gap-4">
+            <span>IPTV SMARTERS PRO France</span>
+            <span>Abonnement IPTV Premium</span>
+          </div>
         </div>
       </footer>
       
