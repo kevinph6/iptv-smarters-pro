@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { ArrowLeft, Save, Loader2 } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Sparkles, Image as ImageIcon, Wand2 } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
 import { useSession } from '@/lib/auth-client';
@@ -14,6 +14,10 @@ export default function EditPostPage() {
   const { data: session, isPending } = useSession();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [generatingArticle, setGeneratingArticle] = useState(false);
+  const [generatingImage, setGeneratingImage] = useState(false);
+  const [aiTopic, setAiTopic] = useState('');
+  const [aiKeywords, setAiKeywords] = useState('');
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -118,6 +122,75 @@ export default function EditPostPage() {
     }
   };
 
+  const handleGenerateArticle = async () => {
+    if (!aiTopic.trim()) {
+      toast.error('Veuillez entrer un sujet pour l\'article');
+      return;
+    }
+
+    setGeneratingArticle(true);
+    try {
+      const response = await fetch('/api/ai/generate-article', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic: aiTopic, keywords: aiKeywords }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Erreur lors de la génération');
+      }
+
+      const data = await response.json();
+      
+      setFormData({
+        ...formData,
+        title: data.title || formData.title,
+        slug: generateSlug(data.title || formData.title),
+        excerpt: data.excerpt || formData.excerpt,
+        content: data.content || formData.content,
+      });
+
+      toast.success('Article généré avec succès!');
+    } catch (error: any) {
+      toast.error(error.message || 'Erreur lors de la génération de l\'article');
+      console.error(error);
+    } finally {
+      setGeneratingArticle(false);
+    }
+  };
+
+  const handleGenerateImage = async () => {
+    const topic = aiTopic.trim() || formData.title;
+    if (!topic) {
+      toast.error('Veuillez entrer un sujet ou un titre d\'abord');
+      return;
+    }
+
+    setGeneratingImage(true);
+    try {
+      const response = await fetch('/api/ai/generate-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Erreur lors de la génération');
+      }
+
+      const data = await response.json();
+      setFormData({ ...formData, featuredImageUrl: data.imageUrl });
+      toast.success('Image générée avec succès!');
+    } catch (error: any) {
+      toast.error(error.message || 'Erreur lors de la génération de l\'image');
+      console.error(error);
+    } finally {
+      setGeneratingImage(false);
+    }
+  };
+
   if (isPending || !session?.user || loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
@@ -149,6 +222,87 @@ export default function EditPostPage() {
 
       {/* Form */}
       <div className="max-w-4xl mx-auto px-6 py-8">
+        {/* AI Generation Section */}
+        <div className="mb-8 p-6 bg-gradient-to-r from-purple-900/30 to-cyan-900/30 border border-purple-500/30 rounded-xl">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-purple-500/20 rounded-lg">
+              <Sparkles className="w-6 h-6 text-purple-400" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-white">Régénération IA</h2>
+              <p className="text-white/60 text-sm">Régénérez le contenu ou l'image avec l'IA</p>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="block text-white/80 text-sm font-medium mb-2">
+                Nouveau sujet (optionnel)
+              </label>
+              <input
+                type="text"
+                value={aiTopic}
+                onChange={(e) => setAiTopic(e.target.value)}
+                placeholder="Laissez vide pour utiliser le titre actuel"
+                className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-white/80 text-sm font-medium mb-2">
+                Mots-clés SEO (optionnel)
+              </label>
+              <input
+                type="text"
+                value={aiKeywords}
+                onChange={(e) => setAiKeywords(e.target.value)}
+                placeholder="Ex: IPTV Smart TV, installation IPTV, meilleur IPTV 2025"
+                className="w-full bg-black/50 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={handleGenerateArticle}
+                disabled={generatingArticle || (!aiTopic.trim() && !formData.title)}
+                className="flex items-center gap-2 px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {generatingArticle ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Génération en cours...
+                  </>
+                ) : (
+                  <>
+                    <Wand2 className="w-5 h-5" />
+                    Régénérer l'article
+                  </>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={handleGenerateImage}
+                disabled={generatingImage || (!aiTopic.trim() && !formData.title)}
+                className="flex items-center gap-2 px-5 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {generatingImage ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Génération en cours...
+                  </>
+                ) : (
+                  <>
+                    <ImageIcon className="w-5 h-5" />
+                    Régénérer l'image
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Title */}
           <div>
