@@ -28,7 +28,11 @@ import {
   Layers,
   Crown,
   Gift,
-  Rocket
+  Rocket,
+  TrendingUp,
+  Users,
+  Wallet,
+  Shield
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
