@@ -265,19 +265,45 @@ nextjs-portal {
   font-size: 16px;
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
 }
 
 .prose-editor .ql-toolbar {
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   background: white;
-  border-color: #e5e7eb;
+  border: 1px solid #e5e7eb;
+  border-bottom: none;
+}
+
+.prose-editor .ql-toolbar.ql-snow {
+  border: 1px solid #e5e7eb;
+  border-bottom: none;
+}
+
+.prose-editor .ql-container.ql-snow {
+  border: 1px solid #e5e7eb;
 }
 
 .prose-editor .ql-editor {
   min-height: 400px;
   max-height: 600px;
   overflow-y: auto;
+  background: white;
+  color: #1f2937;
+}
+
+.prose-editor .ql-editor h1,
+.prose-editor .ql-editor h2,
+.prose-editor .ql-editor h3,
+.prose-editor .ql-editor h4,
+.prose-editor .ql-editor h5,
+.prose-editor .ql-editor h6 {
+  color: #1f2937;
+}
+
+.prose-editor .ql-editor p {
+  color: #374151;
 }
 
 .prose-editor .ql-editor.ql-blank::before {
@@ -293,8 +319,17 @@ nextjs-portal {
   fill: #374151;
 }
 
+.prose-editor .ql-snow .ql-picker {
+  color: #374151;
+}
+
 .prose-editor .ql-snow .ql-picker-label {
   color: #374151;
+}
+
+.prose-editor .ql-snow .ql-picker-options {
+  background: white;
+  border: 1px solid #e5e7eb;
 }
 
 .prose-editor .ql-toolbar button:hover,
