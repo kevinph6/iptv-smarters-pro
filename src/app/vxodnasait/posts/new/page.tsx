@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, Save, Loader2, Sparkles, Image as ImageIcon, Wand2 } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
@@ -10,6 +10,7 @@ import { BlogEditor } from '@/components/blog-editor';
 
 export default function NewPostPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { data: session, isPending } = useSession();
   const [loading, setLoading] = useState(false);
   const [generatingArticle, setGeneratingArticle] = useState(false);
@@ -27,12 +28,31 @@ export default function NewPostPage() {
     published: false,
   });
 
-  // Protect the route
   useEffect(() => {
     if (!isPending && !session?.user) {
       router.push('/login');
     }
   }, [session, isPending, router]);
+
+  useEffect(() => {
+    const title = searchParams.get('title');
+    const excerpt = searchParams.get('excerpt');
+    const content = searchParams.get('content');
+
+    if (title || excerpt || content) {
+      setFormData(prev => ({
+        ...prev,
+        title: title || prev.title,
+        slug: title ? generateSlug(title) : prev.slug,
+        excerpt: excerpt || prev.excerpt,
+        content: content || prev.content,
+      }));
+
+      if (title || excerpt || content) {
+        toast.success('Contenu AI chargé avec succès!');
+      }
+    }
+  }, [searchParams]);
 
   const generateSlug = (title: string) => {
     return title
