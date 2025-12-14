@@ -40,9 +40,13 @@ export default function BlogPage() {
   const fetchPosts = async () => {
     try {
       setLoading(true);
+      console.log('Fetching posts from /api/blog?published=true&limit=50');
       const response = await fetch('/api/blog?published=true&limit=50');
+      console.log('Response status:', response.ok, response.status);
       if (!response.ok) throw new Error('Failed to fetch posts');
       const data = await response.json();
+      console.log('Received data:', data);
+      console.log('Number of posts:', data.length);
       setPosts(data);
     } catch (error) {
       console.error('Error fetching posts:', error);
