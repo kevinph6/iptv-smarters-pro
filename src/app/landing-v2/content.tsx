@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence, useSpring, useMotionValue, useMotionTemplate } from 'framer-motion';
 import { 
   Play, 
   Monitor, 
@@ -35,776 +35,472 @@ import {
   Shield,
   Activity,
   Download,
-  Headphones
+  Headphones,
+  Check
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
-// --- Assets & Data ---
-const CHANNELS = [
-  { name: "TF1", color: "bg-blue-600" },
-  { name: "M6", color: "bg-red-600" },
-  { name: "Canal+", color: "bg-black" },
-  { name: "BeIN Sports", color: "bg-purple-700" },
-  { name: "RMC Sport", color: "bg-orange-600" },
-  { name: "Netflix", color: "bg-red-700" },
-  { name: "Prime Video", color: "bg-blue-400" },
-  { name: "Disney+", color: "bg-blue-900" },
-  { name: "Canal+ Sport", color: "bg-black" },
-  { name: "Eurosport", color: "bg-blue-800" },
-  { name: "HBO", color: "bg-black" },
-  { name: "Apple TV+", color: "bg-gray-800" },
-];
+// --- Data & Assets ---
 
-const APPS = [
-  { name: 'SMART IPTV', color: 'from-blue-600 to-blue-400', initials: 'SI', icon: Tv },
-  { name: 'DUPLEX PLAY', color: 'from-purple-600 to-indigo-400', initials: 'DP', icon: Layers },
-  { name: 'FLIX IPTV', color: 'from-green-500 to-emerald-400', initials: 'FI', icon: Film },
-  { name: 'IBO PLAYER', color: 'from-red-500 to-orange-400', initials: 'IB', icon: Play },
-  { name: 'NET IPTV', color: 'from-cyan-500 to-blue-400', initials: 'NI', icon: Globe },
-  { name: 'SET IPTV', color: 'from-pink-500 to-rose-400', initials: 'ST', icon: Monitor },
-];
-
-const PRICING_STANDARD = [
+const HERO_SLIDES = [
   {
-    id: 'std-3-mois',
-    title: '3 MOIS',
-    subtitle: 'PACK DÉCOUVERTE',
-    price: '19',
-    cents: '00',
-    href: '/payment?plan=std-3-mois',
-    features: ['120K+ Chaînes & VOD', 'Qualité FHD/HD', 'Support 24/7', 'Livraison Immédiate'],
-    popular: false,
-    color: 'blue'
+    id: 'cinema',
+    title: "CINÉMA ILLIMITÉ",
+    subtitle: "Derniers Blockbusters en 4K HDR",
+    image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070&auto=format&fit=crop",
+    accent: "from-red-600 to-orange-600",
+    color: "text-red-500"
   },
   {
-    id: 'std-6-mois',
-    title: '6 MOIS',
-    subtitle: 'PACK CONFORT',
-    price: '22',
-    cents: '00',
-    href: '/payment?plan=std-6-mois',
-    features: ['120K+ Chaînes & VOD', 'Qualité FHD/HD', 'Support 24/7', 'Anti-Freeze Basic'],
-    popular: false,
-    color: 'indigo'
+    id: 'football',
+    title: "LE MEILLEUR DU FOOT",
+    subtitle: "Ligue 1 • Champions League • Premier League",
+    image: "https://images.unsplash.com/photo-1522770179533-24471fcdba45?q=80&w=2525&auto=format&fit=crop",
+    accent: "from-green-600 to-emerald-600",
+    color: "text-green-500"
   },
   {
-    id: 'std-12-mois',
-    title: '12 MOIS',
-    subtitle: 'PACK EXPERT',
-    price: '39',
-    cents: '00',
-    href: '/payment?plan=std-12-mois',
-    features: ['120K+ Chaînes & VOD', 'Qualité FHD/HD', 'Support Prioritaire', 'Anti-Freeze Basic'],
-    popular: true,
-    color: 'violet'
-  },
-  {
-    id: 'std-24-mois',
-    title: '24 MOIS',
-    subtitle: 'PACK FIDÉLITÉ',
-    price: '59',
-    cents: '00',
-    href: '/payment?plan=std-24-mois',
-    features: ['120K+ Chaînes & VOD', 'Qualité FHD/HD', 'Support Prioritaire', 'Garantie Étendue'],
-    popular: false,
-    color: 'purple'
+    id: 'series',
+    title: "SÉRIES EXCLUSIVES",
+    subtitle: "Netflix • Disney+ • Amazon Prime • Apple TV+",
+    image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=3456&auto=format&fit=crop",
+    accent: "from-blue-600 to-purple-600",
+    color: "text-blue-500"
   }
+];
+
+const REVIEWS = [
+  { name: "Thomas L.", location: "Paris", text: "J'ai testé 5 fournisseurs IPTV, c'est le seul qui tient la route pendant les gros matchs de LDC. Pas une seule coupure.", rating: 5, verified: true },
+  { name: "Sarah M.", location: "Lyon", text: "La qualité 4K est bluffante sur ma TV OLED. Le catalogue de films est mis à jour tous les jours, c'est impressionnant.", rating: 5, verified: true },
+  { name: "Karim B.", location: "Marseille", text: "Support client au top sur WhatsApp. Ils m'ont aidé à configurer mon boîtier en 5 minutes. Je recommande !", rating: 5, verified: true },
+  { name: "Julien R.", location: "Bordeaux", text: "Enfin un service stable ! L'anti-freeze fonctionne vraiment. Je ne changerai plus.", rating: 5, verified: true },
 ];
 
 const PRICING_PREMIUM = [
   {
     id: 'prm-3-mois',
     title: '3 MOIS',
-    subtitle: 'ELITE 4K',
+    subtitle: 'PREMIUM 4K',
     price: '27',
     cents: '00',
     href: '/payment?plan=prm-3-mois',
-    features: ['160K+ Chaînes & VOD', 'Qualité 4K/UHD Réelle', 'Anti-Freeze 8.0 AI', 'Serveurs VIP France', 'Replay 7 Jours'],
-    popular: false,
-    color: 'emerald'
-  },
-  {
-    id: 'prm-6-mois',
-    title: '6 MOIS',
-    subtitle: 'ELITE 4K',
-    price: '42',
-    cents: '00',
-    href: '/payment?plan=prm-6-mois',
-    features: ['160K+ Chaînes & VOD', 'Qualité 4K/UHD Réelle', 'Anti-Freeze 8.0 AI', 'Serveurs VIP France', 'Replay 7 Jours'],
-    popular: false,
-    color: 'teal'
+    features: ['+160 000 Chaînes & VOD', 'Qualité 4K / Ultra HD', 'Anti-Freeze 8.0 (IA)', 'Serveurs France Prioritaires', 'Replay 7 Jours'],
+    color: 'emerald',
+    popular: false
   },
   {
     id: 'prm-12-mois',
     title: '12 MOIS',
-    subtitle: 'ELITE 4K',
+    subtitle: 'PREMIUM 4K',
     price: '69',
     cents: '00',
     href: '/payment?plan=prm-12-mois',
-    features: ['160K+ Chaînes & VOD', 'Qualité 4K/UHD Réelle', 'Anti-Freeze 8.0 AI', 'Serveurs VIP France', 'Replay 7 Jours'],
+    features: ['+160 000 Chaînes & VOD', 'Qualité 4K / Ultra HD', 'Anti-Freeze 8.0 (IA)', 'Serveurs France Prioritaires', 'Replay 7 Jours', 'Support VIP WhatsApp'],
     bonus: '+2 MOIS OFFERTS',
-    popular: true,
-    color: 'amber'
+    color: 'amber',
+    popular: true
   },
   {
     id: 'prm-24-mois',
     title: '24 MOIS',
-    subtitle: 'ELITE 4K',
+    subtitle: 'PREMIUM 4K',
     price: '100',
     cents: '00',
     href: '/payment?plan=prm-24-mois',
-    features: ['160K+ Chaînes & VOD', 'Qualité 4K/UHD Réelle', 'Anti-Freeze 8.0 AI', 'Serveurs VIP France', 'Replay 7 Jours'],
+    features: ['+160 000 Chaînes & VOD', 'Qualité 4K / Ultra HD', 'Anti-Freeze 8.0 (IA)', 'Serveurs France Prioritaires', 'Replay 7 Jours', 'Support VIP WhatsApp'],
     bonus: '+4 MOIS OFFERTS',
-    popular: false,
-    color: 'rose'
+    color: 'rose',
+    popular: false
   }
 ];
 
-const FAQ = [
-  { q: "Pourquoi IPTV Smarters Pro est le N°1 en France ?", a: "Grâce à notre infrastructure de serveurs locaux basés en France et en Europe, nous garantissons une latence quasi-nulle et une stabilité inégalée (Anti-Freeze 8.0). Compatible avec toutes les box et Smart TV." },
-  { q: "Comment se passe l'installation ?", a: "C'est immédiat. Dès votre paiement validé, vous recevez un tutoriel complet et vos codes d'accès par Email et WhatsApp. En 5 minutes, vous regardez vos chaînes préférées." },
-  { q: "La qualité 4K est-elle garantie ?", a: "Oui, si votre connexion internet le permet (>15 Mbps), vous accéderez à nos flux 4K UHD natifs. Nous proposons aussi du FHD et HD pour les connexions plus modestes." },
-  { q: "Puis-je utiliser l'abonnement sur plusieurs écrans ?", a: "Nos abonnements sont optimisés pour un usage sur un écran à la fois pour garantir la stabilité, mais vous pouvez configurer l'accès sur plusieurs appareils (TV, Téléphone, Tablette) et basculer de l'un à l'autre." },
-  { q: "Quelles chaînes et VOD sont incluses ?", a: "Tout est inclus : Canal+, BeIN Sports, RMC Sport, Netflix, Prime Video, Disney+, Apple TV+, et des milliers de chaînes internationales (FR, BE, CH, CA, US, UK, AR, etc.)." },
-  { q: "Y a-t-il une garantie de remboursement ?", a: "Absolument. Si vous rencontrez des problèmes techniques non résolus dans les 30 premiers jours, nous vous remboursons intégralement." }
-];
-
-const REVIEWS = [
-  { name: "Marc H.", loc: "Paris", text: "J'ai testé 5 fournisseurs avant eux. C'est le jour et la nuit. Pas un seul buffer pendant le match du PSG hier. La 4K est sublime.", rating: 5, date: "Il y a 2 jours" },
-  { name: "Sophie T.", loc: "Bordeaux", text: "Le catalogue VOD est impressionnant, c'est comme avoir Netflix + Disney + Prime combinés mais pour 10x moins cher. L'interface Smarters est top.", rating: 5, date: "Il y a 5 jours" },
-  { name: "Yassine B.", loc: "Lyon", text: "Service client au top sur WhatsApp, ils m'ont aidé à configurer ma télé Samsung en 10 minutes. Je recommande à 100%.", rating: 5, date: "Il y a 1 semaine" },
+const CHANNELS = [
+  "CANAL+", "BEIN SPORTS", "RMC SPORT", "NETFLIX", "DISNEY+", "PRIME VIDEO", "HBO", "APPLE TV+", "EUROSPORT", "TF1 4K", "M6 4K"
 ];
 
 // --- Components ---
 
-const ScrollProgress = () => {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  return (
-    <motion.div
-      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-white to-red-500 origin-left z-50"
-      style={{ scaleX }}
-    />
-  );
-};
-
-const MagneticButton = ({ children, className = "", onClick, primary = false }: any) => {
-  const ref = useRef<HTMLButtonElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-
-  const handleMouse = (e: React.MouseEvent) => {
-    const { clientX, clientY } = e;
-    const { height, width, left, top } = ref.current!.getBoundingClientRect();
-    const middleX = clientX - (left + width / 2);
-    const middleY = clientY - (top + height / 2);
-    setPosition({ x: middleX * 0.1, y: middleY * 0.1 });
-  };
-
-  const reset = () => {
-    setPosition({ x: 0, y: 0 });
-  };
-
-  const { x, y } = position;
-
-  return (
-    <motion.button
-      ref={ref}
-      animate={{ x, y }}
-      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-      onMouseMove={handleMouse}
-      onMouseLeave={reset}
-      onClick={onClick}
-      className={`relative px-8 py-4 rounded-full font-bold text-lg overflow-hidden group transition-all duration-300 ${className} ${primary ? 'bg-white text-black shadow-[0_0_40px_-10px_rgba(255,255,255,0.5)]' : 'border border-white/20 text-white hover:border-white/50 hover:bg-white/5'}`}
-    >
-      <span className="relative z-10 flex items-center justify-center gap-2">{children}</span>
-    </motion.button>
-  );
-};
-
-// Improved Simulated Video with Real Image Background
-const StreamSimulation = () => {
-  return (
-    <div className="relative w-full h-full bg-black overflow-hidden flex items-center justify-center group">
-      {/* Real Stadium Background */}
-      <div className="absolute inset-0 z-0">
-        <Image 
-          src="https://images.unsplash.com/photo-1522770179533-24471fcdba45?q=80&w=1000&auto=format&fit=crop" 
-          alt="Live Match" 
-          fill
-          className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
-        />
-        <div className="absolute inset-0 bg-black/40" />
+const TrustPilotStars = () => (
+  <div className="flex gap-1">
+    {[1, 2, 3, 4, 5].map((i) => (
+      <div key={i} className="w-6 h-6 bg-[#00b67a] flex items-center justify-center">
+        <Star size={16} fill="white" className="text-white" />
       </div>
-
-      {/* Moving Particles/Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] z-10" />
-      
-      {/* Center Content */}
-      <div className="relative z-20 flex flex-col items-center gap-4">
-        <motion.div 
-          whileHover={{ scale: 1.2 }}
-          className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-[0_0_50px_rgba(59,130,246,0.5)] cursor-pointer hover:bg-white/30 transition-colors"
-        >
-          <Play size={32} className="fill-white ml-2" />
-        </motion.div>
-        <div className="text-center">
-          <motion.div 
-            animate={{ opacity: [0.8, 1, 0.8] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="text-white font-bold tracking-widest text-xl mb-1 drop-shadow-lg"
-          >
-            4K ULTRA HD
-          </motion.div>
-          <div className="flex items-center justify-center gap-2 bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm">
-            <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-            <span className="text-xs text-white font-mono">LIVE FEED • 60FPS</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Animated Scanline */}
-      <motion.div
-        initial={{ top: "-10%" }}
-        animate={{ top: "110%" }}
-        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-        className="absolute left-0 right-0 h-20 bg-gradient-to-b from-transparent via-white/5 to-transparent z-10 pointer-events-none"
-      />
-    </div>
-  );
-};
-
-const FeatureCard = ({ icon: Icon, title, desc, delay }: any) => (
-  <motion.div
-    initial={{ opacity: 0, y: 50 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8, delay }}
-    viewport={{ once: true }}
-    className="group relative p-8 rounded-3xl bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/5 hover:border-white/20 transition-all duration-500 overflow-hidden"
-  >
-    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 group-hover:opacity-100 opacity-0 transition-opacity duration-500" />
-    <div className="relative z-10">
-      <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 text-white shadow-lg shadow-white/5">
-        <Icon size={28} strokeWidth={1.5} />
-      </div>
-      <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-blue-400 transition-colors">{title}</h3>
-      <p className="text-gray-400 leading-relaxed">{desc}</p>
-    </div>
-  </motion.div>
+    ))}
+  </div>
 );
+
+const TiltCard = ({ children, className }: { children: React.ReactNode, className?: string }) => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+    const { left, top, width, height } = currentTarget.getBoundingClientRect();
+    const x = clientX - left;
+    const y = clientY - top;
+    
+    mouseX.set(x);
+    mouseY.set(y);
+  }
+
+  return (
+    <div
+      className={`relative overflow-hidden group ${className}`}
+      onMouseMove={handleMouseMove}
+    >
+      <motion.div
+        className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100"
+        style={{
+          background: useMotionTemplate`
+            radial-gradient(
+              650px circle at ${mouseX}px ${mouseY}px,
+              rgba(255,255,255,0.1),
+              transparent 80%
+            )
+          `,
+        }}
+      />
+      {children}
+    </div>
+  );
+};
+
+const HeroSlider = () => {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const slide = HERO_SLIDES[index];
+
+  return (
+    <div className="absolute inset-0 w-full h-full overflow-hidden">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={slide.id}
+          initial={{ opacity: 0, scale: 1.1 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.5 }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={slide.image}
+            alt={slide.title}
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30" />
+          <div className="absolute inset-0 bg-black/20" />
+        </motion.div>
+      </AnimatePresence>
+      
+      {/* Dynamic Content */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 text-center px-4 pt-20">
+        <motion.div
+            key={`content-${slide.id}`}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -30 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-black/40 backdrop-blur-md mb-6 ${slide.color}`}>
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-current opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-current"></span>
+            </span>
+            <span className="text-sm font-bold tracking-widest uppercase text-white">IPTV SMARTERS PRO</span>
+          </div>
+          
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-4 drop-shadow-2xl">
+             <span className="block text-white mix-blend-overlay opacity-50 absolute inset-0 blur-2xl transform translate-y-4">{slide.title}</span>
+             <span className="relative bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">
+               {slide.title}
+             </span>
+          </h1>
+          
+          <p className="text-2xl md:text-3xl font-light text-gray-200 tracking-wide mb-10 max-w-3xl mx-auto drop-shadow-lg">
+            {slide.subtitle}
+          </p>
+
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+             <button 
+               onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+               className={`px-10 py-5 rounded-full font-bold text-lg bg-white text-black hover:scale-105 transition-transform shadow-[0_0_40px_-10px_rgba(255,255,255,0.6)] flex items-center gap-3`}
+             >
+               <Play size={20} fill="black" /> COMMENCER MAINTENANT
+             </button>
+             <button 
+               onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+               className="px-10 py-5 rounded-full font-bold text-lg border border-white/30 bg-black/30 backdrop-blur-md hover:bg-white/10 transition-colors flex items-center gap-3"
+             >
+               DÉCOUVRIR <ArrowRight size={20} />
+             </button>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Slide Indicators */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+        {HERO_SLIDES.map((s, i) => (
+          <div 
+            key={s.id} 
+            className={`h-1 rounded-full transition-all duration-500 ${i === index ? 'w-12 bg-white' : 'w-4 bg-white/30'}`} 
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export default function LandingV2Content() {
   const router = useRouter();
-  const [pricingMode, setPricingMode] = useState<'standard' | 'premium'>('premium');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const currentPricing = pricingMode === 'premium' ? PRICING_PREMIUM : PRICING_STANDARD;
-
-  const scrollToPricing = () => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-blue-500 selection:text-white overflow-x-hidden">
-      <ScrollProgress />
-      
-      {/* --- Ambient Background with Real Image --- */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        {/* Cinematic Background Image */}
-        <div className="absolute inset-0 z-0">
-           <Image 
-             src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
-             alt="Background"
-             fill
-             className="object-cover opacity-20"
-             priority
-           />
-           <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
-        </div>
-
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-blue-900/20 blur-[150px] animate-pulse-slow mix-blend-screen" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-purple-900/20 blur-[150px] animate-pulse-slow delay-75 mix-blend-screen" />
-      </div>
+    <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden selection:bg-blue-500 selection:text-white">
+      <motion.div className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-white to-red-500 origin-left z-50" style={{ scaleX }} />
 
       {/* --- Navbar --- */}
-      <nav className="fixed top-0 inset-x-0 z-50 px-6 py-6 transition-all duration-300">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3 backdrop-blur-md bg-white/5 px-4 py-2 rounded-full border border-white/10">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
-              <Play size={14} className="fill-white ml-0.5" />
-            </div>
-            <span className="font-bold tracking-tight text-sm">IPTV SMARTERS PRO</span>
-          </div>
-
-          <div className="hidden md:flex items-center gap-2 backdrop-blur-md bg-black/50 px-2 py-2 rounded-full border border-white/10">
-            {['Accueil', 'Fonctionnalités', 'Tarifs', 'Avis', 'FAQ'].map((item) => (
-              <a 
-                key={item} 
-                href={`#${item === 'Accueil' ? 'hero' : item.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`}
-                className="px-5 py-2 rounded-full text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all"
+      <nav className="fixed top-0 w-full z-40 transition-all duration-300 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-[2px]">
+        <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+           <div className="flex items-center gap-2">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+                <Play size={20} fill="white" className="text-white ml-1" />
+              </div>
+              <span className="font-bold text-lg tracking-tight hidden md:block">IPTV SMARTERS PRO</span>
+           </div>
+           
+           <div className="flex items-center gap-6">
+              <div className="hidden md:flex items-center gap-1 text-green-400 font-bold text-sm bg-green-500/10 px-3 py-1 rounded-full border border-green-500/20">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                SERVEURS FRANCE : 100% STABLE
+              </div>
+              <button 
+                onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+                className="px-6 py-2 rounded-full bg-white text-black font-bold text-sm hover:scale-105 transition-transform"
               >
-                {item}
-              </a>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-4">
-             <a href="#reseller" className="hidden md:block text-sm font-medium text-gray-400 hover:text-white transition-colors">Revendeur ?</a>
-             <button 
-                onClick={scrollToPricing}
-                className="px-6 py-2.5 rounded-full bg-white text-black text-sm font-bold hover:scale-105 transition-transform shadow-lg shadow-white/10"
-             >
-               S'abonner
-             </button>
-          </div>
+                S'ABONNER
+              </button>
+           </div>
         </div>
       </nav>
 
-      {/* --- Hero Section --- */}
-      <section id="hero" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden perspective-1000">
-        <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
-          
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, rotateX: 20 }}
-            animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            className="mb-12 inline-flex flex-col items-center"
-            style={{ transformStyle: "preserve-3d" }}
-          >
-             <div className="flex items-center gap-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-6 backdrop-blur-sm shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-               <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_#22c55e]" />
-               <span className="text-xs font-medium tracking-wide uppercase text-gray-200">Serveurs France : Opérationnels</span>
-             </div>
-             
-             <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9] mb-8 relative">
-               <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 drop-shadow-2xl">CINÉMA</span>
-               <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 drop-shadow-2xl">ILLIMITÉ</span>
-               {/* Glow Effect */}
-               <div className="absolute inset-0 blur-3xl bg-blue-500/20 rounded-full -z-10" />
-             </h1>
-          </motion.div>
-
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto mb-12 leading-relaxed font-light"
-          >
-            Découvrez <span className="text-white font-bold glow-text">IPTV SMARTERS PRO</span>. L'abonnement IPTV Premium qui redéfinit vos soirées. 
-            <span className="block mt-4 text-blue-400 font-medium tracking-wide">4K UHD • Anti-Freeze 8.0 • +160,000 Contenus</span>
-          </motion.p>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
-            className="flex flex-col md:flex-row items-center justify-center gap-6"
-          >
-            <MagneticButton primary onClick={scrollToPricing}>
-              <Play size={18} className="fill-black" /> Commencer l'Essai
-            </MagneticButton>
-            <MagneticButton onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}>
-              <ArrowRight size={18} /> Découvrir l'Offre
-            </MagneticButton>
-          </motion.div>
-        </div>
-
-        {/* 3D Floating Elements Simulation */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-           <motion.div 
-             animate={{ y: [-20, 20, -20], rotate: [0, 5, 0] }}
-             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-             className="absolute top-1/4 left-[10%] w-64 h-96 rounded-2xl bg-gradient-to-br from-gray-900 to-black border border-white/10 opacity-40 blur-[2px] rotate-[-12deg]"
-           />
-           <motion.div 
-             animate={{ y: [20, -20, 20], rotate: [0, -5, 0] }}
-             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-             className="absolute top-1/3 right-[10%] w-72 h-80 rounded-2xl bg-gradient-to-bl from-gray-900 to-black border border-white/10 opacity-40 blur-[1px] rotate-[12deg]"
-           />
-        </div>
-        
-        {/* Scroll Indicator */}
-        <motion.div 
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 mix-blend-difference"
-        >
-           <ChevronDown size={32} />
-        </motion.div>
+      {/* --- Hero Section with Carousel --- */}
+      <section className="relative h-screen w-full bg-black">
+        <HeroSlider />
       </section>
 
-      {/* --- Marquee --- */}
-      <div className="relative z-20 bg-white/5 backdrop-blur-sm border-y border-white/5 py-10 overflow-hidden">
-        <div className="flex animate-marquee whitespace-nowrap gap-20 items-center">
-          {[...CHANNELS, ...CHANNELS, ...CHANNELS].map((c, i) => (
-            <div key={i} className="flex items-center gap-4 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
-               <div className={`w-3 h-3 rounded-full ${c.color} shadow-[0_0_10px_currentColor]`} />
-               <span className="text-2xl font-bold tracking-tight text-white">{c.name}</span>
-            </div>
-          ))}
+      {/* --- Trustpilot Bar --- */}
+      <div className="relative z-20 bg-[#1c1c1c] border-y border-white/5 py-8 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
+           <div className="flex items-center gap-4">
+              <div className="flex flex-col">
+                <h3 className="text-2xl font-black tracking-tight">Excellent</h3>
+                <TrustPilotStars />
+                <p className="text-xs text-gray-400 mt-1">Basé sur <span className="underline">1,250+ avis</span></p>
+              </div>
+              <div className="h-12 w-[1px] bg-white/10 hidden md:block" />
+              <div className="flex items-center gap-2 text-sm text-gray-300">
+                <CheckCircle size={16} className="text-green-500" /> Vendeur Vérifié
+              </div>
+           </div>
+           
+           {/* Marquee Reviews */}
+           <div className="flex-1 overflow-hidden relative mask-linear-fade">
+              <div className="flex animate-marquee gap-8 items-center">
+                 {REVIEWS.map((review, i) => (
+                   <div key={i} className="flex-shrink-0 w-80 bg-white/5 p-4 rounded-xl border border-white/5">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="flex gap-0.5">
+                          {[...Array(5)].map((_, j) => <div key={j} className="w-4 h-4 bg-[#00b67a] flex items-center justify-center"><Star size={10} fill="white" className="text-white"/></div>)}
+                        </div>
+                        <span className="text-xs text-gray-400">{review.date || "Il y a 2 jours"}</span>
+                      </div>
+                      <p className="text-xs text-gray-300 line-clamp-2">"{review.text}"</p>
+                      <p className="text-xs font-bold text-gray-500 mt-2">{review.name}</p>
+                   </div>
+                 ))}
+              </div>
+           </div>
         </div>
       </div>
 
-      {/* --- Features Section --- */}
-      <section id="features" className="relative z-20 py-32 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-24 md:flex items-end justify-between">
-            <div className="max-w-2xl">
-              <span className="text-blue-500 font-bold tracking-wider uppercase text-sm mb-4 block">Pourquoi Nous ?</span>
-              <h2 className="text-5xl md:text-7xl font-bold tracking-tighter leading-none mb-6">
-                L'EXCELLENCE <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-white to-red-500 animate-gradient-x">
-                  À LA FRANÇAISE
-                </span>
-              </h2>
-              <p className="text-xl text-gray-400">
-                Une infrastructure pensée pour la performance. Oubliez les coupures.
-              </p>
+      {/* --- Why Choose Us (3D Tilt) --- */}
+      <section id="features" className="py-32 px-6 relative z-10 bg-black">
+         <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-20">
+               <span className="text-blue-500 font-bold tracking-widest uppercase text-sm mb-4 block">L'Expérience Ultime</span>
+               <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-6">POURQUOI NOUS CHOISIR ?</h2>
+               <p className="text-gray-400 text-xl max-w-2xl mx-auto">
+                 Nous ne sommes pas un simple revendeur. Nous sommes un fournisseur direct avec notre propre infrastructure.
+               </p>
             </div>
-            <div className="hidden md:block">
-              <div className="flex items-center gap-4 text-sm font-bold text-gray-400">
-                 <div className="px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">4K HDR</div>
-                 <div className="px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">DOLBY ATMOS</div>
-                 <div className="px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">AI UPSCALING</div>
-              </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+               <TiltCard className="p-8 rounded-3xl bg-[#0a0a0a] border border-white/10 relative">
+                  <div className="w-16 h-16 rounded-2xl bg-blue-600/20 flex items-center justify-center mb-6 text-blue-500">
+                    <Zap size={32} />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4">Anti-Freeze 8.0</h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    Notre technologie exclusive analyse le réseau en temps réel pour prévenir les coupures avant qu'elles n'arrivent. Idéal pour les matchs en direct.
+                  </p>
+               </TiltCard>
+
+               <TiltCard className="p-8 rounded-3xl bg-[#0a0a0a] border border-white/10 relative">
+                  <div className="w-16 h-16 rounded-2xl bg-purple-600/20 flex items-center justify-center mb-6 text-purple-500">
+                    <Monitor size={32} />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4">4K Ultra HD Réelle</h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    Profitez d'une qualité d'image native en 3840x2160 pixels. HDR10+ et Dolby Atmos supportés pour une immersion cinéma à la maison.
+                  </p>
+               </TiltCard>
+
+               <TiltCard className="p-8 rounded-3xl bg-[#0a0a0a] border border-white/10 relative">
+                  <div className="w-16 h-16 rounded-2xl bg-green-600/20 flex items-center justify-center mb-6 text-green-500">
+                    <Headphones size={32} />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4">Support 24/7 Français</h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    Une équipe dédiée basée en France vous assiste jour et nuit. Installation guidée par appel vidéo ou WhatsApp si besoin.
+                  </p>
+               </TiltCard>
             </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-             <FeatureCard 
-               icon={Zap} 
-               title="Anti-Freeze 8.0" 
-               desc="Notre technologie propriétaire d'IA prédictive élimine le buffering avant qu'il n'arrive. Une fluidité parfaite pour vos matchs." 
-               delay={0}
-             />
-             <FeatureCard 
-               icon={Monitor} 
-               title="4K Ultra HD" 
-               desc="La plus haute définition du marché. Des couleurs éclatantes et des détails précis pour une immersion totale dans vos films." 
-               delay={0.2}
-             />
-             <FeatureCard 
-               icon={Globe} 
-               title="Mondial & Local" 
-               desc="Accédez aux chaînes du monde entier tout en profitant d'une priorisation des serveurs français pour une latence minimale." 
-               delay={0.4}
-             />
-             <div className="md:col-span-2 relative rounded-3xl overflow-hidden min-h-[400px] group border border-white/5 bg-[#0a0a0a]">
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10" />
-                
-                {/* Real VOD Background Image */}
-                <div className="absolute inset-0 z-0">
-                  <Image 
-                    src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=3456&auto=format&fit=crop" 
-                    alt="VOD Library" 
-                    fill
-                    className="object-cover opacity-50 group-hover:scale-105 transition-transform duration-700"
-                  />
-                </div>
-
-                <div className="absolute bottom-10 left-10 z-20 max-w-lg">
-                   <h3 className="text-3xl font-bold mb-4">VOD Illimitée & Mise à Jour</h3>
-                   <p className="text-gray-300 text-lg">
-                     Netflix, Prime Video, Disney+, Apple TV+. Tout est là, mis à jour quotidiennement. 
-                     Ne payez plus pour 10 abonnements différents.
-                   </p>
-                </div>
-             </div>
-             <FeatureCard 
-               icon={Headphones} 
-               title="Support VIP 24/7" 
-               desc="Une équipe d'experts français disponibles jour et nuit sur WhatsApp et Email pour vous assister." 
-               delay={0.6}
-             />
-          </div>
-        </div>
+         </div>
       </section>
 
-      {/* --- Compatibility --- */}
-      <section className="relative z-20 py-24 px-6 border-t border-white/5 bg-[#050505]">
-        <div className="max-w-7xl mx-auto text-center">
-           <h2 className="text-3xl md:text-5xl font-bold mb-16">Compatible Partout</h2>
-           <div className="flex flex-wrap justify-center gap-8 md:gap-16">
-             {APPS.map((app, i) => {
-               const Icon = (app as any).icon;
-               return (
-               <motion.div 
-                 key={i}
-                 initial={{ opacity: 0, y: 20 }}
-                 whileInView={{ opacity: 1, y: 0 }}
-                 transition={{ delay: i * 0.1 }}
-                 whileHover={{ y: -10 }}
-                 className="flex flex-col items-center gap-4 group cursor-pointer"
-               >
-                 <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br ${app.color} p-[1px] shadow-xl group-hover:shadow-2xl group-hover:shadow-${app.color.split('-')[1]}-500/50 transition-all duration-300 relative`}>
-                   <div className="w-full h-full rounded-[23px] bg-black/90 backdrop-blur-xl flex items-center justify-center relative overflow-hidden">
-                     {/* Glossy Effect */}
-                     <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
-                     
-                     <div className={`absolute inset-0 bg-gradient-to-br ${app.color} opacity-10 group-hover:opacity-20 transition-opacity`} />
-                     <div className="flex flex-col items-center gap-1">
-                       <Icon size={24} className={`text-${app.color.split('-')[1]}-400`} />
-                       <span className={`text-xl font-black bg-gradient-to-br ${app.color} bg-clip-text text-transparent`}>
-                         {app.initials}
-                       </span>
-                     </div>
-                   </div>
+      {/* --- Live Stream Preview --- */}
+      <section className="py-20 bg-gradient-to-b from-black to-[#050505] border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6">
+           <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
+              <div className="aspect-video w-full relative">
+                 <Image 
+                   src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2693&auto=format&fit=crop"
+                   alt="Soccer Match"
+                   fill
+                   className="object-cover transition-transform duration-700 group-hover:scale-105"
+                 />
+                 <div className="absolute inset-0 bg-black/40" />
+                 
+                 {/* UI Overlay */}
+                 <div className="absolute top-8 left-8 flex items-center gap-4">
+                    <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-xs animate-pulse">EN DIRECT</div>
+                    <div className="text-white font-bold drop-shadow-md">PSG vs OM</div>
                  </div>
-                 <span className="text-xs font-bold tracking-widest text-gray-500 group-hover:text-white transition-colors">{app.name}</span>
-               </motion.div>
-             )})}
+
+                 <div className="absolute bottom-8 left-8 right-8">
+                    <div className="h-1 bg-white/30 rounded-full overflow-hidden mb-4">
+                      <div className="h-full bg-red-600 w-[85%]" />
+                    </div>
+                    <div className="flex items-center justify-between text-sm font-medium">
+                       <span>85:02</span>
+                       <span>4K HDR • 50 FPS • 18 Mbps</span>
+                    </div>
+                 </div>
+
+                 {/* Play Button Center */}
+                 <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-24 h-24 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 cursor-pointer hover:bg-white/30 transition-all group-hover:scale-110">
+                       <Play size={40} fill="white" className="ml-2" />
+                    </div>
+                 </div>
+              </div>
            </div>
         </div>
       </section>
 
       {/* --- Pricing Section --- */}
-      <section id="pricing" className="relative z-20 py-32 px-6 bg-black">
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-900/5 to-transparent pointer-events-none" />
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8">ABONNEMENTS</h2>
-            
-            {/* Custom Toggle */}
-            <div className="inline-flex items-center p-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
-              <button 
-                onClick={() => setPricingMode('standard')}
-                className={`px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 ${pricingMode === 'standard' ? 'bg-white text-black shadow-lg' : 'text-gray-400 hover:text-white'}`}
-              >
-                STANDARD (HD)
-              </button>
-              <button 
-                onClick={() => setPricingMode('premium')}
-                className={`px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 flex items-center gap-2 ${pricingMode === 'premium' ? 'bg-gradient-to-r from-amber-500 to-red-500 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
-              >
-                <Crown size={14} fill="currentColor" />
-                PREMIUM (4K)
-              </button>
+      <section id="pricing" className="py-32 px-6 relative bg-black">
+         <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-24">
+               <h2 className="text-6xl font-black tracking-tighter mb-8">NOS OFFRES PREMIUM</h2>
+               <p className="text-gray-400 text-lg">Rejoignez l'élite. Satisfait ou remboursé sous 30 jours.</p>
             </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <AnimatePresence mode="wait">
-            {currentPricing.map((plan, i) => (
-              <motion.div
-                key={plan.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.1 }}
-                className={`relative group rounded-3xl p-[1px] ${plan.popular ? 'bg-gradient-to-b from-amber-500 to-red-600' : 'bg-white/10 hover:bg-white/20'}`}
-              >
-                <div className="h-full bg-[#050505] rounded-[23px] p-6 flex flex-col relative overflow-hidden backdrop-blur-md">
-                  {plan.popular && (
-                    <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-amber-500 to-red-500 shadow-[0_0_20px_rgba(245,158,11,0.5)]" />
-                  )}
-                  
-                  <div className="mb-6">
-                    <h3 className="text-2xl font-black italic tracking-wide mb-1">{plan.title}</h3>
-                    <p className={`text-xs font-bold tracking-widest uppercase text-${plan.color}-500`}>{plan.subtitle}</p>
-                  </div>
-
-                  <div className="flex items-start gap-1 mb-8">
-                    <span className="text-lg font-bold text-gray-500 mt-2">€</span>
-                    <span className="text-7xl font-black tracking-tighter text-white">{plan.price}</span>
-                    <span className="text-lg font-bold text-gray-500 mt-2">.{plan.cents}</span>
-                  </div>
-
-                  {(plan as any).bonus && (
-                    <div className="mb-6">
-                      <div className="inline-block px-3 py-1 rounded-lg bg-gradient-to-r from-amber-500/20 to-red-500/20 border border-amber-500/30 text-amber-500 text-xs font-bold animate-pulse shadow-[0_0_10px_rgba(245,158,11,0.2)]">
-                        {(plan as any).bonus}
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="space-y-4 mb-8 flex-1">
-                    {plan.features.map((feat, idx) => (
-                      <div key={idx} className="flex items-center gap-3">
-                        <CheckCircle size={16} className={plan.popular ? "text-amber-500" : "text-gray-600"} />
-                        <span className="text-sm font-medium text-gray-400">{feat}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <button 
-                    onClick={() => router.push(plan.href)}
-                    className={`w-full py-4 rounded-xl font-bold text-sm tracking-wide transition-all duration-300 ${plan.popular ? 'bg-gradient-to-r from-amber-500 to-red-600 text-white hover:shadow-lg hover:shadow-amber-900/40 hover:scale-[1.02]' : 'bg-white/5 text-white hover:bg-white/10 hover:scale-[1.02]'}`}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+               {PRICING_PREMIUM.map((plan, i) => (
+                  <motion.div
+                    key={plan.id}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    className={`relative rounded-3xl p-[1px] ${plan.popular ? 'bg-gradient-to-b from-amber-400 to-orange-600 scale-110 z-10 shadow-[0_0_50px_rgba(245,158,11,0.3)]' : 'bg-white/10 hover:bg-white/20'}`}
                   >
-                    CHOISIR CE PACK
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-            </AnimatePresence>
-          </div>
-          
-          <p className="text-center text-gray-500 mt-12 flex items-center justify-center gap-2">
-            <Lock size={14} /> Paiement 100% Sécurisé par Stripe & SSL
-          </p>
-        </div>
-      </section>
+                     <div className="bg-[#080808] rounded-[23px] p-8 h-full flex flex-col">
+                        {plan.popular && (
+                          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-amber-500 text-black font-black text-xs px-4 py-1 rounded-full uppercase tracking-widest shadow-lg">
+                            Best Seller
+                          </div>
+                        )}
+                        
+                        <div className="text-center mb-8">
+                           <h3 className="text-3xl font-black italic mb-2">{plan.title}</h3>
+                           <p className={`text-sm font-bold tracking-widest uppercase text-${plan.color}-500`}>{plan.subtitle}</p>
+                        </div>
 
-      {/* --- Comparison Video Section --- */}
-      <section id="comparison" className="relative z-20 py-32 px-6 border-t border-white/5">
-         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative group">
-               <div className="absolute -inset-4 bg-blue-500/20 blur-2xl rounded-full opacity-50 group-hover:opacity-75 transition-opacity" />
-               <div className="relative rounded-2xl overflow-hidden aspect-video border border-white/10 shadow-2xl bg-black transform group-hover:scale-[1.02] transition-transform duration-500">
-                 <StreamSimulation />
-                 <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between z-20">
-                    <div>
-                      <div className="text-white font-bold drop-shadow-md">LIVE PREVIEW</div>
-                      <div className="text-xs text-gray-300">4K HDR • 60 FPS</div>
-                    </div>
-                    <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center shadow-lg">
-                      <Activity size={20} className="text-green-400" />
-                    </div>
-                 </div>
-               </div>
-            </div>
-            
-            <div>
-               <h2 className="text-4xl md:text-5xl font-bold mb-8">
-                 NE LAISSEZ PAS UNE <br />
-                 <span className="text-red-500">MAUVAISE QUALITÉ</span> GÂCHER VOS MATCHS
-               </h2>
-               <p className="text-gray-400 text-lg mb-10">
-                 La plupart des fournisseurs IPTV low-cost surchargent leurs serveurs. 
-                 Chez IPTV Smarters Pro, nous limitons le nombre d'utilisateurs par serveur pour garantir une bande passante dédiée.
-               </p>
-               
-               <div className="space-y-4">
-                 <div className="p-4 rounded-xl bg-green-900/10 border border-green-500/20 flex items-center justify-between">
-                    <span className="font-bold text-green-400">IPTV SMARTERS PRO</span>
-                    <span className="text-sm text-green-500 font-bold">100% STABLE</span>
-                 </div>
-                 <div className="p-4 rounded-xl bg-red-900/10 border border-red-500/20 flex items-center justify-between opacity-60 grayscale hover:grayscale-0 transition-all">
-                    <span className="font-bold text-red-400">AUTRES FOURNISSEURS</span>
-                    <span className="text-sm text-red-500 font-bold">COUPURES FRÉQUENTES</span>
-                 </div>
-               </div>
-            </div>
-         </div>
-      </section>
+                        <div className="text-center mb-8 relative">
+                           <span className="text-2xl font-bold text-gray-500 align-top">€</span>
+                           <span className="text-7xl font-black tracking-tighter text-white">{plan.price}</span>
+                           <span className="text-lg font-bold text-gray-500">.{plan.cents}</span>
+                           {(plan as any).bonus && (
+                             <div className="mt-2 text-amber-500 font-bold text-sm animate-pulse">{(plan as any).bonus}</div>
+                           )}
+                        </div>
 
-      {/* --- Reseller --- */}
-      <section id="reseller" className="relative z-20 py-24 px-6 bg-[#0a0a0a] border-y border-white/5">
-        <div className="max-w-4xl mx-auto text-center">
-           <div className="inline-block p-4 rounded-full bg-green-500/10 mb-6 border border-green-500/20">
-             <TrendingUp size={32} className="text-green-500" />
-           </div>
-           <h2 className="text-4xl font-bold mb-6">Devenez Partenaire & Gagnez</h2>
-           <p className="text-gray-400 text-lg mb-10">
-             Rejoignez notre programme revendeur. Achetez des crédits en gros, revendez au prix que vous voulez. 
-             Panel complet, marque blanche, et support dédié.
-           </p>
-           <button 
-             onClick={() => window.open('https://wa.me/212628461599', '_blank')}
-             className="px-8 py-4 rounded-full bg-[#25D366] text-white font-bold hover:brightness-110 hover:shadow-[0_0_20px_rgba(37,211,102,0.4)] transition-all flex items-center gap-2 mx-auto"
-           >
-             <MessageCircle size={20} />
-             CONTACTER SUR WHATSAPP
-           </button>
-        </div>
-      </section>
+                        <ul className="space-y-4 mb-8 flex-1">
+                          {plan.features.map((feat, idx) => (
+                            <li key={idx} className="flex items-center gap-3 text-sm text-gray-300">
+                               <div className={`p-1 rounded-full bg-${plan.color}-500/10`}>
+                                 <Check size={14} className={`text-${plan.color}-500`} />
+                               </div>
+                               {feat}
+                            </li>
+                          ))}
+                        </ul>
 
-      {/* --- FAQ --- */}
-      <section id="faq" className="relative z-20 py-24 px-6">
-         <div className="max-w-3xl mx-auto">
-            <h2 className="text-4xl font-bold mb-12 text-center">Questions Fréquentes</h2>
-            <div className="space-y-4">
-              {FAQ.map((item, i) => (
-                <div key={i} className="group bg-white/5 rounded-2xl border border-white/5 overflow-hidden transition-all hover:bg-white/10 hover:border-white/10">
-                   <details className="group">
-                     <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
-                       <span className="font-bold text-lg">{item.q}</span>
-                       <ChevronDown className="transition-transform group-open:rotate-180" />
-                     </summary>
-                     <div className="px-6 pb-6 text-gray-400 leading-relaxed">
-                       {item.a}
+                        <button 
+                          onClick={() => router.push(plan.href)}
+                          className={`w-full py-4 rounded-xl font-bold text-sm uppercase tracking-wider transition-all hover:scale-[1.02] ${plan.popular ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
+                        >
+                          Choisir ce pack
+                        </button>
                      </div>
-                   </details>
-                </div>
-              ))}
+                  </motion.div>
+               ))}
             </div>
          </div>
       </section>
 
       {/* --- Footer --- */}
-      <footer className="relative z-20 pt-24 pb-12 px-6 bg-black border-t border-white/10">
-         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-            <div className="col-span-1 md:col-span-2">
-               <div className="flex items-center gap-2 mb-6">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center">
-                      <Play size={14} className="fill-white ml-0.5" />
-                  </div>
-                  <h3 className="text-2xl font-black tracking-tighter">IPTV SMARTERS PRO</h3>
+      <footer className="py-20 px-6 border-t border-white/10 bg-[#050505]">
+         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="flex items-center gap-3">
+               <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                 <Play size={20} fill="white" />
                </div>
-               <p className="text-gray-500 max-w-sm mb-6">
-                 Le leader incontesté de l'IPTV en France. Qualité premium, technologie de pointe et satisfaction client sont nos priorités.
-               </p>
-               <div className="flex gap-4">
-                 <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer"><Globe size={18}/></div>
-                 <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer"><MessageCircle size={18}/></div>
-               </div>
+               <span className="font-bold text-xl">IPTV SMARTERS PRO</span>
             </div>
-            
-            <div>
-              <h4 className="font-bold mb-6 text-white">Navigation</h4>
-              <ul className="space-y-3 text-gray-500">
-                <li><a href="#" className="hover:text-blue-500 transition-colors">Accueil</a></li>
-                <li><a href="#pricing" className="hover:text-blue-500 transition-colors">Abonnements</a></li>
-                <li><a href="#features" className="hover:text-blue-500 transition-colors">Chaînes & VOD</a></li>
-                <li><a href="#tutorial" className="hover:text-blue-500 transition-colors">Tutoriels</a></li>
-              </ul>
+            <div className="text-gray-500 text-sm">
+               © 2025 IPTV Smarters Pro. Tous droits réservés.
             </div>
-            
-            <div>
-              <h4 className="font-bold mb-6 text-white">Légal</h4>
-              <ul className="space-y-3 text-gray-500">
-                <li><a href="/confidentialite" className="hover:text-blue-500 transition-colors">Confidentialité</a></li>
-                <li><a href="/remboursement" className="hover:text-blue-500 transition-colors">Remboursement</a></li>
-                <li><a href="#" className="hover:text-blue-500 transition-colors">Mentions Légales</a></li>
-                <li><a href="#" className="hover:text-blue-500 transition-colors">Contact</a></li>
-              </ul>
-            </div>
-         </div>
-         
-         <div className="max-w-7xl mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between text-xs text-gray-600">
-            <p>© 2025 IPTV SMARTERS PRO. Tous droits réservés.</p>
-            <div className="flex gap-4 mt-4 md:mt-0">
-               <span>Sécurisé par Stripe</span>
-               <span>Hébergé en Europe</span>
+            <div className="flex gap-4">
+               <Image src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" width={80} height={30} className="opacity-50 grayscale hover:grayscale-0 transition-all" />
             </div>
          </div>
       </footer>
-      
+
       <style jsx global>{`
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-          animation: marquee 30s linear infinite;
-        }
-        .animate-pulse-slow {
-          animation: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        .animate-gradient-x {
-          background-size: 200% 200%;
-          animation: gradient-x 15s ease infinite;
-        }
-        @keyframes gradient-x {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        .perspective-1000 {
-          perspective: 1000px;
-        }
-        .glow-text {
-          text-shadow: 0 0 20px rgba(255,255,255,0.5);
+        .mask-linear-fade {
+          mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
         }
       `}</style>
     </div>
