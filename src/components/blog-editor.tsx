@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useMemo, useEffect } from 'react';
+import { useState, useRef, useMemo, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { Upload, Code, Eye, Loader2, X, Image as ImageIcon } from 'lucide-react';
 import { toast } from 'sonner';
@@ -27,6 +27,7 @@ export const BlogEditor = ({ value, onChange, imageUrl, onImageChange }: BlogEdi
   const [uploading, setUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState(imageUrl || '');
   const [mounted, setMounted] = useState(false);
+  const [editorKey, setEditorKey] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -36,6 +37,13 @@ export const BlogEditor = ({ value, onChange, imageUrl, onImageChange }: BlogEdi
   useEffect(() => {
     setImagePreview(imageUrl || '');
   }, [imageUrl]);
+
+  const handleModeChange = useCallback((mode: 'visual' | 'html') => {
+    setEditorMode(mode);
+    if (mode === 'visual') {
+      setEditorKey(prev => prev + 1);
+    }
+  }, []);
 
   // Quill modules configuration
   const modules = useMemo(() => ({
@@ -221,7 +229,7 @@ export const BlogEditor = ({ value, onChange, imageUrl, onImageChange }: BlogEdi
       {/* Content Label */}
       <div>
         <label className="text-white font-semibold mb-2 block">
-          Contenu <span className="text-red-400">*</span>
+          Contenu de l'article <span className="text-red-400">*</span>
         </label>
       </div>
 
@@ -229,7 +237,7 @@ export const BlogEditor = ({ value, onChange, imageUrl, onImageChange }: BlogEdi
       <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg p-1">
         <button
           type="button"
-          onClick={() => setEditorMode('visual')}
+          onClick={() => handleModeChange('visual')}
           className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-md transition-colors ${
             editorMode === 'visual'
               ? 'bg-purple-600 text-white'
@@ -241,7 +249,7 @@ export const BlogEditor = ({ value, onChange, imageUrl, onImageChange }: BlogEdi
         </button>
         <button
           type="button"
-          onClick={() => setEditorMode('html')}
+          onClick={() => handleModeChange('html')}
           className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-md transition-colors ${
             editorMode === 'html'
               ? 'bg-purple-600 text-white'
@@ -257,8 +265,9 @@ export const BlogEditor = ({ value, onChange, imageUrl, onImageChange }: BlogEdi
       <div className="rounded-lg overflow-hidden">
         {editorMode === 'visual' ? (
           <div className="prose-editor">
-            {mounted && (
+            {mounted ? (
               <ReactQuill
+                key={editorKey}
                 theme="snow"
                 value={value || ''}
                 onChange={(content) => onChange(content || '')}
@@ -266,6 +275,10 @@ export const BlogEditor = ({ value, onChange, imageUrl, onImageChange }: BlogEdi
                 formats={formats}
                 placeholder="Commencez à écrire votre article..."
               />
+            ) : (
+              <div className="flex items-center justify-center h-[400px] bg-white rounded-lg border border-gray-200">
+                <Loader2 className="w-8 h-8 text-purple-500 animate-spin" />
+              </div>
             )}
           </div>
         ) : (
