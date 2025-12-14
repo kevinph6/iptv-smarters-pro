@@ -1,12 +1,12 @@
 "use client";
 
-import { Check, MessageCircle, TrendingUp, Users, Wallet, Shield } from 'lucide-react';
+import { Check, MessageCircle, ArrowUpRight, Users, Wallet, Shield } from 'lucide-react';
 
 const features = [
-  { icon: Users, text: "Gestion facile" },
+  { icon: Users, text: "Panneau utilisateur facile et utile" },
   { icon: Shield, text: "Serveurs très stables" },
   { icon: Wallet, text: "Les crédits n'expirent jamais" },
-  { icon: TrendingUp, text: "Assistance à la clientèle 24/7" },
+  { icon: ArrowUpRight, text: "Assistance à la clientèle 24/7" },
 ];
 
 const ResellerSection = () => {
@@ -29,7 +29,7 @@ const ResellerSection = () => {
           <div className="relative bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-xl rounded-[28px] border border-white/10 p-10 md:p-16 text-center">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-green-500/20 border border-green-500/30 mb-8">
-              <TrendingUp className="w-4 h-4 text-green-400" />
+              <ArrowUpRight className="w-4 h-4 text-green-400" />
               <span className="text-green-400 font-bold text-sm uppercase tracking-wider">Opportunité Business</span>
             </div>
 

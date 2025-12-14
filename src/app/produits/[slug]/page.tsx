@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { Crown, Star, Check, ShoppingCart, Shield, Clock, Eye, Flame, Gift, TrendingUp, Users, MessageSquare } from 'lucide-react';
+import { Crown, Star, Check, ShoppingCart, Shield, Clock, Eye, Flame, Gift, ArrowUpRight, Users, MessageSquare } from 'lucide-react';
 import type { Metadata } from 'next';
 import { CountdownTimer } from '@/components/ui/countdown-timer';
 import { StockIndicator } from '@/components/ui/stock-indicator';
@@ -511,7 +511,7 @@ export default async function ProductPage({ params }: Props) {
                     <span className="text-white/70 text-[10px] md:text-xs text-center font-medium">Paiement sécurisé</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5 md:gap-2 bg-white/5 rounded-lg md:rounded-xl p-3 md:p-4">
-                    <TrendingUp className="w-6 h-6 md:w-8 md:h-8 text-blue-400" />
+                    <ArrowUpRight className="w-6 h-6 md:w-8 md:h-8 text-blue-400" />
                     <span className="text-white/70 text-[10px] md:text-xs text-center font-medium">Activation instantanée</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5 md:gap-2 bg-white/5 rounded-lg md:rounded-xl p-3 md:p-4">

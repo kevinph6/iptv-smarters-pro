@@ -1,6 +1,6 @@
 'use client';
 
-import { Shield, Clock, Users, Award, Lock, Zap, HeadphonesIcon, TrendingUp, Eye, Server } from 'lucide-react';
+import { Shield, Clock, Users, Award, Lock, Zap, HeadphonesIcon, ArrowUpRight, Eye, Server } from 'lucide-react';
 import Image from 'next/image';
 
 const trustMetrics = [
@@ -11,7 +11,7 @@ const trustMetrics = [
     color: 'from-cyan-500 to-blue-500'
   },
   {
-    icon: TrendingUp,
+    icon: ArrowUpRight,
     value: '99.9%',
     label: 'Temps de Disponibilité',
     color: 'from-green-500 to-emerald-500'
