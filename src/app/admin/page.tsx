@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Plus, Edit, Trash2, Eye, Calendar, User, Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Plus, Edit, Trash2, Eye, Calendar, User, Loader2, LogOut } from 'lucide-react';
 import { toast } from 'sonner';
+import { authClient, useSession } from '@/lib/auth-client';
 
 interface BlogPost {
   id: number;
@@ -18,13 +20,23 @@ interface BlogPost {
 }
 
 export default function AdminDashboard() {
+  const router = useRouter();
+  const { data: session, isPending } = useSession();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<number | null>(null);
 
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    if (!isPending && !session?.user) {
+      router.push('/login');
+    }
+  }, [session, isPending, router]);
+
+  useEffect(() => {
+    if (session?.user) {
+      fetchPosts();
+    }
+  }, [session]);
 
   const fetchPosts = async () => {
     try {
@@ -70,6 +82,17 @@ export default function AdminDashboard() {
       year: 'numeric',
     });
   };
+
+  if (isPending || !session?.user) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 text-purple-500 animate-spin mx-auto mb-4" />
+          <p className="text-white/60">Vérification de l'authentification...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
