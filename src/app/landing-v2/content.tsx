@@ -57,12 +57,12 @@ const CHANNELS = [
 ];
 
 const APPS = [
-  { name: 'SMART IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-icon-for-smart-iptv-app-09c4ab27-20251205181036.jpg' },
-  { name: 'DUPLEX PLAY', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-icon-for-duplex-iptv-st-0f19efe5-20251205181034.jpg' },
-  { name: 'FLIX IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-for-flix-iptv-applicati-0c4fe512-20251205181036.jpg' },
-  { name: 'IBO PLAYER', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-icon-for-gse-smart-iptv-play-4ccaccfa-20251205181035.jpg' },
-  { name: 'NET IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-icon-for-net-iptv-applicatio-85ce8496-20251205181033.jpg' },
-  { name: 'SET IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-for-royal-iptv-premium--3a114533-20251205181033.jpg' },
+  { name: 'SMART IPTV', color: 'from-blue-600 to-blue-400', initials: 'SI' },
+  { name: 'DUPLEX PLAY', color: 'from-purple-600 to-indigo-400', initials: 'DP' },
+  { name: 'FLIX IPTV', color: 'from-green-500 to-emerald-400', initials: 'FI' },
+  { name: 'IBO PLAYER', color: 'from-red-500 to-orange-400', initials: 'IB' },
+  { name: 'NET IPTV', color: 'from-cyan-500 to-blue-400', initials: 'NI' },
+  { name: 'SET IPTV', color: 'from-pink-500 to-rose-400', initials: 'ST' },
 ];
 
 const PRICING_STANDARD = [
@@ -224,6 +224,61 @@ const MagneticButton = ({ children, className = "", onClick, primary = false }: 
     >
       <span className="relative z-10 flex items-center justify-center gap-2">{children}</span>
     </motion.button>
+  );
+};
+
+// New Component for Simulated Video
+const StreamSimulation = () => {
+  return (
+    <div className="relative w-full h-full bg-black overflow-hidden flex items-center justify-center">
+      {/* Background Grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px]" />
+      
+      {/* Moving Particles */}
+      <motion.div 
+        animate={{ opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 3, repeat: Infinity }}
+        className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 via-transparent to-purple-900/20"
+      />
+      
+      {/* Center Content */}
+      <div className="relative z-10 flex flex-col items-center gap-4">
+        <motion.div 
+          animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
+          transition={{ duration: 5, repeat: Infinity }}
+          className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-[0_0_50px_rgba(59,130,246,0.5)]"
+        >
+          <Play size={32} className="fill-white ml-2" />
+        </motion.div>
+        <div className="text-center">
+          <motion.div 
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="text-white font-bold tracking-widest text-xl mb-1"
+          >
+            4K ULTRA HD
+          </motion.div>
+          <div className="flex items-center justify-center gap-2">
+            <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+            <span className="text-xs text-gray-400 font-mono">LIVE FEED • 60FPS • HDR10+</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Animated Lines */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(5)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ x: "-100%" }}
+            animate={{ x: "200%" }}
+            transition={{ duration: 2, repeat: Infinity, delay: i * 0.4, ease: "linear" }}
+            className="absolute top-1/2 h-[1px] w-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
+            style={{ top: `${20 + i * 15}%` }}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 
@@ -426,13 +481,16 @@ export default function LandingV2Content() {
                desc="Accédez aux chaînes du monde entier tout en profitant d'une priorisation des serveurs français pour une latence minimale." 
                delay={0.4}
              />
-             <div className="md:col-span-2 relative rounded-3xl overflow-hidden min-h-[400px] group border border-white/5">
+             <div className="md:col-span-2 relative rounded-3xl overflow-hidden min-h-[400px] group border border-white/5 bg-[#0a0a0a]">
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10" />
-                <img 
-                  src="https://images.unsplash.com/photo-1574375927938-d5a98e8efe85?q=80&w=2000&auto=format&fit=crop" 
-                  alt="Netflix Menu" 
-                  className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
-                />
+                
+                {/* Simulated VOD Interface Background */}
+                <div className="absolute inset-0 grid grid-cols-4 gap-2 opacity-30 transform rotate-[-5deg] scale-110 pointer-events-none">
+                   {[...Array(16)].map((_, i) => (
+                     <div key={i} className="aspect-[2/3] rounded-lg bg-white/10 border border-white/5 animate-pulse" style={{ animationDelay: `${i * 0.1}s` }} />
+                   ))}
+                </div>
+
                 <div className="absolute bottom-10 left-10 z-20 max-w-lg">
                    <h3 className="text-3xl font-bold mb-4">VOD Illimitée & Mise à Jour</h3>
                    <p className="text-gray-300 text-lg">
@@ -463,10 +521,15 @@ export default function LandingV2Content() {
                  whileInView={{ opacity: 1, y: 0 }}
                  transition={{ delay: i * 0.1 }}
                  whileHover={{ y: -10 }}
-                 className="flex flex-col items-center gap-4 group"
+                 className="flex flex-col items-center gap-4 group cursor-pointer"
                >
-                 <div className="w-24 h-24 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center p-5 group-hover:bg-white/10 group-hover:border-white/30 transition-all duration-300 shadow-xl">
-                   <Image src={app.icon} alt={app.name} width={80} height={80} className="object-contain drop-shadow-lg" unoptimized />
+                 <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br ${app.color} p-[1px] shadow-xl group-hover:shadow-2xl group-hover:shadow-${app.color.split('-')[1]}-500/30 transition-all duration-300`}>
+                   <div className="w-full h-full rounded-[23px] bg-black flex items-center justify-center relative overflow-hidden">
+                     <div className={`absolute inset-0 bg-gradient-to-br ${app.color} opacity-10 group-hover:opacity-20 transition-opacity`} />
+                     <span className={`text-2xl font-black bg-gradient-to-br ${app.color} bg-clip-text text-transparent`}>
+                       {app.initials}
+                     </span>
+                   </div>
                  </div>
                  <span className="text-xs font-bold tracking-widest text-gray-500 group-hover:text-white transition-colors">{app.name}</span>
                </motion.div>
@@ -566,14 +629,9 @@ export default function LandingV2Content() {
          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative">
                <div className="absolute -inset-4 bg-blue-500/20 blur-2xl rounded-full opacity-50" />
-               <div className="relative rounded-2xl overflow-hidden aspect-video border border-white/10 shadow-2xl">
-                 <video 
-                   src="https://darkorchid-goldfish-662671.hostingersite.com/wp-content/uploads/2025/10/ISP-FRANCE-2024.mp4" 
-                   autoPlay muted loop playsInline 
-                   className="w-full h-full object-cover"
-                 />
-                 <div className="absolute inset-0 bg-black/20" />
-                 <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between">
+               <div className="relative rounded-2xl overflow-hidden aspect-video border border-white/10 shadow-2xl bg-black">
+                 <StreamSimulation />
+                 <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between z-20">
                     <div>
                       <div className="text-white font-bold">LIVE PREVIEW</div>
                       <div className="text-xs text-gray-300">4K HDR • 60 FPS</div>
