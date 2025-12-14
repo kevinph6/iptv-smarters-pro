@@ -37,7 +37,10 @@ import {
   Download,
   Headphones,
   Check,
-  Plus
+  Plus,
+  Tv as TvIcon,
+  Apple,
+  Chrome
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -46,29 +49,77 @@ import Image from 'next/image';
 
 const HERO_MODES = [
   {
-    id: 'cinema',
-    bg: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=2525&auto=format&fit=crop",
-    title: "LE MEILLEUR DU CINÉMA",
-    keywords: ["FILMS 4K HDR", "DERNIERS BLOCKBUSTERS", "VOD ILLIMITÉE"],
+    id: 'smarters',
+    bg: "https://images.unsplash.com/photo-1593784991095-a20506948430?q=80&w=2648&auto=format&fit=crop", // Modern dark setup
+    title: "IPTV SMARTERS PRO",
+    subtitle: "LE LECTEUR N°1 MONDIAL",
+    keywords: ["INTERFACE PREMIUM", "MULTI-ÉCRANS", "GUIDE TV (EPG)"],
+    color: "text-purple-500",
+    accent: "bg-purple-600"
+  },
+  {
+    id: 'france',
+    bg: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=2673&auto=format&fit=crop", // Paris/France vibe or just premium
+    title: "ABONNEMENT IPTV FRANCE",
+    subtitle: "CHAÎNES FRANÇAISES & LOCALES",
+    keywords: ["CANAL+ & BEIN", "AMAZON LIGUE 1", "RMC SPORT"],
+    color: "text-blue-500",
+    accent: "bg-blue-600"
+  },
+  {
+    id: '4k',
+    bg: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=2669&auto=format&fit=crop", // Cinema/Netflix
+    title: "ABONNEMENT IPTV 4K",
+    subtitle: "QUALITÉ D'IMAGE CINÉMA",
+    keywords: ["4K HDR10+", "DOLBY ATMOS", "FILMS & SÉRIES"],
     color: "text-red-500",
     accent: "bg-red-600"
   },
   {
-    id: 'football',
-    bg: "https://images.unsplash.com/photo-1489944942854-e160ccf54634?q=80&w=2670&auto=format&fit=crop",
-    title: "100% FOOTBALL & SPORT",
-    keywords: ["LIGUE 1 & PREMIER LEAGUE", "CHAMPIONS LEAGUE", "FORMULE 1 & NBA"],
-    color: "text-green-500",
-    accent: "bg-green-600"
-  },
-  {
-    id: 'series',
-    bg: "https://images.unsplash.com/photo-1522869635100-1f4906a1cee9?q=80&w=2670&auto=format&fit=crop",
-    title: "SÉRIES EN EXCLUSIVITÉ",
-    keywords: ["NETFLIX & DISNEY+", "AMAZON PRIME VIDEO", "MISES À JOUR QUOTIDIENNES"],
-    color: "text-blue-500",
-    accent: "bg-blue-600"
+    id: 'fiable',
+    bg: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2670&auto=format&fit=crop", // Tech/Server
+    title: "IPTV SMARTERS PRO FIABLE",
+    subtitle: "STABILITÉ INÉGALÉE",
+    keywords: ["ANTI-FREEZE 8.0", "UPTIME 99.9%", "SERVEURS DÉDIÉS"],
+    color: "text-emerald-500",
+    accent: "bg-emerald-600"
   }
+];
+
+const DEVICES = [
+  { name: 'Smart TV', icon: TvIcon, desc: 'Samsung, LG, Sony, Android TV' },
+  { name: 'Box Android', icon: BoxIcon, desc: 'Nvidia Shield, Xiaomi Mi Box' },
+  { name: 'Apple', icon: Apple, desc: 'Apple TV, iPhone, iPad, Mac' },
+  { name: 'Smartphone', icon: Smartphone, desc: 'Android & iOS' },
+  { name: 'PC / Mac', icon: Monitor, desc: 'VLC, Smarters Player' },
+  { name: 'Fire Stick', icon: Chrome, desc: 'Amazon Fire TV Stick' },
+];
+
+function BoxIcon(props: any) {
+  return (
+    <svg 
+      {...props} 
+      xmlns="http://www.w3.org/2000/svg" 
+      width="24" 
+      height="24" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    >
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+      <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+      <line x1="12" y1="22.08" x2="12" y2="12"></line>
+    </svg>
+  );
+}
+
+const STEPS = [
+  { num: '01', title: 'Choisissez votre offre', desc: 'Sélectionnez le forfait adapté à vos besoins parmi nos offres premium.' },
+  { num: '02', title: 'Recevez vos accès', desc: 'Vos identifiants vous sont envoyés instantanément par email et WhatsApp.' },
+  { num: '03', title: 'Profitez !', desc: 'Connectez-vous sur IPTV Smarters Pro et profitez de vos contenus.' },
 ];
 
 const FAQ_ITEMS = [
@@ -91,45 +142,45 @@ const FAQ_ITEMS = [
 ];
 
 const REVIEWS = [
-  { name: "Thomas L.", location: "Paris", text: "J'ai testé 5 fournisseurs IPTV, c'est le seul qui tient la route pendant les gros matchs de LDC. Pas une seule coupure.", rating: 5, verified: true },
-  { name: "Sarah M.", location: "Lyon", text: "La qualité 4K est bluffante sur ma TV OLED. Le catalogue de films est mis à jour tous les jours, c'est impressionnant.", rating: 5, verified: true },
-  { name: "Karim B.", location: "Marseille", text: "Support client au top sur WhatsApp. Ils m'ont aidé à configurer mon boîtier en 5 minutes. Je recommande !", rating: 5, verified: true },
-  { name: "Julien R.", location: "Bordeaux", text: "Enfin un service stable ! L'anti-freeze fonctionne vraiment. Je ne changerai plus.", rating: 5, verified: true },
+  { name: "Thomas L.", location: "Paris", text: "J'ai testé 5 fournisseurs IPTV, c'est le seul qui tient la route pendant les gros matchs de LDC. Pas une seule coupure.", rating: 5, verified: true, date: "Il y a 2 jours" },
+  { name: "Sarah M.", location: "Lyon", text: "La qualité 4K est bluffante sur ma TV OLED. Le catalogue de films est mis à jour tous les jours, c'est impressionnant.", rating: 5, verified: true, date: "Il y a 5 jours" },
+  { name: "Karim B.", location: "Marseille", text: "Support client au top sur WhatsApp. Ils m'ont aidé à configurer mon boîtier en 5 minutes. Je recommande !", rating: 5, verified: true, date: "Il y a 1 semaine" },
+  { name: "Julien R.", location: "Bordeaux", text: "Enfin un service stable ! L'anti-freeze fonctionne vraiment. Je ne changerai plus.", rating: 5, verified: true, date: "Il y a 2 semaines" },
 ];
 
 const PRICING_PREMIUM = [
   {
     id: 'prm-3-mois',
     title: '3 MOIS',
-    subtitle: 'PREMIUM 4K',
+    subtitle: 'DÉCOUVERTE',
     price: '27',
     cents: '00',
     href: '/payment?plan=prm-3-mois',
-    features: ['+160 000 Chaînes & VOD', 'Qualité 4K / Ultra HD', 'Anti-Freeze 8.0 (IA)', 'Serveurs France Prioritaires', 'Replay 7 Jours'],
+    features: ['+160 000 Chaînes & VOD', 'Qualité 4K / Ultra HD', 'Anti-Freeze 8.0', 'Replay 48h', 'Support Standard'],
     color: 'emerald',
     popular: false
   },
   {
     id: 'prm-12-mois',
     title: '12 MOIS',
-    subtitle: 'PREMIUM 4K',
+    subtitle: 'OFFRE POPULAIRE',
     price: '69',
     cents: '00',
     href: '/payment?plan=prm-12-mois',
-    features: ['+160 000 Chaînes & VOD', 'Qualité 4K / Ultra HD', 'Anti-Freeze 8.0 (IA)', 'Serveurs France Prioritaires', 'Replay 7 Jours', 'Support VIP WhatsApp'],
-    bonus: '+2 MOIS OFFERTS',
+    features: ['+160 000 Chaînes & VOD', 'Qualité 4K / Ultra HD', 'Anti-Freeze 8.0 (IA)', 'Serveurs Prioritaires', 'Replay 7 Jours', 'Support VIP WhatsApp'],
+    bonus: 'TOP VENTE',
     color: 'amber',
     popular: true
   },
   {
     id: 'prm-24-mois',
-    title: '24 MOIS',
-    subtitle: 'PREMIUM 4K',
+    title: 'A VIE (2 ANS)',
+    subtitle: 'TRANQUILLITÉ TOTALE',
     price: '100',
     cents: '00',
     href: '/payment?plan=prm-24-mois',
-    features: ['+160 000 Chaînes & VOD', 'Qualité 4K / Ultra HD', 'Anti-Freeze 8.0 (IA)', 'Serveurs France Prioritaires', 'Replay 7 Jours', 'Support VIP WhatsApp'],
-    bonus: '+4 MOIS OFFERTS',
+    features: ['+160 000 Chaînes & VOD', 'Qualité 4K / Ultra HD', 'Anti-Freeze 8.0 (IA)', 'Serveurs Dédiés', 'Replay 7 Jours', 'Support VIP Prioritaire'],
+    bonus: 'MEILLEUR RAPPORT PRIX',
     color: 'rose',
     popular: false
   }
@@ -140,9 +191,9 @@ const CHANNELS = [
 ];
 
 // --- Glitch Text Component ---
-const GlitchText = ({ text, color = "text-white" }: { text: string, color?: string }) => {
+const GlitchText = ({ text, color = "text-white", className = "" }: { text: string, color?: string, className?: string }) => {
   return (
-    <div className="relative inline-block group">
+    <div className={`relative inline-block group ${className}`}>
       <span className={`relative z-10 ${color}`}>{text}</span>
       <span className={`absolute top-0 left-0 -z-10 w-full h-full ${color} opacity-50 animate-glitch-1`}>{text}</span>
       <span className={`absolute top-0 left-0 -z-10 w-full h-full ${color} opacity-50 animate-glitch-2`}>{text}</span>
@@ -206,114 +257,157 @@ const HeroSection = () => {
       setGlitchTrigger(prev => prev + 1);
       setTimeout(() => {
         setCurrentMode((prev) => (prev + 1) % HERO_MODES.length);
-      }, 200); // Small delay for glitch effect transition
-    }, 4000);
+      }, 200);
+    }, 3500); // Faster transition for "TV channel switching" feel
     return () => clearInterval(interval);
   }, []);
 
   const mode = HERO_MODES[currentMode];
 
   return (
-    <section className="relative h-screen w-full bg-black overflow-hidden">
+    <section className="relative h-screen w-full bg-black overflow-hidden flex items-center justify-center">
       {/* Background Transition */}
       <AnimatePresence mode="wait">
         <motion.div
           key={mode.id}
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: 1.2, filter: 'brightness(0.2)' }}
+          animate={{ opacity: 1, scale: 1, filter: 'brightness(0.5)' }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.2 }}
+          transition={{ duration: 0.8, ease: "circOut" }}
           className="absolute inset-0 z-0"
         >
           <Image
             src={mode.bg}
             alt={mode.title}
             fill
-            className="object-cover opacity-60"
+            className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-          <div className="absolute inset-0 bg-black/20" />
-          
-          {/* Scanlines Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/80" />
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
-          <div className="absolute inset-0 pointer-events-none bg-scanlines opacity-10"></div>
         </motion.div>
       </AnimatePresence>
 
       {/* Hero Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 flex flex-col items-center justify-center text-center mt-[-50px]">
         
-        {/* Top Tag */}
+        {/* Live Indicator */}
         <motion.div 
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-6 flex items-center gap-2"
         >
-          <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full border border-white/10 bg-black/60 backdrop-blur-xl">
-             <div className={`w-2 h-2 rounded-full ${mode.accent} animate-pulse`} />
-             <span className="text-sm font-bold tracking-[0.2em] text-white/80">IPTV SMARTERS PRO™</span>
-          </div>
+          <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+          <span className="text-red-500 font-mono text-sm tracking-widest uppercase font-bold">LIVE SIGNAL</span>
         </motion.div>
 
         {/* Glitch Title */}
-        <div className="relative mb-6">
-           <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 drop-shadow-2xl">
-             <GlitchText key={glitchTrigger} text={mode.title} />
+        <div className="relative mb-4 w-full h-[120px] md:h-[180px] flex items-center justify-center overflow-visible">
+           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 drop-shadow-2xl mx-auto leading-none">
+             <GlitchText key={glitchTrigger} text={mode.title} className="uppercase" />
            </h1>
         </div>
 
-        {/* Dynamic Keywords (Glitch Effect in place) */}
-        <div className="h-12 md:h-16 mb-12 flex items-center justify-center overflow-hidden">
+        {/* Subtitle / Description */}
+        <motion.div
+            key={`sub-${currentMode}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className={`text-xl md:text-3xl font-bold tracking-widest uppercase mb-12 ${mode.color}`}
+        >
+            {mode.subtitle}
+        </motion.div>
+
+        {/* Dynamic Keywords */}
+        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 mb-12">
           <AnimatePresence mode="wait">
-            <motion.div
-              key={currentMode}
-              initial={{ y: 40, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -40, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className={`text-2xl md:text-4xl font-bold tracking-wide ${mode.color} uppercase flex gap-4`}
-            >
-              {mode.keywords.map((kw, i) => (
-                <span key={i} className="flex items-center gap-4">
-                   {i > 0 && <span className="text-white/20">•</span>}
-                   {kw}
-                </span>
-              ))}
-            </motion.div>
+            {mode.keywords.map((kw, i) => (
+               <motion.div
+                 key={`${mode.id}-${i}`}
+                 initial={{ opacity: 0, scale: 0.8 }}
+                 animate={{ opacity: 1, scale: 1 }}
+                 transition={{ delay: 0.1 * i }}
+                 className="px-6 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md flex items-center gap-3"
+               >
+                 <CheckCircle size={16} className={mode.color} />
+                 <span className="text-sm md:text-base font-bold text-white">{kw}</span>
+               </motion.div>
+            ))}
           </AnimatePresence>
         </div>
 
         {/* CTA Buttons */}
-        <motion.div 
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="flex flex-col md:flex-row items-center gap-6"
-        >
+        <div className="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto">
            <button 
              onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
-             className="group relative px-10 py-5 bg-white text-black font-black text-lg rounded-full overflow-hidden hover:scale-105 transition-transform shadow-[0_0_50px_-10px_rgba(255,255,255,0.5)]"
+             className="w-full md:w-auto px-12 py-6 bg-white text-black font-black text-xl rounded-full hover:scale-105 transition-transform shadow-[0_0_50px_-10px_rgba(255,255,255,0.6)] flex items-center justify-center gap-3 group"
            >
-             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-             <span className="relative flex items-center gap-3">
-               <Play size={20} fill="black" /> COMMENCER L'ESSAI
-             </span>
+             <Play size={24} fill="black" className="group-hover:text-red-600 transition-colors" />
+             COMMANDER MAINTENANT
            </button>
 
            <button 
              onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
-             className="px-10 py-5 border border-white/20 bg-white/5 backdrop-blur-md rounded-full font-bold text-lg text-white hover:bg-white/10 transition-colors flex items-center gap-3"
+             className="w-full md:w-auto px-12 py-6 border border-white/20 bg-black/40 backdrop-blur-xl rounded-full font-bold text-xl text-white hover:bg-white/10 transition-colors"
            >
-             DÉCOUVRIR <ChevronDown size={20} />
+             EN SAVOIR PLUS
            </button>
-        </motion.div>
+        </div>
       </div>
 
-      {/* Bottom Gradient Fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent z-20" />
+      {/* Scroll Down Indicator */}
+      <motion.div 
+        animate={{ y: [0, 10, 0] }} 
+        transition={{ repeat: Infinity, duration: 2 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50"
+      >
+        <ChevronDown size={32} />
+      </motion.div>
     </section>
   );
+};
+
+const DevicesSection = () => {
+    return (
+        <section className="py-20 bg-black border-t border-white/10">
+            <div className="max-w-7xl mx-auto px-6">
+                <div className="text-center mb-16">
+                    <h2 className="text-4xl font-bold text-white mb-4">COMPATIBLE AVEC TOUS VOS ÉCRANS</h2>
+                    <p className="text-gray-400">Installez votre abonnement sur tous vos appareils préférés.</p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                    {DEVICES.map((device, i) => (
+                        <div key={i} className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors group">
+                            <div className="w-16 h-16 rounded-full bg-black flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                                <device.icon size={32} className="text-white" />
+                            </div>
+                            <h3 className="font-bold text-white mb-1">{device.name}</h3>
+                            <p className="text-xs text-gray-500 text-center">{device.desc}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+};
+
+const StepsSection = () => {
+    return (
+        <section className="py-24 bg-[#050505]">
+            <div className="max-w-7xl mx-auto px-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                    {STEPS.map((step, i) => (
+                        <div key={i} className="relative p-8 rounded-3xl bg-gradient-to-b from-white/5 to-transparent border border-white/5">
+                            <div className="absolute -top-6 -left-6 text-8xl font-black text-white/5 select-none">{step.num}</div>
+                            <h3 className="text-2xl font-bold text-white mb-4 relative z-10">{step.title}</h3>
+                            <p className="text-gray-400 relative z-10">{step.desc}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
 };
 
 export default function LandingV2Content() {
@@ -323,7 +417,7 @@ export default function LandingV2Content() {
 
   return (
     <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden selection:bg-white selection:text-black">
-      <motion.div className="fixed top-0 left-0 right-0 h-1 bg-white origin-left z-50" style={{ scaleX }} />
+      <motion.div className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 origin-left z-50" style={{ scaleX }} />
       
       {/* Global Glitch Styles */}
       <style jsx global>{`
@@ -349,14 +443,10 @@ export default function LandingV2Content() {
         .animate-glitch-2 {
           animation: glitch-anim-2 3s infinite linear alternate-reverse;
         }
-        .bg-scanlines {
-          background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
-          background-size: 100% 4px;
-        }
       `}</style>
 
       {/* --- Navbar --- */}
-      <nav className="fixed top-0 w-full z-40 transition-all duration-300 bg-black/50 backdrop-blur-md border-b border-white/5">
+      <nav className="fixed top-0 w-full z-40 transition-all duration-300 bg-black/60 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
            <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.3)]">
@@ -366,17 +456,17 @@ export default function LandingV2Content() {
            </div>
            
            <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Fonctionnalités</a>
+              <a href="#features" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Avantages</a>
               <a href="#channels" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Chaînes</a>
-              <a href="#pricing" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Tarifs</a>
-              <a href="#faq" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">FAQ</a>
+              <a href="#pricing" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Abonnements</a>
+              <a href="#faq" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Aide</a>
            </div>
 
            <button 
              onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
-             className="px-6 py-2 rounded-full bg-white text-black font-bold text-sm hover:bg-gray-200 transition-colors"
+             className="px-6 py-2 rounded-full bg-white text-black font-bold text-sm hover:bg-gray-200 transition-colors shadow-lg shadow-white/10"
            >
-             ESPACE MEMBRE
+             ESPACE CLIENT
            </button>
         </div>
       </nav>
@@ -385,30 +475,35 @@ export default function LandingV2Content() {
       <HeroSection />
 
       {/* --- Trustpilot Bar --- */}
-      <div className="bg-[#fcfbf3] py-4 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-[#fcfbf3] py-6 border-b border-gray-200 overflow-hidden relative">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
            <div className="flex items-center gap-4">
-              <Star size={32} fill="#00b67a" className="text-[#00b67a]" />
               <div className="flex flex-col">
-                 <span className="font-black text-xl text-black leading-none">Trustpilot</span>
-                 <div className="flex items-center gap-2">
-                    <div className="flex gap-0.5">
-                       {[1,2,3,4,5].map(i => <div key={i} className="bg-[#00b67a] p-1"><Star size={12} fill="white" className="text-white"/></div>)}
+                 <div className="flex items-center gap-2 mb-1">
+                    <Star size={24} fill="#00b67a" className="text-[#00b67a]" />
+                    <span className="font-black text-2xl text-black">Trustpilot</span>
+                 </div>
+                 <div className="flex items-center gap-3">
+                    <div className="flex gap-1">
+                       {[1,2,3,4,5].map(i => <div key={i} className="bg-[#00b67a] p-1"><Star size={14} fill="white" className="text-white"/></div>)}
                     </div>
-                    <span className="text-sm font-bold text-gray-600">4.9/5 • Excellent</span>
+                    <span className="text-sm font-bold text-gray-600">Excellent 4.9/5</span>
                  </div>
               </div>
            </div>
            
-           <div className="hidden md:flex items-center gap-8 overflow-hidden">
-              <div className="flex gap-2 items-center text-black font-medium text-sm">
-                 <CheckCircle size={16} className="text-black" />
-                 <span>Plus de 5,000 clients satisfaits en France</span>
-              </div>
-              <div className="flex gap-2 items-center text-black font-medium text-sm">
-                 <ShieldCheck size={16} className="text-black" />
-                 <span>Paiement 100% Sécurisé</span>
-              </div>
+           <div className="flex-1 overflow-hidden md:ml-12">
+               <div className="flex gap-8 animate-marquee whitespace-nowrap">
+                   {REVIEWS.map((review, i) => (
+                       <div key={i} className="flex flex-col min-w-[300px]">
+                           <div className="flex gap-1 mb-1">
+                               {[...Array(5)].map((_, j) => <Star key={j} size={12} fill="#00b67a" className="text-[#00b67a]" />)}
+                           </div>
+                           <p className="text-black text-sm font-medium truncate">"{review.text}"</p>
+                           <span className="text-gray-400 text-xs">{review.name} • {review.date}</span>
+                       </div>
+                   ))}
+               </div>
            </div>
         </div>
       </div>
@@ -418,7 +513,7 @@ export default function LandingV2Content() {
          <div className="max-w-7xl mx-auto">
             <div className="text-center mb-20">
                <span className="text-blue-500 font-bold tracking-widest uppercase text-sm mb-4 block">L'Expérience Ultime</span>
-               <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-6">POURQUOI NOUS CHOISIR ?</h2>
+               <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-6 text-white">POURQUOI NOUS CHOISIR ?</h2>
                <p className="text-gray-400 text-xl max-w-2xl mx-auto">
                  La meilleure infrastructure IPTV en Europe. Stabilité garantie.
                </p>
@@ -429,7 +524,7 @@ export default function LandingV2Content() {
                   <div className="w-20 h-20 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-8 text-blue-500 group-hover:scale-110 transition-transform">
                     <Zap size={40} />
                   </div>
-                  <h3 className="text-3xl font-bold mb-4">Anti-Freeze 8.0</h3>
+                  <h3 className="text-3xl font-bold mb-4 text-white">Anti-Freeze 8.0</h3>
                   <p className="text-gray-400 leading-relaxed text-lg">
                     Technologie propriétaire de mise en mémoire tampon prédictive. Zéro coupure, même pendant les finales de Coupe du Monde.
                   </p>
@@ -439,7 +534,7 @@ export default function LandingV2Content() {
                   <div className="w-20 h-20 rounded-2xl bg-purple-500/10 flex items-center justify-center mb-8 text-purple-500 group-hover:scale-110 transition-transform">
                     <Monitor size={40} />
                   </div>
-                  <h3 className="text-3xl font-bold mb-4">4K Ultra HD</h3>
+                  <h3 className="text-3xl font-bold mb-4 text-white">4K Ultra HD</h3>
                   <p className="text-gray-400 leading-relaxed text-lg">
                     Flux natifs en 4K HDR10+. Redécouvrez vos films et matchs avec une clarté cristalline. Compatible Dolby Vision.
                   </p>
@@ -449,7 +544,7 @@ export default function LandingV2Content() {
                   <div className="w-20 h-20 rounded-2xl bg-green-500/10 flex items-center justify-center mb-8 text-green-500 group-hover:scale-110 transition-transform">
                     <Headphones size={40} />
                   </div>
-                  <h3 className="text-3xl font-bold mb-4">Support France 24/7</h3>
+                  <h3 className="text-3xl font-bold mb-4 text-white">Support France 24/7</h3>
                   <p className="text-gray-400 leading-relaxed text-lg">
                     Une équipe d'experts basée en France disponible jour et nuit sur WhatsApp et Email pour vous aider en moins de 5 minutes.
                   </p>
@@ -504,13 +599,19 @@ export default function LandingV2Content() {
            </div>
         </div>
       </section>
+      
+      {/* --- Devices Section --- */}
+      <DevicesSection />
+
+      {/* --- Steps Section --- */}
+      <StepsSection />
 
       {/* --- Pricing Section --- */}
       <section id="pricing" className="py-32 px-6 relative bg-black">
          <div className="max-w-7xl mx-auto">
             <div className="text-center mb-24">
                <h2 className="text-6xl font-black tracking-tighter mb-8 text-white">NOS OFFRES PREMIUM</h2>
-               <p className="text-gray-400 text-lg">Rejoignez l'élite IPTV dès aujourd'hui.</p>
+               <p className="text-gray-400 text-lg">Rejoignez l'élite IPTV dès aujourd'hui. Satisfait ou remboursé.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
@@ -520,18 +621,18 @@ export default function LandingV2Content() {
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className={`relative rounded-3xl p-[1px] ${plan.popular ? 'bg-gradient-to-b from-white to-gray-400 scale-105 z-10 shadow-[0_0_50px_rgba(255,255,255,0.2)]' : 'bg-white/10 hover:bg-white/20'}`}
+                    className={`relative rounded-3xl p-[1px] ${plan.popular ? 'bg-gradient-to-b from-purple-500 to-blue-500 scale-105 z-10 shadow-[0_0_50px_rgba(59,130,246,0.3)]' : 'bg-white/10 hover:bg-white/20'}`}
                   >
                      <div className="bg-[#080808] rounded-[23px] p-8 h-full flex flex-col relative overflow-hidden">
                         {plan.popular && (
-                           <div className="absolute -right-12 top-8 bg-white text-black font-black text-xs px-12 py-1 rotate-45 shadow-lg">
+                           <div className="absolute -right-12 top-8 bg-blue-600 text-white font-black text-xs px-12 py-1 rotate-45 shadow-lg">
                              POPULAIRE
                            </div>
                         )}
                         
                         <div className="text-center mb-8">
-                           <h3 className="text-2xl font-bold mb-2">{plan.title}</h3>
-                           <p className={`text-xs font-bold tracking-widest uppercase opacity-70`}>{plan.subtitle}</p>
+                           <h3 className="text-2xl font-bold mb-2 text-white">{plan.title}</h3>
+                           <p className={`text-xs font-bold tracking-widest uppercase opacity-70 ${plan.popular ? 'text-blue-400' : 'text-gray-500'}`}>{plan.subtitle}</p>
                         </div>
 
                         <div className="text-center mb-8">
@@ -542,7 +643,7 @@ export default function LandingV2Content() {
                         <ul className="space-y-4 mb-10 flex-1">
                           {plan.features.map((feat, idx) => (
                             <li key={idx} className="flex items-start gap-3 text-sm text-gray-300">
-                               <Check size={16} className={`text-white mt-0.5 min-w-[16px]`} />
+                               <Check size={16} className={`text-blue-500 mt-0.5 min-w-[16px]`} />
                                <span className="text-left">{feat}</span>
                             </li>
                           ))}
@@ -550,7 +651,7 @@ export default function LandingV2Content() {
 
                         <button 
                           onClick={() => router.push(plan.href)}
-                          className={`w-full py-4 rounded-full font-bold text-sm uppercase tracking-wider transition-all hover:scale-[1.02] ${plan.popular ? 'bg-white text-black shadow-lg hover:bg-gray-200' : 'bg-white/10 text-white hover:bg-white/20'}`}
+                          className={`w-full py-4 rounded-full font-bold text-sm uppercase tracking-wider transition-all hover:scale-[1.02] ${plan.popular ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
                         >
                           Commander
                         </button>
@@ -564,14 +665,14 @@ export default function LandingV2Content() {
       {/* --- FAQ Section --- */}
       <section id="faq" className="py-24 px-6 bg-[#050505] border-t border-white/5">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-black text-center mb-16">Questions Fréquentes</h2>
+          <h2 className="text-4xl font-black text-center mb-16 text-white">Questions Fréquentes</h2>
           <div className="space-y-4">
             {FAQ_ITEMS.map((item, i) => (
               <div key={i} className="border border-white/10 rounded-2xl bg-white/5 overflow-hidden">
                 <details className="group">
                   <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
-                    <span className="font-bold text-lg">{item.q}</span>
-                    <ChevronDown className="group-open:rotate-180 transition-transform" />
+                    <span className="font-bold text-lg text-white">{item.q}</span>
+                    <ChevronDown className="group-open:rotate-180 transition-transform text-white" />
                   </summary>
                   <div className="px-6 pb-6 text-gray-400 leading-relaxed">
                     {item.a}
@@ -584,7 +685,7 @@ export default function LandingV2Content() {
       </section>
 
       {/* --- Footer --- */}
-      <footer className="py-20 px-6 border-t border-white/10 bg-black">
+      <footer className="py-20 px-6 border-t border-white/10 bg-black text-white">
          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="flex flex-col gap-4">
                <div className="flex items-center gap-3">
