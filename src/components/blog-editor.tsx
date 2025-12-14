@@ -1,13 +1,19 @@
 "use client";
 
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Upload, Code, Eye, Loader2, X, Image as ImageIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import 'react-quill-new/dist/quill.snow.css';
 
-// Dynamically import ReactQuill to avoid SSR issues
-const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+const ReactQuill = dynamic(() => import('react-quill-new'), { 
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center h-[400px] bg-white/5 rounded-lg">
+      <Loader2 className="w-8 h-8 text-purple-500 animate-spin" />
+    </div>
+  )
+});
 
 interface BlogEditorProps {
   value: string;
@@ -21,6 +27,10 @@ export const BlogEditor = ({ value, onChange, imageUrl, onImageChange }: BlogEdi
   const [uploading, setUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState(imageUrl || '');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setImagePreview(imageUrl || '');
+  }, [imageUrl]);
 
   // Quill modules configuration
   const modules = useMemo(() => ({
