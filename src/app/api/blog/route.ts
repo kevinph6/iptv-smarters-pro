@@ -53,10 +53,14 @@ export async function POST(request: NextRequest) {
     const authError = await requireEditor(request);
     if (authError) return authError;
 
-    const body = await request.json();
-    const { title, slug, excerpt, content, author, category, featuredImageUrl, published } = body;
+      const body = await request.json();
+      console.log('Received body:', { ...body, content: '...' });
+      const { title, slug, excerpt, content, author, category, featuredImageUrl, published } = body;
 
-    if (!title || !slug || !excerpt || !content || !author || !category) {
+      // Handle empty string as null explicitly
+      const finalFeaturedImageUrl = (!featuredImageUrl || typeof featuredImageUrl !== 'string' || featuredImageUrl.trim() === '') ? null : featuredImageUrl;
+
+      if (!title || !slug || !excerpt || !content || !author || !category) {
       return NextResponse.json({ error: 'Champs obligatoires manquants' }, { status: 400 });
     }
 
@@ -72,18 +76,18 @@ export async function POST(request: NextRequest) {
 
     const now = new Date().toISOString();
 
-    await db.insert(blogPosts).values({
-      title,
-      slug,
-      excerpt,
-      content,
-      author,
-      category,
-      featuredImageUrl: featuredImageUrl || null,
-      published: Boolean(published),
-      createdAt: body.createdAt || now,
-      updatedAt: body.updatedAt || now,
-    });
+      await db.insert(blogPosts).values({
+        title,
+        slug,
+        excerpt,
+        content,
+        author,
+        category,
+        featuredImageUrl: finalFeaturedImageUrl,
+        published: Boolean(published),
+        createdAt: body.createdAt || now,
+        updatedAt: body.updatedAt || now,
+      });
 
     return NextResponse.json({ message: 'Article créé' }, { status: 201 });
   } catch (error) {
@@ -105,10 +109,14 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'ID requis' }, { status: 400 });
     }
 
-    const body = await request.json();
-    const { title, slug, excerpt, content, author, category, featuredImageUrl, published } = body;
+      const body = await request.json();
+      console.log('Received body:', { ...body, content: '...' });
+      const { title, slug, excerpt, content, author, category, featuredImageUrl, published } = body;
 
-    if (!title || !slug || !excerpt || !content || !author || !category) {
+      // Handle empty string as null explicitly
+      const finalFeaturedImageUrl = (!featuredImageUrl || typeof featuredImageUrl !== 'string' || featuredImageUrl.trim() === '') ? null : featuredImageUrl;
+
+      if (!title || !slug || !excerpt || !content || !author || !category) {
       return NextResponse.json({ error: 'Champs obligatoires manquants' }, { status: 400 });
     }
 
@@ -129,20 +137,20 @@ export async function PUT(request: NextRequest) {
       }
     }
 
-    await db
-      .update(blogPosts)
-      .set({
-        title,
-        slug,
-        excerpt,
-        content,
-        author,
-        category,
-        featuredImageUrl: featuredImageUrl || null,
-        published: Boolean(published),
-        updatedAt: body.updatedAt || new Date().toISOString(),
-      })
-      .where(eq(blogPosts.id, id));
+      await db
+        .update(blogPosts)
+        .set({
+          title,
+          slug,
+          excerpt,
+          content,
+          author,
+          category,
+          featuredImageUrl: finalFeaturedImageUrl,
+          published: Boolean(published),
+          updatedAt: body.updatedAt || new Date().toISOString(),
+        })
+        .where(eq(blogPosts.id, id));
 
     return NextResponse.json({ message: 'Article mis à jour' });
   } catch (error) {
