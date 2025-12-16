@@ -55,26 +55,26 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleDelete = async (id: number, title: string) => {
-    if (!confirm(`Êtes-vous sûr de vouloir supprimer "${title}" ?`)) return;
+    const handleDelete = async (id: number, title: string) => {
+      if (!confirm(`Êtes-vous sûr de vouloir supprimer "${title}" ?`)) return;
 
-    try {
-      setDeleting(id);
-      const response = await fetch(`/api/blog?id=${id}`, {
-        method: 'DELETE',
-      });
+      try {
+        setDeleting(id);
+        const response = await fetch(`/api/blog/${id}`, {
+          method: 'DELETE',
+        });
 
-      if (!response.ok) throw new Error('Failed to delete post');
+        if (!response.ok) throw new Error('Failed to delete post');
 
-      toast.success('Article supprimé avec succès');
-      setPosts(posts.filter(p => p.id !== id));
-    } catch (error) {
-      toast.error('Erreur lors de la suppression');
-      console.error(error);
-    } finally {
-      setDeleting(null);
-    }
-  };
+        toast.success('Article supprimé avec succès');
+        setPosts(posts.filter(p => p.id !== id));
+      } catch (error) {
+        toast.error('Erreur lors de la suppression');
+        console.error(error);
+      } finally {
+        setDeleting(null);
+      }
+    };
 
   const handleSignOut = async () => {
     const token = localStorage.getItem("bearer_token");
