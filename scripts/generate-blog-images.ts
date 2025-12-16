@@ -48,9 +48,10 @@ No text in the image. 16:9 aspect ratio.`;
         'HTTP-Referer': process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000',
         'X-Title': 'IPTV Blog Generator',
       },
-      body: JSON.stringify({
-        model: 'google/gemini-2.5-flash-image-preview',
-        messages: [
+        body: JSON.stringify({
+          model: 'google/gemini-2.5-flash-image-preview',
+          max_tokens: 1024,
+          messages: [
           {
             role: 'user',
             content: [

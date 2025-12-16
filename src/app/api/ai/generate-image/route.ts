@@ -37,6 +37,7 @@ The image should be:
       },
       body: JSON.stringify({
         model: 'google/gemini-2.5-flash-image-preview',
+        max_tokens: 1024,
         messages: [
           {
             role: 'user',
