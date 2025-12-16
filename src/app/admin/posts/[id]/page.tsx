@@ -46,76 +46,83 @@ export default function EditBlogPost() {
     fetchPost();
   }, [postId]);
 
-  const fetchPost = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`/api/blog/${postId}`);
-      if (!response.ok) throw new Error('Article non trouvé');
-      const data = await response.json();
-      setFormData(data);
-    } catch (error) {
-      toast.error('Erreur lors du chargement de l\'article');
-      console.error(error);
-      router.push('/admin');
-    } finally {
-      setLoading(false);
-    }
-  };
+    const getAuthHeaders = () => {
+      if (typeof window === 'undefined') return {} as HeadersInit;
+      const token = localStorage.getItem('bearer_token');
+      return token ? ({ Authorization: `Bearer ${token}` } as HeadersInit) : ({} as HeadersInit);
+    };
 
-  const handleTitleChange = (title: string) => {
-    if (!formData) return;
-    setFormData({
-      ...formData,
-      title,
-      // Auto-generate slug from title
-      slug: title
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '') // Remove accents
-        .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric with hyphens
-        .replace(/^-+|-+$/g, ''), // Remove leading/trailing hyphens
-    });
-  };
+    const fetchPost = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`/api/blog/${postId}`);
+        if (!response.ok) throw new Error('Article non trouvé');
+        const data = await response.json();
+        setFormData(data);
+      } catch (error) {
+        toast.error('Erreur lors du chargement de l\'article');
+        console.error(error);
+        router.push('/admin');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    
-    if (!formData || !formData.title || !formData.slug || !formData.excerpt || !formData.content) {
-      toast.error('Veuillez remplir tous les champs obligatoires');
-      return;
-    }
-
-    try {
-      setSaving(true);
-      const response = await fetch(`/api/blog?id=${postId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: formData.title,
-          slug: formData.slug,
-          excerpt: formData.excerpt,
-          content: formData.content,
-          author: formData.author,
-          category: formData.category,
-          featuredImageUrl: formData.featuredImageUrl || null,
-          published: formData.published,
-        }),
+    const handleTitleChange = (title: string) => {
+      if (!formData) return;
+      setFormData({
+        ...formData,
+        title,
+        // Auto-generate slug from title
+        slug: title
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '') // Remove accents
+          .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric with hyphens
+          .replace(/^-+|-+$/g, ''), // Remove leading/trailing hyphens
       });
+    };
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Erreur lors de la mise à jour');
+    const handleSubmit = async (e: FormEvent) => {
+      e.preventDefault();
+      
+      if (!formData || !formData.title || !formData.slug || !formData.excerpt || !formData.content) {
+        toast.error('Veuillez remplir tous les champs obligatoires');
+        return;
       }
 
-      toast.success('Article mis à jour avec succès !');
-      router.push('/admin');
-    } catch (error: any) {
-      toast.error(error.message || 'Erreur lors de la mise à jour de l\'article');
-      console.error(error);
-    } finally {
-      setSaving(false);
-    }
-  };
+      try {
+        setSaving(true);
+        const response = await fetch(`/api/blog?id=${postId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+          body: JSON.stringify({
+            title: formData.title,
+            slug: formData.slug,
+            excerpt: formData.excerpt,
+            content: formData.content,
+            author: formData.author,
+            category: formData.category,
+            featuredImageUrl: formData.featuredImageUrl || null,
+            published: formData.published,
+          }),
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || 'Erreur lors de la mise à jour');
+        }
+
+        toast.success('Article mis à jour avec succès !');
+        router.push('/admin');
+      } catch (error: any) {
+        toast.error(error.message || 'Erreur lors de la mise à jour de l\'article');
+        console.error(error);
+      } finally {
+        setSaving(false);
+      }
+    };
+
 
   if (loading || !formData) {
     return (

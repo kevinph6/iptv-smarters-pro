@@ -47,37 +47,44 @@ export default function NewBlogPost() {
     }));
   };
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    
-    if (!formData.title || !formData.slug || !formData.excerpt || !formData.content) {
-      toast.error('Veuillez remplir tous les champs obligatoires');
-      return;
-    }
+    const getAuthHeaders = () => {
+      if (typeof window === 'undefined') return {} as HeadersInit;
+      const token = localStorage.getItem('bearer_token');
+      return token ? ({ Authorization: `Bearer ${token}` } as HeadersInit) : ({} as HeadersInit);
+    };
 
-    try {
-      setLoading(true);
-      const response = await fetch('/api/blog', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Erreur lors de la création');
+    const handleSubmit = async (e: FormEvent) => {
+      e.preventDefault();
+      
+      if (!formData.title || !formData.slug || !formData.excerpt || !formData.content) {
+        toast.error('Veuillez remplir tous les champs obligatoires');
+        return;
       }
 
-      const newPost = await response.json();
-      toast.success('Article créé avec succès !');
-      router.push('/admin');
-    } catch (error: any) {
-      toast.error(error.message || 'Erreur lors de la création de l\'article');
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+      try {
+        setLoading(true);
+        const response = await fetch('/api/blog', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || 'Erreur lors de la création');
+        }
+
+        const newPost = await response.json();
+        toast.success('Article créé avec succès !');
+        router.push('/admin');
+      } catch (error: any) {
+        toast.error(error.message || 'Erreur lors de la création de l\'article');
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
 
   return (
     <div className="min-h-screen bg-black">

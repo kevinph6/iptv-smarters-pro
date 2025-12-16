@@ -40,20 +40,30 @@ export default function AdminDashboard() {
     }
   }, [session]);
 
-  const fetchPosts = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/blog?limit=100');
-      if (!response.ok) throw new Error('Failed to fetch posts');
-      const data = await response.json();
-      setPosts(data);
-    } catch (error) {
-      toast.error('Erreur lors du chargement des articles');
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const getAuthHeaders = () => {
+      if (typeof window === 'undefined') return {} as HeadersInit;
+      const token = localStorage.getItem('bearer_token');
+      return token ? ({ Authorization: `Bearer ${token}` } as HeadersInit) : ({} as HeadersInit);
+    };
+
+    const fetchPosts = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/blog?limit=100', {
+          headers: {
+            ...getAuthHeaders(),
+          },
+        });
+        if (!response.ok) throw new Error('Failed to fetch posts');
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        toast.error('Erreur lors du chargement des articles');
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
     const handleDelete = async (id: number, title: string) => {
       if (!confirm(`Êtes-vous sûr de vouloir supprimer "${title}" ?`)) return;
@@ -62,6 +72,9 @@ export default function AdminDashboard() {
         setDeleting(id);
         const response = await fetch(`/api/blog/${id}`, {
           method: 'DELETE',
+          headers: {
+            ...getAuthHeaders(),
+          },
         });
 
         if (!response.ok) throw new Error('Failed to delete post');
@@ -75,6 +88,7 @@ export default function AdminDashboard() {
         setDeleting(null);
       }
     };
+
 
   const handleSignOut = async () => {
     const token = localStorage.getItem("bearer_token");

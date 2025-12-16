@@ -38,41 +38,55 @@ export default function AdminDashboard() {
     }
   }, [session]);
 
-  const fetchPosts = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/blog?limit=100');
-      if (!response.ok) throw new Error('Failed to fetch posts');
-      const data = await response.json();
-      setPosts(data);
-    } catch (error) {
-      toast.error('Erreur lors du chargement des articles');
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const getAuthHeaders = () => {
+      if (typeof window === 'undefined') return {} as HeadersInit;
+      const token = localStorage.getItem('bearer_token');
+      return token ? ({ Authorization: `Bearer ${token}` } as HeadersInit) : ({} as HeadersInit);
+    };
 
-  const handleDelete = async (id: number, title: string) => {
-    if (!confirm(`Êtes-vous sûr de vouloir supprimer "${title}" ?`)) return;
+    const fetchPosts = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/blog?limit=100', {
+          headers: {
+            ...getAuthHeaders(),
+          },
+        });
+        if (!response.ok) throw new Error('Failed to fetch posts');
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        toast.error('Erreur lors du chargement des articles');
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    try {
-      setDeleting(id);
-      const response = await fetch(`/api/blog?id=${id}`, {
-        method: 'DELETE',
-      });
+    const handleDelete = async (id: number, title: string) => {
+      if (!confirm(`Êtes-vous sûr de vouloir supprimer "${title}" ?`)) return;
 
-      if (!response.ok) throw new Error('Failed to delete post');
+      try {
+        setDeleting(id);
+        const response = await fetch(`/api/blog?id=${id}`, {
+          method: 'DELETE',
+          headers: {
+            ...getAuthHeaders(),
+          },
+        });
 
-      toast.success('Article supprimé avec succès');
-      setPosts(posts.filter(p => p.id !== id));
-    } catch (error) {
-      toast.error('Erreur lors de la suppression');
-      console.error(error);
-    } finally {
-      setDeleting(null);
-    }
-  };
+        if (!response.ok) throw new Error('Failed to delete post');
+
+        toast.success('Article supprimé avec succès');
+        setPosts(posts.filter(p => p.id !== id));
+      } catch (error) {
+        toast.error('Erreur lors de la suppression');
+        console.error(error);
+      } finally {
+        setDeleting(null);
+      }
+    };
+
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

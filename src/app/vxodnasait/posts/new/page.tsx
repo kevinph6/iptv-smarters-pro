@@ -69,43 +69,51 @@ function NewPostPageContent() {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    const getAuthHeaders = () => {
+      if (typeof window === 'undefined') return {} as HeadersInit;
+      const token = localStorage.getItem('bearer_token');
+      return token ? ({ Authorization: `Bearer ${token}` } as HeadersInit) : ({} as HeadersInit);
+    };
 
-    if (!formData.title || !formData.slug || !formData.excerpt || !formData.content) {
-      toast.error('Veuillez remplir tous les champs obligatoires');
-      return;
-    }
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
 
-    setLoading(true);
-
-    try {
-      const response = await fetch('/api/blog', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        }),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to create post');
+      if (!formData.title || !formData.slug || !formData.excerpt || !formData.content) {
+        toast.error('Veuillez remplir tous les champs obligatoires');
+        return;
       }
 
-      toast.success('Article créé avec succès!');
-      router.push('/vxodnasait');
-    } catch (error: any) {
-      toast.error(error.message || 'Erreur lors de la création de l\'article');
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+      setLoading(true);
+
+      try {
+        const response = await fetch('/api/blog', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeaders(),
+          },
+          body: JSON.stringify({
+            ...formData,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          }),
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || 'Failed to create post');
+        }
+
+        toast.success('Article créé avec succès!');
+        router.push('/vxodnasait');
+      } catch (error: any) {
+        toast.error(error.message || 'Erreur lors de la création de l\'article');
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
 
   const handleGenerateArticle = async () => {
     if (!aiTopic.trim()) {
