@@ -14,6 +14,7 @@ interface BlogPost {
   excerpt: string;
   author: string;
   category: string;
+  featuredImageUrl: string | null;
   published: boolean;
   createdAt: string;
   updatedAt: string;
@@ -195,42 +196,66 @@ export default function AdminDashboard() {
         <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-white/5 border-b border-white/10">
-                <tr>
-                  <th className="text-left px-6 py-4 text-white/80 font-semibold text-sm">
-                    Titre
-                  </th>
-                  <th className="text-left px-6 py-4 text-white/80 font-semibold text-sm">
-                    Catégorie
-                  </th>
-                  <th className="text-left px-6 py-4 text-white/80 font-semibold text-sm">
-                    Auteur
-                  </th>
-                  <th className="text-left px-6 py-4 text-white/80 font-semibold text-sm">
-                    Date
-                  </th>
-                  <th className="text-left px-6 py-4 text-white/80 font-semibold text-sm">
-                    Statut
-                  </th>
-                  <th className="text-right px-6 py-4 text-white/80 font-semibold text-sm">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
+                <thead className="bg-white/5 border-b border-white/10">
+                  <tr>
+                    <th className="text-left px-6 py-4 text-white/80 font-semibold text-sm">
+                      Image
+                    </th>
+                    <th className="text-left px-6 py-4 text-white/80 font-semibold text-sm">
+                      Titre
+                    </th>
+                    <th className="text-left px-6 py-4 text-white/80 font-semibold text-sm">
+                      Catégorie
+                    </th>
+                    <th className="text-left px-6 py-4 text-white/80 font-semibold text-sm">
+                      Auteur
+                    </th>
+                    <th className="text-left px-6 py-4 text-white/80 font-semibold text-sm">
+                      Date
+                    </th>
+                    <th className="text-left px-6 py-4 text-white/80 font-semibold text-sm">
+                      Statut
+                    </th>
+                    <th className="text-right px-6 py-4 text-white/80 font-semibold text-sm">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
               <tbody>
-                {posts.map((post) => (
-                  <tr
-                    key={post.id}
-                    className="border-b border-white/5 hover:bg-white/5 transition-colors"
-                  >
-                    <td className="px-6 py-4">
-                      <div className="text-white font-medium line-clamp-1">
-                        {post.title}
-                      </div>
-                      <div className="text-white/40 text-sm mt-1">
-                        /{post.slug}
-                      </div>
-                    </td>
+                  {posts.map((post) => (
+                    <tr
+                      key={post.id}
+                      className="border-b border-white/5 hover:bg-white/5 transition-colors"
+                    >
+                      <td className="px-6 py-4">
+                        <div className="w-20 h-12 rounded-lg overflow-hidden bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-white/10 flex items-center justify-center">
+                          {post.featuredImageUrl ? (
+                            <img
+                              src={post.featuredImageUrl}
+                              alt={post.title}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                if (e.currentTarget.parentElement) {
+                                  e.currentTarget.parentElement.innerHTML = '<svg class="w-6 h-6 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
+                                }
+                              }}
+                            />
+                          ) : (
+                            <svg className="w-6 h-6 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-white font-medium line-clamp-1">
+                          {post.title}
+                        </div>
+                        <div className="text-white/40 text-sm mt-1">
+                          /{post.slug}
+                        </div>
+                      </td>
                     <td className="px-6 py-4">
                       <span className="inline-block px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-400 text-xs font-semibold">
                         {post.category}
