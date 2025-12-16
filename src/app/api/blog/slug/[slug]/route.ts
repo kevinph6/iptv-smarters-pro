@@ -5,8 +5,9 @@ import { and, eq } from 'drizzle-orm';
 
 export const runtime = 'nodejs';
 
-export async function GET(_request: Request, { params }: { params: { slug: string } }) {
+export async function GET(_request: Request, props: { params: Promise<{ slug: string }> }) {
   try {
+    const params = await props.params;
     const { slug } = params;
 
     const posts = await db

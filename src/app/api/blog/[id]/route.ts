@@ -4,9 +4,11 @@ import { blogPosts } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
-export async function GET(_request: Request, { params }: { params: { id: string } }) {
+export async function GET(_request: Request, props: { params: Promise<{ id: string }> }) {
   try {
+    const params = await props.params;
     const id = Number(params.id);
     if (!id) {
       return NextResponse.json({ error: 'ID invalide' }, { status: 400 });
