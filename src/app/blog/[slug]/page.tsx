@@ -220,6 +220,10 @@ export default function BlogPostPage() {
                   alt={`${post.title} - Guide complet IPTV SMARTERS PRO France`}
                   className="w-full h-auto"
                   loading="eager"
+                  onError={(e) => {
+                    // Hide image if it fails to load
+                    e.currentTarget.style.display = 'none';
+                  }}
                 />
               </div>
             )}
