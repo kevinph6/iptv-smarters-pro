@@ -7,47 +7,47 @@ import { PurchaseNotification } from '@/components/ui/purchase-notification';
 import type { Metadata } from 'next';
 
 // Dynamically import below-the-fold sections for better performance
-const PremiumPricingCards = dynamic(() => import('@/components/sections/premium-pricing-cards').then(m => m.default), {
+const PremiumPricingCards = dynamic(() => import('@/components/sections/premium-pricing-cards'), {
   loading: () => <div className="min-h-[400px] bg-white animate-pulse" />
 });
 
-const FeaturesOverview = dynamic(() => import('@/components/sections/features-overview').then(m => m.default), {
+const FeaturesOverview = dynamic(() => import('@/components/sections/features-overview'), {
   loading: () => <div className="min-h-[600px] bg-white animate-pulse" />
 });
 
-const QualityFeatures = dynamic(() => import('@/components/sections/quality-features').then(m => m.default), {
+const QualityFeatures = dynamic(() => import('@/components/sections/quality-features'), {
   loading: () => <div className="min-h-[400px] bg-gray-50 animate-pulse" />
 });
 
-const TrustSignals = dynamic(() => import('@/components/sections/trust-signals').then(m => m.default), {
+const TrustSignals = dynamic(() => import('@/components/sections/trust-signals'), {
   loading: () => <div className="min-h-[300px] bg-white animate-pulse" />
 });
 
-const ReviewsSection = dynamic(() => import('@/components/sections/reviews-section').then(m => m.default), {
+const ReviewsSection = dynamic(() => import('@/components/sections/reviews-section'), {
   loading: () => <div className="min-h-[500px] bg-gray-50 animate-pulse" />
 });
 
-const ResellerSection = dynamic(() => import('@/components/sections/reseller-section').then(m => m.default), {
+const ResellerSection = dynamic(() => import('@/components/sections/reseller-section'), {
   loading: () => <div className="min-h-[400px] bg-black animate-pulse" />
 });
 
-const ComparisonSection = dynamic(() => import('@/components/sections/comparison-section').then(m => m.default), {
+const ComparisonSection = dynamic(() => import('@/components/sections/comparison-section'), {
   loading: () => <div className="min-h-[500px] bg-white animate-pulse" />
 });
 
-const AppCompatibility = dynamic(() => import('@/components/sections/app-compatibility').then(m => m.default), {
+const AppCompatibility = dynamic(() => import('@/components/sections/app-compatibility'), {
   loading: () => <div className="min-h-[600px] bg-gradient-to-r from-purple-900 to-pink-900 animate-pulse" />
 });
 
-const BlogPreview = dynamic(() => import('@/components/sections/blog-preview').then(m => m.default), {
+const BlogPreview = dynamic(() => import('@/components/sections/blog-preview'), {
   loading: () => <div className="min-h-[500px] bg-white animate-pulse" />
 });
 
-const FaqSection = dynamic(() => import('@/components/sections/faq-section').then(m => m.default), {
+const FaqSection = dynamic(() => import('@/components/sections/faq-section'), {
   loading: () => <div className="min-h-[600px] bg-white animate-pulse" />
 });
 
-const Footer = dynamic(() => import('@/components/sections/footer').then(m => m.default), {
+const Footer = dynamic(() => import('@/components/sections/footer'), {
   loading: () => <div className="min-h-[400px] bg-black animate-pulse" />
 });
 
