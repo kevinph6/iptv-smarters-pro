@@ -63,16 +63,16 @@ export const BlogEditor = ({ value, onChange, imageUrl, onImageChange }: BlogEdi
     ],
   }), []);
 
-  const formats = [
-    'header', 'font', 'size',
-    'bold', 'italic', 'underline', 'strike',
-    'color', 'background',
-    'script',
-    'list', 'bullet', 'indent',
-    'align',
-    'blockquote', 'code-block',
-    'link', 'image', 'video'
-  ];
+    const formats = [
+      'header', 'font', 'size',
+      'bold', 'italic', 'underline', 'strike',
+      'color', 'background',
+      'script',
+      'list', 'indent',
+      'align',
+      'blockquote', 'code-block',
+      'link', 'image', 'video'
+    ];
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
