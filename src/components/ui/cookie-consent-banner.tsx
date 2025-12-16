@@ -71,22 +71,21 @@ export function CookieConsentBanner() {
               <X className="w-5 h-5" />
             </button>
 
-            <div className="flex items-start gap-4 mb-6">
-              <div className="flex-shrink-0 p-3 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-xl border border-cyan-500/30">
-                <Cookie className="w-8 h-8 text-cyan-400" />
+              <div className="flex items-start gap-3 mb-4">
+                <div className="flex-shrink-0 p-2 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-lg border border-cyan-500/30">
+                  <Cookie className="w-5 h-5 text-cyan-400" />
+                </div>
+                
+                <div className="flex-1">
+                  <h2 className="text-lg font-bold text-white mb-1 flex items-center gap-2">
+                    Cookies
+                    <Shield className="w-4 h-4 text-cyan-400" />
+                  </h2>
+                  <p className="text-white/70 text-xs leading-relaxed">
+                    Nous utilisons des cookies pour améliorer votre expérience. Vous pouvez accepter ou refuser les cookies non-essentiels.
+                  </p>
+                </div>
               </div>
-              
-              <div className="flex-1">
-                <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
-                  Cookies et Confidentialité
-                  <Shield className="w-5 h-5 text-cyan-400" />
-                </h2>
-                <p className="text-white/70 text-sm leading-relaxed">
-                  Nous utilisons des cookies pour améliorer votre expérience sur <strong className="text-cyan-400">IPTV SMARTERS PRO</strong>. 
-                  Les cookies essentiels sont nécessaires au fonctionnement du site. Vous pouvez accepter ou refuser les cookies non-essentiels.
-                </p>
-              </div>
-            </div>
 
             {!showSettings && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
