@@ -21,10 +21,13 @@ The image should be:
 - Suitable for a technology/streaming blog
 - NO text or words in the image
 - High quality, suitable for web use
-- Futuristic streaming/entertainment vibe`;
+- Futuristic streaming/entertainment vibe
+- Aspect ratio 16:9`;
 
-    // OpenRouter supports image generation via specific models
-    const response = await fetch('https://openrouter.ai/api/v1/images/generations', {
+    console.log(`Generating image with Gemini for: "${topic}"...`);
+
+    // Use Gemini via Chat Completions
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -33,30 +36,50 @@ The image should be:
         'X-Title': 'IPTV Blog Generator',
       },
       body: JSON.stringify({
-        model: 'openai/dall-e-3',
-        prompt: prompt,
-        n: 1,
-        size: '1792x1024',
-        quality: 'standard',
-        style: style,
+        model: 'google/gemini-2.5-flash-image-preview',
+        messages: [
+          {
+            role: 'user',
+            content: [
+              { type: 'text', text: prompt }
+            ]
+          }
+        ],
       }),
     });
 
     if (!response.ok) {
       const error = await response.json();
-      console.error('OpenRouter Image API error:', error);
+      console.error('OpenRouter/Gemini API error:', error);
       
-      // Fallback: Generate a placeholder image URL or use a stock image service
+      // Fallback
       return NextResponse.json({ 
         imageUrl: `https://placehold.co/1792x1024/6366f1/ffffff?text=${encodeURIComponent(topic.substring(0, 30))}`,
-        message: 'Image generation not available, using placeholder'
+        message: 'Image generation failed, using placeholder'
       });
     }
 
     const data = await response.json();
-    const imageUrl = data.data[0].url;
+    
+    // Extract image
+    let imageUrl = null;
+    if (data.choices && data.choices[0] && data.choices[0].message) {
+      if (data.choices[0].message.images && data.choices[0].message.images.length > 0) {
+        imageUrl = data.choices[0].message.images[0];
+      } else if (data.choices[0].message.content && data.choices[0].message.content.startsWith('http')) {
+        imageUrl = data.choices[0].message.content;
+      }
+    }
 
-    return NextResponse.json({ imageUrl, revisedPrompt: data.data[0].revised_prompt });
+    if (!imageUrl) {
+        console.error('No image in Gemini response:', data);
+        return NextResponse.json({ 
+            imageUrl: `https://placehold.co/1792x1024/6366f1/ffffff?text=${encodeURIComponent(topic.substring(0, 30))}`,
+            message: 'No image generated'
+        });
+    }
+
+    return NextResponse.json({ imageUrl, revisedPrompt: prompt });
   } catch (error) {
     console.error('Image generation error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
