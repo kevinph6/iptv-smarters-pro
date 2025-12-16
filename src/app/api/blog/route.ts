@@ -9,12 +9,8 @@ export const runtime = 'nodejs';
 const editorRoles = new Set(['admin', 'dev', 'writer']);
 
 async function requireEditor(request: NextRequest) {
-  const authHeader = request.headers.get('authorization');
-  const token = authHeader?.startsWith('Bearer ') ? authHeader.substring(7) : null;
-
   const session = await auth.api.getSession({ 
-    headers: request.headers,
-    ...(token ? { query: { token } } : {})
+    headers: request.headers
   });
 
   if (!session?.user) {
