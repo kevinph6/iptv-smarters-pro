@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
 import ErrorReporter from "@/components/ErrorReporter";
+import GdprConsentBanner from "@/components/ui/gdpr-consent";
 import Script from "next/script";
 import { CookieConsentBanner } from "@/components/ui/cookie-consent-banner";
 
@@ -373,18 +374,19 @@ export default function RootLayout({
         <link rel="alternate" hrefLang="fr" href={baseUrl} />
         <link rel="alternate" hrefLang="x-default" href={baseUrl} />
       </head>
-      <body className={`${inter.className} antialiased`}>
-        <Script
-          id="orchids-browser-logs"
-          src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts/orchids-browser-logs.js"
-          strategy="afterInteractive"
-          data-orchids-project-id="4333d292-4a82-4247-86b6-117a058e7bdd"
-        />
-        <ErrorReporter />
-        {children}
-        <CookieConsentBanner />
-        <VisualEditsMessenger />
-      </body>
+        <body className={`${inter.className} antialiased`}>
+          <Script
+            id="orchids-browser-logs"
+            src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts/orchids-browser-logs.js"
+            strategy="afterInteractive"
+            data-orchids-project-id="4333d292-4a82-4247-86b6-117a058e7bdd"
+          />
+          <ErrorReporter />
+          <GdprConsentBanner />
+          {children}
+          <VisualEditsMessenger />
+        </body>
+
     </html>
   );
 }

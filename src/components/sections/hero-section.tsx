@@ -4,6 +4,22 @@ import React from 'react';
 import Image from 'next/image';
 import { ArrowRight, Play, Zap, Globe, Clock, Headphones } from 'lucide-react';
 
+const createSeededRandom = (seed: number) => {
+  let value = seed;
+  return () => {
+    const x = Math.sin(value++) * 10000;
+    return x - Math.floor(x);
+  };
+};
+
+const seededRandom = createSeededRandom(42);
+const particleStyles = Array.from({ length: 20 }, () => ({
+  left: `${10 + seededRandom() * 80}%`,
+  top: `${10 + seededRandom() * 80}%`,
+  animationDelay: `${seededRandom() * 1.8}s`,
+  animationDuration: `${2.2 + seededRandom() * 1.6}s`,
+}));
+
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen overflow-hidden bg-black pt-20">
@@ -14,21 +30,17 @@ const HeroSection = () => {
         <div className="absolute bottom-0 left-1/2 w-full h-full bg-[radial-gradient(ellipse_at_bottom,rgba(236,72,153,0.1),transparent_50%)]" />
       </div>
 
-      {/* Floating Particles */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) =>
-        <div
-          key={i}
-          className="absolute w-1 h-1 bg-cyan-400/30 rounded-full animate-pulse"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 2}s`,
-            animationDuration: `${2 + Math.random() * 2}s`
-          }} />
+        {/* Floating Particles */}
+        <div className="absolute inset-0 overflow-hidden">
+          {particleStyles.map((style, i) => (
+            <div
+              key={`particle-${i}`}
+              className="absolute w-1 h-1 bg-cyan-400/30 rounded-full animate-pulse"
+              style={style}
+            />
+          ))}
+        </div>
 
-        )}
-      </div>
 
       <div className="relative z-10 container mx-auto px-6 lg:px-12 max-w-7xl pt-16 pb-20">
         {/* Badge */}
