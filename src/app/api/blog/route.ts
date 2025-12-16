@@ -9,7 +9,13 @@ export const runtime = 'nodejs';
 const editorRoles = new Set(['admin', 'dev', 'writer']);
 
 async function requireEditor(request: NextRequest) {
-  const session = await auth.api.getSession({ headers: request.headers });
+  const authHeader = request.headers.get('authorization');
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.substring(7) : null;
+
+  const session = await auth.api.getSession({ 
+    headers: request.headers,
+    ...(token ? { query: { token } } : {})
+  });
 
   if (!session?.user) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
