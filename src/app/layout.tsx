@@ -380,7 +380,6 @@ export default function RootLayout({
             data-orchids-project-id="4333d292-4a82-4247-86b6-117a058e7bdd"
           />
           <ErrorReporter />
-          <GdprConsentBanner />
           {children}
           <VisualEditsMessenger />
         </body>
