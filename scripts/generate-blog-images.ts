@@ -126,8 +126,12 @@ async function main() {
   const posts = await db.select().from(blogPosts);
   console.log(`Found ${posts.length} posts.`);
 
-  for (const post of posts) {
-    console.log(`Processing post: ${post.id} - ${post.title}`);
+    for (const post of posts) {
+      if (post.featuredImageUrl) {
+        console.log(`Post ${post.id} already has an image. Skipping.`);
+        continue;
+      }
+      console.log(`Processing post: ${post.id} - ${post.title}`);
     
     // Generate Image
     const imageData = await generateImage(post.title, post.excerpt);
