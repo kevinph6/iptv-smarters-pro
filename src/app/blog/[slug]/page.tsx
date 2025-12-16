@@ -212,16 +212,17 @@ export default function BlogPostPage() {
             </button>
           </div>
 
-          {/* Featured Image */}
-          {post.featuredImageUrl && (
-            <div className="mb-12 rounded-2xl overflow-hidden border border-white/10">
-              <img
-                src={post.featuredImageUrl}
-                alt={post.title}
-                className="w-full h-auto"
-              />
-            </div>
-          )}
+            {/* Featured Image */}
+            {post.featuredImageUrl && (
+              <div className="mb-12 rounded-2xl overflow-hidden border border-white/10">
+                <img
+                  src={post.featuredImageUrl}
+                  alt={`${post.title} - Guide complet IPTV SMARTERS PRO France`}
+                  className="w-full h-auto"
+                  loading="eager"
+                />
+              </div>
+            )}
         </div>
       </article>
 

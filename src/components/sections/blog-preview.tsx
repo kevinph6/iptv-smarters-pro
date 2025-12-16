@@ -130,13 +130,24 @@ export default function BlogPreview() {
                   </div>
                 </div>
 
-                {/* Header with gradient */}
-                <div className="h-32 bg-gradient-to-br from-cyan-500 via-purple-500 to-pink-500 relative">
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-all duration-500" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <BookOpen className="w-12 h-12 text-white/80 group-hover:scale-110 transition-transform duration-500" />
+                  {/* Header with gradient or featured image */}
+                  <div className="h-32 bg-gradient-to-br from-cyan-500 via-purple-500 to-pink-500 relative overflow-hidden">
+                    {post.featuredImageUrl ? (
+                      <img 
+                        src={post.featuredImageUrl} 
+                        alt={`Image de l'article ${post.title} - ${post.category} IPTV`}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <>
+                        <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-all duration-500" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <BookOpen className="w-12 h-12 text-white/80 group-hover:scale-110 transition-transform duration-500" />
+                        </div>
+                      </>
+                    )}
                   </div>
-                </div>
 
                 {/* Content */}
                 <div className="p-6">
