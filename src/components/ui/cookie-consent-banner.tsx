@@ -58,11 +58,11 @@ export function CookieConsentBanner() {
         onClick={() => setShowBanner(false)}
       />
       
-      <div className="fixed bottom-0 left-0 right-0 z-[9999] p-4 sm:p-6 animate-in slide-in-from-bottom duration-500">
-        <div className="max-w-6xl mx-auto bg-gradient-to-br from-gray-900 via-black to-gray-900 border border-cyan-500/30 rounded-2xl shadow-2xl shadow-cyan-500/20 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-purple-500/5 to-pink-500/5" />
-          
-          <div className="relative p-6 sm:p-8">
+        <div className="fixed bottom-4 right-4 z-[9999] animate-in slide-in-from-bottom duration-500">
+          <div className="w-[400px] max-w-[calc(100vw-2rem)] bg-gradient-to-br from-gray-900 via-black to-gray-900 border border-cyan-500/30 rounded-2xl shadow-2xl shadow-cyan-500/20 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-purple-500/5 to-pink-500/5" />
+            
+            <div className="relative p-5">
             <button
               onClick={handleRejectAll}
               className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"
