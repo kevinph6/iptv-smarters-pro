@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowLeft, Save, Loader2, Sparkles, Image as ImageIcon, Wand2 } from 'lucide-react';
+import { ArrowLeft, Image as ImageIcon, Loader2, Save, Sparkles, Wand2 } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
 import { useSession } from '@/lib/auth-client';
 import { BlogEditor } from '@/components/blog-editor';
 
-export default function NewPostPage() {
+function NewPostPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session, isPending } = useSession();
@@ -48,9 +48,7 @@ export default function NewPostPage() {
         content: content || prev.content,
       }));
 
-      if (title || excerpt || content) {
-        toast.success('Contenu AI chargé avec succès!');
-      }
+      toast.success('Contenu AI chargé avec succès!');
     }
   }, [searchParams]);
 
@@ -129,7 +127,7 @@ export default function NewPostPage() {
       }
 
       const data = await response.json();
-      
+
       setFormData({
         ...formData,
         title: data.title || formData.title,
@@ -198,9 +196,7 @@ export default function NewPostPage() {
             <ArrowLeft className="w-4 h-4" />
             Retour au dashboard
           </Link>
-          <h1 className="text-4xl font-black text-white">
-            Nouvel Article
-          </h1>
+          <h1 className="text-4xl font-black text-white">Nouvel Article</h1>
         </div>
       </div>
 
@@ -374,9 +370,7 @@ export default function NewPostPage() {
               placeholder="Un court résumé de 1-2 phrases (150-200 caractères)"
               required
             />
-            <p className="text-white/40 text-sm mt-1">
-              {formData.excerpt.length} caractères
-            </p>
+            <p className="text-white/40 text-sm mt-1">{formData.excerpt.length} caractères</p>
           </div>
 
           {/* Blog Editor with Image Upload */}
@@ -420,15 +414,26 @@ export default function NewPostPage() {
                 </>
               )}
             </button>
-            <Link
-              href="/vxodnasait"
-              className="px-6 py-3 text-white/60 hover:text-white transition-colors"
-            >
+            <Link href="/vxodnasait" className="px-6 py-3 text-white/60 hover:text-white transition-colors">
               Annuler
             </Link>
           </div>
         </form>
       </div>
     </div>
+  );
+}
+
+export default function NewPostPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-black flex items-center justify-center">
+          <Loader2 className="w-12 h-12 text-purple-500 animate-spin" />
+        </div>
+      }
+    >
+      <NewPostPageContent />
+    </Suspense>
   );
 }
