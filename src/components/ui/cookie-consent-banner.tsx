@@ -87,25 +87,7 @@ export function CookieConsentBanner() {
                 </div>
               </div>
 
-            {!showSettings && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                  <h3 className="font-bold text-white text-sm mb-1 flex items-center gap-2">
-                    <Cookie className="w-4 h-4 text-cyan-400" />
-                    Cookies Essentiels
-                  </h3>
-                  <p className="text-xs text-white/60">Nécessaires au fonctionnement (toujours actifs)</p>
-                </div>
-                
-                <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                  <h3 className="font-bold text-white text-sm mb-1 flex items-center gap-2">
-                    <Shield className="w-4 h-4 text-purple-400" />
-                    Conformité RGPD
-                  </h3>
-                  <p className="text-xs text-white/60">Protection de vos données personnelles</p>
-                </div>
-              </div>
-            )}
+
 
             {showSettings && (
               <div className="space-y-3 mb-6 max-h-60 overflow-y-auto pr-2">
