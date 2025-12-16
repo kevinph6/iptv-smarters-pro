@@ -1,0 +1,25 @@
+import { NextResponse } from 'next/server';
+import { db } from '@/db';
+import { blogPosts } from '@/db/schema';
+import { eq } from 'drizzle-orm';
+
+export const runtime = 'nodejs';
+
+export async function GET(_request: Request, { params }: { params: { id: string } }) {
+  try {
+    const id = Number(params.id);
+    if (!id) {
+      return NextResponse.json({ error: 'ID invalide' }, { status: 400 });
+    }
+
+    const posts = await db.select().from(blogPosts).where(eq(blogPosts.id, id)).limit(1);
+    if (!posts.length) {
+      return NextResponse.json({ error: 'Article introuvable' }, { status: 404 });
+    }
+
+    return NextResponse.json(posts[0]);
+  } catch (error) {
+    console.error('Error fetching post by id:', error);
+    return NextResponse.json({ error: 'Failed to fetch post' }, { status: 500 });
+  }
+}
