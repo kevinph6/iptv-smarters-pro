@@ -89,77 +89,75 @@ export function CookieConsentBanner() {
 
 
 
-            {showSettings && (
-              <div className="space-y-3 mb-6 max-h-60 overflow-y-auto pr-2">
-                <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                  <div className="flex items-center justify-between mb-2">
-                    <div>
-                      <h3 className="font-bold text-white text-sm">Cookies Essentiels</h3>
-                      <p className="text-xs text-white/60 mt-1">Requis pour le fonctionnement du site (authentification, sécurité)</p>
-                    </div>
-                    <div className="flex-shrink-0 ml-4">
-                      <div className="px-3 py-1 bg-cyan-500/20 text-cyan-400 text-xs font-bold rounded-full border border-cyan-500/30">
-                        Toujours actif
+              {showSettings && (
+                <div className="space-y-2 mb-4 max-h-48 overflow-y-auto pr-1">
+                  <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="font-semibold text-white text-xs">Essentiels</h3>
+                        <p className="text-[10px] text-white/60 mt-0.5">Requis pour le site</p>
+                      </div>
+                      <div className="px-2 py-0.5 bg-cyan-500/20 text-cyan-400 text-[10px] font-bold rounded-full">
+                        Actif
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <h3 className="font-bold text-white text-sm">Cookies Analytiques</h3>
-                      <p className="text-xs text-white/60 mt-1">Nous aident à comprendre l'utilisation du site (Google Analytics)</p>
+                  <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-white text-xs">Analytiques</h3>
+                        <p className="text-[10px] text-white/60 mt-0.5">Google Analytics</p>
+                      </div>
+                      <label className="relative inline-flex items-center cursor-pointer ml-3">
+                        <input
+                          type="checkbox"
+                          checked={consent.analytics}
+                          onChange={(e) => setConsent({ ...consent, analytics: e.target.checked })}
+                          className="sr-only peer"
+                        />
+                        <div className="w-9 h-5 bg-white/20 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-cyan-500 peer-checked:to-purple-500"></div>
+                      </label>
                     </div>
-                    <label className="relative inline-flex items-center cursor-pointer ml-4">
-                      <input
-                        type="checkbox"
-                        checked={consent.analytics}
-                        onChange={(e) => setConsent({ ...consent, analytics: e.target.checked })}
-                        className="sr-only peer"
-                      />
-                      <div className="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-cyan-500 peer-checked:to-purple-500"></div>
-                    </label>
+                  </div>
+
+                  <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-white text-xs">Marketing</h3>
+                        <p className="text-[10px] text-white/60 mt-0.5">Publicité ciblée</p>
+                      </div>
+                      <label className="relative inline-flex items-center cursor-pointer ml-3">
+                        <input
+                          type="checkbox"
+                          checked={consent.marketing}
+                          onChange={(e) => setConsent({ ...consent, marketing: e.target.checked })}
+                          className="sr-only peer"
+                        />
+                        <div className="w-9 h-5 bg-white/20 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-cyan-500 peer-checked:to-purple-500"></div>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-white text-xs">Préférences</h3>
+                        <p className="text-[10px] text-white/60 mt-0.5">Paramètres</p>
+                      </div>
+                      <label className="relative inline-flex items-center cursor-pointer ml-3">
+                        <input
+                          type="checkbox"
+                          checked={consent.preferences}
+                          onChange={(e) => setConsent({ ...consent, preferences: e.target.checked })}
+                          className="sr-only peer"
+                        />
+                        <div className="w-9 h-5 bg-white/20 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-cyan-500 peer-checked:to-purple-500"></div>
+                      </label>
+                    </div>
                   </div>
                 </div>
-
-                <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <h3 className="font-bold text-white text-sm">Cookies Marketing</h3>
-                      <p className="text-xs text-white/60 mt-1">Publicité ciblée et réseaux sociaux (Facebook, Google Ads)</p>
-                    </div>
-                    <label className="relative inline-flex items-center cursor-pointer ml-4">
-                      <input
-                        type="checkbox"
-                        checked={consent.marketing}
-                        onChange={(e) => setConsent({ ...consent, marketing: e.target.checked })}
-                        className="sr-only peer"
-                      />
-                      <div className="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-cyan-500 peer-checked:to-purple-500"></div>
-                    </label>
-                  </div>
-                </div>
-
-                <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <h3 className="font-bold text-white text-sm">Cookies de Préférences</h3>
-                      <p className="text-xs text-white/60 mt-1">Mémorisent vos paramètres et préférences de streaming</p>
-                    </div>
-                    <label className="relative inline-flex items-center cursor-pointer ml-4">
-                      <input
-                        type="checkbox"
-                        checked={consent.preferences}
-                        onChange={(e) => setConsent({ ...consent, preferences: e.target.checked })}
-                        className="sr-only peer"
-                      />
-                      <div className="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-cyan-500 peer-checked:to-purple-500"></div>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            )}
+              )}
 
             <div className="flex flex-col sm:flex-row gap-3">
               <button
