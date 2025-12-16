@@ -3,9 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
 import ErrorReporter from "@/components/ErrorReporter";
-import GdprConsentBanner from "@/components/ui/gdpr-consent";
 import Script from "next/script";
-import { CookieConsentBanner } from "@/components/ui/cookie-consent-banner";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
