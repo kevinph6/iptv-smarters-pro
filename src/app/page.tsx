@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   description: 'IPTV SMARTERS PRO: Découvrez le meilleur abonnement IPTV France. Abonnement iptv premium avec 160 000+ chaînes TV 4K/FHD/HD, 20 000+ films VOD, activation instantanée, support 24/7. IPTV SMARTERS PRO compatible tous appareils. Abonnement iptv stable et fiable.',
 };
 
-export async function Home() {
+export default function Home() {
   return (
     <main className="min-h-screen bg-black">
       {/* Hidden SEO Content - IPTV SMARTERS PRO Keywords */}
@@ -115,5 +115,3 @@ export async function Home() {
     </main>
   );
 }
-
-export default Home;
