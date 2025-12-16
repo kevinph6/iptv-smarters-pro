@@ -159,48 +159,56 @@ export function CookieConsentBanner() {
                 </div>
               )}
 
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                onClick={() => setShowSettings(!showSettings)}
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20"
-              >
-                <Settings className="w-4 h-4" />
-                {showSettings ? 'Masquer les paramètres' : 'Personnaliser'}
-                {showSettings ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-              </button>
-
-              {showSettings ? (
-                <button
-                  onClick={handleSavePreferences}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all duration-300"
-                >
-                  Enregistrer mes préférences
-                </button>
-              ) : (
-                <>
+              <div className="flex flex-col gap-2">
+                {!showSettings && (
                   <button
-                    onClick={handleRejectAll}
-                    className="flex-1 px-6 py-3 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20"
+                    onClick={() => setShowSettings(true)}
+                    className="w-full flex items-center justify-center gap-1.5 px-4 py-2 bg-white/10 text-white text-xs font-semibold rounded-lg hover:bg-white/20 transition-all border border-white/20"
                   >
-                    Refuser tout
+                    <Settings className="w-3.5 h-3.5" />
+                    Personnaliser
+                    <ChevronDown className="w-3.5 h-3.5" />
                   </button>
-                  <button
-                    onClick={handleAcceptAll}
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold rounded-xl hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all duration-300"
-                  >
-                    Accepter tout
-                  </button>
-                </>
-              )}
-            </div>
+                )}
 
-            <p className="text-xs text-white/50 text-center mt-4">
-              En utilisant notre site, vous acceptez notre{' '}
-              <Link href="/confidentialite" className="text-cyan-400 hover:text-cyan-300 underline">
-                Politique de Confidentialité
-              </Link>
-              . Vos données sont protégées selon le RGPD.
-            </p>
+                {showSettings ? (
+                  <>
+                    <button
+                      onClick={handleSavePreferences}
+                      className="w-full px-4 py-2.5 bg-gradient-to-r from-cyan-500 to-purple-500 text-white text-xs font-bold rounded-lg hover:shadow-lg transition-all"
+                    >
+                      Enregistrer
+                    </button>
+                    <button
+                      onClick={() => setShowSettings(false)}
+                      className="w-full px-4 py-2 bg-white/10 text-white text-xs font-semibold rounded-lg hover:bg-white/20 transition-all border border-white/20"
+                    >
+                      Retour
+                    </button>
+                  </>
+                ) : (
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={handleRejectAll}
+                      className="px-4 py-2.5 bg-white/10 text-white text-xs font-semibold rounded-lg hover:bg-white/20 transition-all border border-white/20"
+                    >
+                      Refuser
+                    </button>
+                    <button
+                      onClick={handleAcceptAll}
+                      className="px-4 py-2.5 bg-gradient-to-r from-cyan-500 to-purple-500 text-white text-xs font-bold rounded-lg hover:shadow-lg transition-all"
+                    >
+                      Accepter
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <p className="text-[10px] text-white/50 text-center mt-3">
+                <Link href="/confidentialite" className="text-cyan-400 hover:text-cyan-300 underline">
+                  Politique de Confidentialité
+                </Link>
+              </p>
           </div>
         </div>
       </div>
