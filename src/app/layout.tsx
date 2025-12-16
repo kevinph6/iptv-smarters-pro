@@ -4,6 +4,7 @@ import "./globals.css";
 import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
 import ErrorReporter from "@/components/ErrorReporter";
 import Script from "next/script";
+import { CookieConsentBanner } from "@/components/ui/cookie-consent-banner";
 
 // Optimize font loading with Next.js
 const inter = Inter({
