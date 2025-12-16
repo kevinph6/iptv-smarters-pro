@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowLeft, Image as ImageIcon, Loader2, Save, Sparkles, Wand2 } from 'lucide-react';
+import { ArrowLeft, Loader2, Save } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
 import { useSession } from '@/lib/auth-client';
@@ -34,25 +34,7 @@ function NewPostPageContent() {
     }
   }, [session, isPending, router]);
 
-  useEffect(() => {
-    const title = searchParams.get('title');
-    const excerpt = searchParams.get('excerpt');
-    const content = searchParams.get('content');
-
-    if (title || excerpt || content) {
-      setFormData(prev => ({
-        ...prev,
-        title: title || prev.title,
-        slug: title ? generateSlug(title) : prev.slug,
-        excerpt: excerpt || prev.excerpt,
-        content: content || prev.content,
-      }));
-
-      toast.success('Contenu AI chargé avec succès!');
-    }
-  }, [searchParams]);
-
-  const generateSlug = (title: string) => {
+    const generateSlug = (title: string) => {
     return title
       .toLowerCase()
       .normalize('NFD')
@@ -112,77 +94,7 @@ function NewPostPageContent() {
       } finally {
         setLoading(false);
       }
-    };
-
-
-  const handleGenerateArticle = async () => {
-    if (!aiTopic.trim()) {
-      toast.error('Veuillez entrer un sujet pour l\'article');
-      return;
-    }
-
-    setGeneratingArticle(true);
-    try {
-      const response = await fetch('/api/ai/generate-article', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic: aiTopic, keywords: aiKeywords }),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Erreur lors de la génération');
-      }
-
-      const data = await response.json();
-
-      setFormData({
-        ...formData,
-        title: data.title || formData.title,
-        slug: generateSlug(data.title || formData.title),
-        excerpt: data.excerpt || formData.excerpt,
-        content: data.content || formData.content,
-      });
-
-      toast.success('Article généré avec succès!');
-    } catch (error: any) {
-      toast.error(error.message || 'Erreur lors de la génération de l\'article');
-      console.error(error);
-    } finally {
-      setGeneratingArticle(false);
-    }
-  };
-
-  const handleGenerateImage = async () => {
-    const topic = aiTopic.trim() || formData.title;
-    if (!topic) {
-      toast.error('Veuillez entrer un sujet ou un titre d\'abord');
-      return;
-    }
-
-    setGeneratingImage(true);
-    try {
-      const response = await fetch('/api/ai/generate-image', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic }),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Erreur lors de la génération');
-      }
-
-      const data = await response.json();
-      setFormData({ ...formData, featuredImageUrl: data.imageUrl });
-      toast.success('Image générée avec succès!');
-    } catch (error: any) {
-      toast.error(error.message || 'Erreur lors de la génération de l\'image');
-      console.error(error);
-    } finally {
-      setGeneratingImage(false);
-    }
-  };
+      };
 
   if (isPending || !session?.user) {
     return (
