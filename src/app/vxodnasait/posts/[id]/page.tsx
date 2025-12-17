@@ -37,44 +37,38 @@ export default function EditPostPage() {
     }
   }, [session, params.id]);
 
-  const getAuthHeaders = () => {
-    if (typeof window === 'undefined') return {} as HeadersInit;
-    const token = localStorage.getItem('bearer_token');
-    return token ? ({ Authorization: `Bearer ${token}` } as HeadersInit) : ({} as HeadersInit);
-  };
-
-  const fetchPost = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`/api/blog/${params.id}`, {
-        cache: 'no-store',
-        headers: {
-          'Pragma': 'no-cache',
-          'Cache-Control': 'no-cache',
-          ...getAuthHeaders(),
-        }
-      });
-      if (!response.ok) throw new Error('Failed to fetch post');
-      
-      const post = await response.json();
-      setFormData({
-        title: post.title,
-        slug: post.slug,
-        excerpt: post.excerpt,
-        content: post.content,
-        author: post.author,
-        category: post.category,
-        featuredImageUrl: post.featuredImageUrl || '',
-        published: post.published,
-      });
-    } catch (error) {
-      toast.error('Erreur lors du chargement de l\'article');
-      console.error(error);
-      router.push('/vxodnasait');
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchPost = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`/api/blog/${params.id}`, {
+          cache: 'no-store',
+          credentials: 'include',
+          headers: {
+            'Pragma': 'no-cache',
+            'Cache-Control': 'no-cache',
+          }
+        });
+        if (!response.ok) throw new Error('Failed to fetch post');
+        
+        const post = await response.json();
+        setFormData({
+          title: post.title,
+          slug: post.slug,
+          excerpt: post.excerpt,
+          content: post.content,
+          author: post.author,
+          category: post.category,
+          featuredImageUrl: post.featuredImageUrl || '',
+          published: post.published,
+        });
+      } catch (error) {
+        toast.error('Erreur lors du chargement de l\'article');
+        console.error(error);
+        router.push('/vxodnasait');
+      } finally {
+        setLoading(false);
+      }
+    };
 
   const generateSlug = (title: string) => {
     return title
