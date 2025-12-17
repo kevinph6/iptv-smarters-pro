@@ -152,16 +152,15 @@ export default function UsersManagement() {
 
     setEditing(true);
 
-    try {
-      const token = localStorage.getItem("bearer_token");
-      const response = await fetch('/api/users', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(editUser),
-      });
+      try {
+        const response = await fetch('/api/users', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(editUser),
+        });
 
       if (!response.ok) {
         const error = await response.json();
