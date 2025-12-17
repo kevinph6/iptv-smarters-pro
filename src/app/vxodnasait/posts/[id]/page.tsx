@@ -87,43 +87,43 @@ export default function EditPostPage() {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
 
-    if (!formData.title || !formData.slug || !formData.excerpt || !formData.content) {
-      toast.error('Veuillez remplir tous les champs obligatoires');
-      return;
-    }
-
-    setSaving(true);
-
-    try {
-      const response = await fetch(`/api/blog?id=${params.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          ...getAuthHeaders(),
-        },
-        body: JSON.stringify({
-          ...formData,
-          updatedAt: new Date().toISOString(),
-        }),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to update post');
+      if (!formData.title || !formData.slug || !formData.excerpt || !formData.content) {
+        toast.error('Veuillez remplir tous les champs obligatoires');
+        return;
       }
 
-      toast.success('Article mis à jour avec succès!');
-      router.push('/vxodnasait');
-    } catch (error: any) {
-      toast.error(error.message || 'Erreur lors de la mise à jour de l\'article');
-      console.error(error);
-    } finally {
-      setSaving(false);
-    }
-  };
+      setSaving(true);
+
+      try {
+        const response = await fetch(`/api/blog?id=${params.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            ...formData,
+            updatedAt: new Date().toISOString(),
+          }),
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || 'Failed to update post');
+        }
+
+        toast.success('Article mis à jour avec succès!');
+        router.push('/vxodnasait');
+      } catch (error: any) {
+        toast.error(error.message || 'Erreur lors de la mise à jour de l\'article');
+        console.error(error);
+      } finally {
+        setSaving(false);
+      }
+    };
 
   if (isPending || !session?.user || loading) {
     return (
