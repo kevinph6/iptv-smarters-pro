@@ -46,50 +46,44 @@ function NewPostPageContent() {
     });
   };
 
-  const getAuthHeaders = () => {
-    if (typeof window === 'undefined') return {} as HeadersInit;
-    const token = localStorage.getItem('bearer_token');
-    return token ? ({ Authorization: `Bearer ${token}` } as HeadersInit) : ({} as HeadersInit);
-  };
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formData.title || !formData.slug || !formData.excerpt || !formData.content) {
-      toast.error('Veuillez remplir tous les champs obligatoires');
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const response = await fetch('/api/blog', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...getAuthHeaders(),
-        },
-        body: JSON.stringify({
-          ...formData,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        }),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to create post');
+      if (!formData.title || !formData.slug || !formData.excerpt || !formData.content) {
+        toast.error('Veuillez remplir tous les champs obligatoires');
+        return;
       }
 
-      toast.success('Article créé avec succès!');
-      router.push('/vxodnasait');
-    } catch (error: any) {
-      toast.error(error.message || 'Erreur lors de la création de l\'article');
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+      setLoading(true);
+
+      try {
+        const response = await fetch('/api/blog', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            ...formData,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          }),
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || 'Failed to create post');
+        }
+
+        toast.success('Article créé avec succès!');
+        router.push('/vxodnasait');
+      } catch (error: any) {
+        toast.error(error.message || 'Erreur lors de la création de l\'article');
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
   if (isPending || !session?.user) {
     return (
