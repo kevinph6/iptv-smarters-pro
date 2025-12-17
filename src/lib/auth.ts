@@ -2,6 +2,8 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { headers } from "next/headers"
 import { db } from "@/db";
+
+const isProduction = process.env.NODE_ENV === 'production';
  
 export const auth = betterAuth({
 	database: drizzleAdapter(db, {
@@ -31,6 +33,15 @@ export const auth = betterAuth({
 		cookieCache: {
 			enabled: true,
 			maxAge: 60 * 5
+		}
+	},
+	advanced: {
+		crossSubDomainCookies: {
+			enabled: !isProduction,
+		},
+		defaultCookieAttributes: {
+			sameSite: isProduction ? "lax" : "none",
+			secure: true,
 		}
 	}
 });
