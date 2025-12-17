@@ -1,61 +1,53 @@
 "use client"
 import { createAuthClient } from "better-auth/react"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 
 export const authClient = createAuthClient({
-   baseURL: typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_SITE_URL,
-  fetchOptions: {
-      headers: {
-        Authorization: `Bearer ${typeof window !== 'undefined' ? localStorage.getItem("bearer_token") : ""}`,
-      },
-      onSuccess: (ctx) => {
-          const authToken = ctx.response.headers.get("set-auth-token")
-          // Store the token securely (e.g., in localStorage)
-          if(authToken){
-            // Split token at "." and take only the first part
-            const tokenPart = authToken.includes('.') ? authToken.split('.')[0] : authToken;
-            localStorage.setItem("bearer_token", tokenPart);
-          }
-      }
-  }
+  baseURL: typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_SITE_URL,
 });
 
-type SessionData = ReturnType<typeof authClient.useSession>
+type Session = {
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    role?: string;
+  };
+  session: {
+    id: string;
+    expiresAt: Date;
+  };
+} | null;
 
-export function useSession(): SessionData {
-   const [session, setSession] = useState<any>(null);
-   const [isPending, setIsPending] = useState(true);
-   const [error, setError] = useState<any>(null);
+type SessionState = {
+  data: Session;
+  isPending: boolean;
+  error: Error | null;
+  refetch: () => void;
+};
 
-   const refetch = () => {
-      setIsPending(true);
-      setError(null);
-      fetchSession();
-   };
+export function useSession(): SessionState {
+  const [session, setSession] = useState<Session>(null);
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
-   const fetchSession = async () => {
-      try {
-         const res = await authClient.getSession({
-            fetchOptions: {
-               auth: {
-                  type: "Bearer",
-                  token: typeof window !== 'undefined' ? localStorage.getItem("bearer_token") || "" : "",
-               },
-            },
-         });
-         setSession(res.data);
-         setError(null);
-      } catch (err) {
-         setSession(null);
-         setError(err);
-      } finally {
-         setIsPending(false);
-      }
-   };
+  const fetchSession = useCallback(async () => {
+    setIsPending(true);
+    setError(null);
+    try {
+      const res = await authClient.getSession();
+      setSession(res.data as Session);
+    } catch (err) {
+      setSession(null);
+      setError(err as Error);
+    } finally {
+      setIsPending(false);
+    }
+  }, []);
 
-   useEffect(() => {
-      fetchSession();
-   }, []);
+  useEffect(() => {
+    fetchSession();
+  }, [fetchSession]);
 
-   return { data: session, isPending, error, refetch };
+  return { data: session, isPending, error, refetch: fetchSession };
 }
