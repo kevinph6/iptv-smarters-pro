@@ -57,12 +57,13 @@ function LoginForm() {
         }
 
         if (result.data?.session) {
-          toast.success('Connexion réussie!');
-          window.location.href = '/vxodnasait';
-        } else {
-          toast.error('Erreur de connexion. Veuillez réessayer.');
-          setLoading(false);
-        }
+            toast.success('Connexion réussie!');
+            router.push('/vxodnasait');
+            router.refresh();
+          } else {
+            toast.error('Erreur de connexion. Veuillez réessayer.');
+            setLoading(false);
+          }
       } catch (err) {
         toast.error('Une erreur est survenue. Veuillez réessayer.');
         console.error(err);
