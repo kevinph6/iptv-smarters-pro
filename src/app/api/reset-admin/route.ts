@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/db';
-import { user } from '@/db/schema';
+import { user, session } from '@/db/schema';
 import { eq } from 'drizzle-orm';
-import bcrypt from 'bcrypt';
+import { auth } from '@/lib/auth';
 
 export const runtime = 'nodejs';
 
@@ -10,23 +10,33 @@ export async function POST() {
   try {
     const adminEmail = 'admin@iptvsmarterspro.com';
     const newPassword = 'AdminIPTV2025!';
+    const adminName = 'Admin IPTV';
     
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const existingUser = await db.select().from(user).where(eq(user.email, adminEmail)).limit(1);
     
-    const result = await db.update(user)
-      .set({ password: hashedPassword })
-      .where(eq(user.email, adminEmail))
-      .returning({ id: user.id, email: user.email });
-    
-    if (result.length === 0) {
-      return NextResponse.json({
-        error: 'User not found',
-        hint: 'Try creating a new admin user'
-      }, { status: 404 });
+    if (existingUser.length > 0) {
+      await db.delete(session).where(eq(session.userId, existingUser[0].id));
+      await db.delete(user).where(eq(user.id, existingUser[0].id));
     }
     
+    const result = await auth.api.signUpEmail({
+      body: {
+        name: adminName,
+        email: adminEmail,
+        password: newPassword,
+      }
+    });
+    
+    if (!result || !result.user) {
+      throw new Error('Failed to create admin user');
+    }
+    
+    await db.update(user)
+      .set({ role: 'admin' })
+      .where(eq(user.id, result.user.id));
+    
     return NextResponse.json({
-      message: 'Password reset successfully!',
+      message: 'Admin user reset successfully!',
       credentials: {
         email: adminEmail,
         password: newPassword,
@@ -35,9 +45,9 @@ export async function POST() {
     }, { status: 200 });
     
   } catch (error: any) {
-    console.error('Error resetting password:', error);
+    console.error('Error resetting admin:', error);
     return NextResponse.json({
-      error: 'Failed to reset password',
+      error: 'Failed to reset admin user',
       details: error.message || String(error)
     }, { status: 500 });
   }
