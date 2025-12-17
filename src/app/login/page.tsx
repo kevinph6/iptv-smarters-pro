@@ -58,8 +58,8 @@ function LoginForm() {
 
         if (result.data?.user) {
             toast.success('Connexion réussie!');
-            router.push('/vxodnasait');
-            router.refresh();
+            // Use full page reload to ensure session cookies are properly sent
+            window.location.href = '/vxodnasait';
           } else {
             toast.error('Erreur de connexion. Veuillez réessayer.');
             setLoading(false);
