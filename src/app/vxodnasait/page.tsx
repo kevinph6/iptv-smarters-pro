@@ -40,54 +40,45 @@ export default function AdminDashboard() {
     }
   }, [session]);
 
-    const getAuthHeaders = () => {
-      if (typeof window === 'undefined') return {} as HeadersInit;
-      const token = localStorage.getItem('bearer_token');
-      return token ? ({ Authorization: `Bearer ${token}` } as HeadersInit) : ({} as HeadersInit);
-    };
-
     const fetchPosts = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/blog?limit=100', {
-          headers: {
-            ...getAuthHeaders(),
-          },
-        });
-        if (!response.ok) throw new Error('Failed to fetch posts');
-        const data = await response.json();
-        setPosts(data);
-      } catch (error) {
-        toast.error('Erreur lors du chargement des articles');
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+        try {
+          setLoading(true);
+          const response = await fetch('/api/blog?limit=100', {
+            credentials: 'include',
+          });
+          if (!response.ok) throw new Error('Failed to fetch posts');
+          const data = await response.json();
+          setPosts(data);
+        } catch (error) {
+          toast.error('Erreur lors du chargement des articles');
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-    const handleDelete = async (id: number, title: string) => {
-      if (!confirm(`Êtes-vous sûr de vouloir supprimer "${title}" ?`)) return;
+      const handleDelete = async (id: number, title: string) => {
+        const confirmed = window.confirm(`Êtes-vous sûr de vouloir supprimer "${title}" ?`);
+        if (!confirmed) return;
 
-      try {
-        setDeleting(id);
-        const response = await fetch(`/api/blog/${id}`, {
-          method: 'DELETE',
-          headers: {
-            ...getAuthHeaders(),
-          },
-        });
+        try {
+          setDeleting(id);
+          const response = await fetch(`/api/blog/${id}`, {
+            method: 'DELETE',
+            credentials: 'include',
+          });
 
-        if (!response.ok) throw new Error('Failed to delete post');
+          if (!response.ok) throw new Error('Failed to delete post');
 
-        toast.success('Article supprimé avec succès');
-        setPosts(posts.filter(p => p.id !== id));
-      } catch (error) {
-        toast.error('Erreur lors de la suppression');
-        console.error(error);
-      } finally {
-        setDeleting(null);
-      }
-    };
+          toast.success('Article supprimé avec succès');
+          setPosts(posts.filter(p => p.id !== id));
+        } catch (error) {
+          toast.error('Erreur lors de la suppression');
+          console.error(error);
+        } finally {
+          setDeleting(null);
+        }
+      };
 
 
   const handleSignOut = async () => {
