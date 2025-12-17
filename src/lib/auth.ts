@@ -15,6 +15,7 @@ export const auth = betterAuth({
 		"https://abonnement-iptv-smarterspro.fr",
 		"https://www.abonnement-iptv-smarterspro.fr",
 		"https://*.proxy.daytona.works",
+		"https://*.orchids.page",
 	],
 	session: {
 		cookieCache: {
