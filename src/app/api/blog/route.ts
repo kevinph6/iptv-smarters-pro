@@ -38,12 +38,12 @@ export async function GET(request: NextRequest) {
       filters.push(eq(blogPosts.published, publishedParam === 'true'));
     }
 
-    let query = db.select().from(blogPosts);
+    let posts;
     if (filters.length) {
-      query = query.where(and(...filters));
+      posts = await db.select().from(blogPosts).where(and(...filters)).orderBy(desc(blogPosts.createdAt)).limit(limit);
+    } else {
+      posts = await db.select().from(blogPosts).orderBy(desc(blogPosts.createdAt)).limit(limit);
     }
-
-    const posts = await query.orderBy(desc(blogPosts.createdAt)).limit(limit);
     return NextResponse.json(posts);
   } catch (error) {
     console.error('Error fetching blog posts:', error);
