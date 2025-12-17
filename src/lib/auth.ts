@@ -17,6 +17,16 @@ export const auth = betterAuth({
 		"https://*.proxy.daytona.works",
 		"https://*.orchids.page",
 	],
+	user: {
+		additionalFields: {
+			role: {
+				type: "string",
+				required: false,
+				defaultValue: "writer",
+				input: false,
+			}
+		}
+	},
 	session: {
 		cookieCache: {
 			enabled: true,
