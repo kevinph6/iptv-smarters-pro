@@ -55,26 +55,15 @@ export function middleware(request: NextRequest) {
     }
   }
   
-  // 4. PROTECTED ROUTES (exclude login, register, and auth API)
+  // 4. PROTECTED ROUTES - check for session cookie existence
+  // The actual session validation happens on the page level via useSession
   if (request.nextUrl.pathname.startsWith('/vxodnasait')) {
-    return handleProtectedRoutes(request);
+    const sessionToken = request.cookies.get('better-auth.session_token');
+    if (!sessionToken) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
   }
   
-  return NextResponse.next();
-}
-
-async function handleProtectedRoutes(request: NextRequest) {
-  try {
-    const response = await fetch(
-      new URL('/api/auth/get-session', request.nextUrl.origin),
-      { headers: { cookie: request.headers.get('cookie') || '' } }
-    );
-    if (!response.ok) return NextResponse.redirect(new URL('/login', request.url));
-    const data = await response.json();
-    if (!data?.session) return NextResponse.redirect(new URL('/login', request.url));
-  } catch (error) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
   return NextResponse.next();
 }
 
