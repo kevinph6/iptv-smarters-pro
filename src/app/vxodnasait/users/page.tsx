@@ -209,19 +209,18 @@ export default function UsersManagement() {
 
     setChangingPassword(true);
 
-    try {
-      const token = localStorage.getItem("bearer_token");
-      const response = await fetch('/api/users', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          id: passwordData.userId,
-          password: passwordData.password,
-        }),
-      });
+      try {
+        const response = await fetch('/api/users', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            id: passwordData.userId,
+            password: passwordData.password,
+          }),
+        });
 
       if (!response.ok) {
         const error = await response.json();
