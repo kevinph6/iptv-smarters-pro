@@ -55,7 +55,7 @@ export function middleware(request: NextRequest) {
     }
   }
   
-  // 4. PROTECTED ROUTES
+  // 4. PROTECTED ROUTES (exclude login, register, and auth API)
   if (request.nextUrl.pathname.startsWith('/vxodnasait')) {
     return handleProtectedRoutes(request);
   }
