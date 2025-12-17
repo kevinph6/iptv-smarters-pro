@@ -27,12 +27,12 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<number | null>(null);
 
-  // Protect the route - redirect if not authenticated
-  useEffect(() => {
-    if (!isPending && !session?.user) {
-      router.push('/login');
-    }
-  }, [session, isPending, router]);
+    // Protect the route - redirect if not authenticated
+    useEffect(() => {
+      if (!isPending && !session?.user) {
+        router.push('/login?redirect=/vxodnasait');
+      }
+    }, [session, isPending, router]);
 
   useEffect(() => {
     if (session?.user) {
