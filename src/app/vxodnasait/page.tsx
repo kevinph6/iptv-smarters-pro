@@ -82,13 +82,12 @@ export default function AdminDashboard() {
 
 
   const handleSignOut = async () => {
-    const { error } = await authClient.signOut();
-    
-    if (error) {
-      toast.error('Erreur lors de la déconnexion');
-    } else {
+    try {
+      await authClient.signOut();
       toast.success('Déconnexion réussie');
       window.location.href = '/login';
+    } catch {
+      toast.error('Erreur lors de la déconnexion');
     }
   };
 
