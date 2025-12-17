@@ -64,12 +64,9 @@ export default function UsersManagement() {
 
   const checkAdminRole = async () => {
     try {
-      const token = localStorage.getItem("bearer_token");
-      const response = await fetch('/api/users', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+        const response = await fetch('/api/users', {
+          credentials: 'include',
+        });
       
       if (response.status === 403) {
         toast.error('Accès refusé - Droits administrateur requis');
