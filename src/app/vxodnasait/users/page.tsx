@@ -244,9 +244,10 @@ export default function UsersManagement() {
       return;
     }
 
-    if (!confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur "${user.name}" ?\n\nCette action est irréversible.`)) {
-      return;
-    }
+      const confirmed = window.confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur "${user.name}" ?\n\nCette action est irréversible.`);
+      if (!confirmed) {
+        return;
+      }
 
     setDeleting(user.id);
 
