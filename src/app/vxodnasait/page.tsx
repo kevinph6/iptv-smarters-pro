@@ -82,23 +82,13 @@ export default function AdminDashboard() {
 
 
   const handleSignOut = async () => {
-    const token = localStorage.getItem("bearer_token");
-
-    const { error } = await authClient.signOut({
-      fetchOptions: {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    });
+    const { error } = await authClient.signOut();
     
-    if (error?.code) {
+    if (error) {
       toast.error('Erreur lors de la déconnexion');
     } else {
-      localStorage.removeItem("bearer_token");
-      refetch();
       toast.success('Déconnexion réussie');
-      router.push('/login');
+      window.location.href = '/login';
     }
   };
 
