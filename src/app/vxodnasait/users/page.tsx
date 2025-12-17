@@ -250,14 +250,11 @@ export default function UsersManagement() {
 
     setDeleting(user.id);
 
-    try {
-      const token = localStorage.getItem("bearer_token");
-      const response = await fetch(`/api/users?id=${user.id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+      try {
+        const response = await fetch(`/api/users?id=${user.id}`, {
+          method: 'DELETE',
+          credentials: 'include',
+        });
 
       if (!response.ok) {
         const error = await response.json();
