@@ -17,7 +17,8 @@ async function requireEditor(request: NextRequest) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
   }
 
-  if (!editorRoles.has(session.user.role)) {
+  const userRole = (session.user as { role?: string }).role;
+  if (!userRole || !editorRoles.has(userRole)) {
     return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
   }
 
