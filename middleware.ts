@@ -55,14 +55,8 @@ export function middleware(request: NextRequest) {
     }
   }
   
-  // 4. PROTECTED ROUTES - check for session cookie existence
-  // The actual session validation happens on the page level via useSession
-  if (request.nextUrl.pathname.startsWith('/vxodnasait')) {
-    const sessionToken = request.cookies.get('better-auth.session_token');
-    if (!sessionToken) {
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
-  }
+  // 4. PROTECTED ROUTES - handled on client-side via useSession hook
+  // No server-side redirect needed - avoids issues with iframe cookie handling
   
   return NextResponse.next();
 }
