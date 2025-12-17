@@ -11,7 +11,7 @@ export async function POST() {
     const adminEmail = 'admin@iptvsmarterspro.com';
     const newPassword = 'AdminIPTV2025!';
     
-    const hashedPassword = await hash(newPassword, 10);
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
     
     const result = await db.update(user)
       .set({ password: hashedPassword })
