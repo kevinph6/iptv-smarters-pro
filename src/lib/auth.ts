@@ -6,6 +6,7 @@ import { db } from "@/db";
 const isProduction = process.env.NODE_ENV === 'production';
  
 export const auth = betterAuth({
+	baseURL: process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000',
 	database: drizzleAdapter(db, {
 		provider: "sqlite",
 	}),

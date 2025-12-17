@@ -20,12 +20,13 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Redirect if already logged in
-  useEffect(() => {
-    if (!isPending && session?.user) {
-      router.push('/vxodnasait');
-    }
-  }, [session, isPending, router]);
+    // Redirect if already logged in
+    useEffect(() => {
+      if (!isPending && session?.user) {
+        const redirect = searchParams.get('redirect') || '/vxodnasait';
+        router.push(redirect);
+      }
+    }, [session, isPending, router, searchParams]);
 
   useEffect(() => {
     if (searchParams.get('registered') === 'true') {
