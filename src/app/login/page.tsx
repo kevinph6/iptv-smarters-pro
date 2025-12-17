@@ -56,7 +56,7 @@ function LoginForm() {
           return;
         }
 
-        if (result.data?.session) {
+        if (result.data?.user) {
             toast.success('Connexion réussie!');
             router.push('/vxodnasait');
             router.refresh();
