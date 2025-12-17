@@ -103,16 +103,15 @@ export default function UsersManagement() {
 
     setCreating(true);
 
-    try {
-      const token = localStorage.getItem("bearer_token");
-      const response = await fetch('/api/users/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(newUser),
-      });
+      try {
+        const response = await fetch('/api/users/create', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(newUser),
+        });
 
       if (!response.ok) {
         const error = await response.json();
