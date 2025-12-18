@@ -63,7 +63,7 @@ function LoginForm() {
               try {
                 const sessionData = {
                   user: result.data.user,
-                  session: result.data.session || { id: 'local', expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) }
+                  session: { id: 'local', expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) }
                 };
                 localStorage.setItem('better-auth-session', JSON.stringify(sessionData));
               } catch {}
