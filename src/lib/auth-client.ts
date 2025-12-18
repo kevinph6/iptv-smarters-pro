@@ -5,8 +5,11 @@ import { useEffect, useState, useCallback } from "react"
 import type { auth } from "./auth"
 
 export const authClient = createAuthClient({
-  baseURL: typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_SITE_URL,
+  baseURL: typeof window !== 'undefined' ? window.location.origin : process.env.NEXT_PUBLIC_BASE_URL,
   plugins: [inferAdditionalFields<typeof auth>()],
+  fetchOptions: {
+    credentials: 'include',
+  },
 });
 
 type Session = {
