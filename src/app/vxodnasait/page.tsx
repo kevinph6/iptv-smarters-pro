@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Plus, Edit, Trash2, Eye, Calendar, User, Loader2, LogOut, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
-import { authClient, useSession } from '@/lib/auth-client';
+import { authClient, useSession, clearSessionFromStorage } from '@/lib/auth-client';
 
 interface BlogPost {
   id: number;
@@ -84,10 +84,13 @@ export default function AdminDashboard() {
   const handleSignOut = async () => {
     try {
       await authClient.signOut();
+      clearSessionFromStorage();
       toast.success('Déconnexion réussie');
       window.location.href = '/login';
     } catch {
+      clearSessionFromStorage();
       toast.error('Erreur lors de la déconnexion');
+      window.location.href = '/login';
     }
   };
 

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { authClient, useSession } from '@/lib/auth-client';
+import { authClient, useSession, clearSessionFromStorage } from '@/lib/auth-client';
 import { toast } from 'sonner';
 import { Lock, Mail, Loader2, Eye, EyeOff } from 'lucide-react';
 
@@ -58,6 +58,16 @@ function LoginForm() {
         }
 
         if (result.data?.user) {
+            // Store session in localStorage as fallback for iframe environments
+            if (typeof window !== 'undefined') {
+              try {
+                const sessionData = {
+                  user: result.data.user,
+                  session: { id: 'local', expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) }
+                };
+                localStorage.setItem('better-auth-session', JSON.stringify(sessionData));
+              } catch {}
+            }
             toast.success('Connexion réussie!');
             // Small delay to ensure cookies are properly set before redirect
             setTimeout(() => {
