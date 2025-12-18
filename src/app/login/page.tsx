@@ -63,16 +63,17 @@ function LoginForm() {
               try {
                 const sessionData = {
                   user: result.data.user,
-                  session: { id: 'local', expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) }
+                  session: result.data.session || { id: 'local', expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) }
                 };
                 localStorage.setItem('better-auth-session', JSON.stringify(sessionData));
               } catch {}
             }
             toast.success('Connexion réussie!');
-            // Small delay to ensure cookies are properly set before redirect
+            const redirect = searchParams.get('redirect') || '/vxodnasait';
+            // Use router.push with a small delay to ensure state is updated
             setTimeout(() => {
-              window.location.href = '/vxodnasait';
-            }, 500);
+              router.push(redirect);
+            }, 100);
           } else {
             toast.error('Erreur de connexion. Veuillez réessayer.');
             setLoading(false);
