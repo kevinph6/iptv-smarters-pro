@@ -4,9 +4,11 @@ import { headers } from "next/headers"
 import { db } from "@/db";
 
 const isProduction = process.env.NODE_ENV === 'production';
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+const isSecure = baseURL.startsWith('https://');
  
 export const auth = betterAuth({
-	baseURL: process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000',
+	baseURL,
 	database: drizzleAdapter(db, {
 		provider: "sqlite",
 	}),
@@ -37,12 +39,13 @@ export const auth = betterAuth({
 		}
 	},
 	advanced: {
+		useSecureCookies: isSecure,
 		crossSubDomainCookies: {
 			enabled: false,
 		},
 		defaultCookieAttributes: {
 			sameSite: "none",
-			secure: true,
+			secure: isSecure,
 			path: "/",
 		}
 	}
