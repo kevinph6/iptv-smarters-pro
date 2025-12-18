@@ -70,31 +70,32 @@ function clearSessionFromStorage() {
 }
 
 export function useSession(): SessionState {
-  const [session, setSession] = useState<Session>(null);
+  const [session, setSession] = useState<Session>(() => getSessionFromStorage());
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   const fetchSession = useCallback(async () => {
     setIsPending(true);
     setError(null);
+    
+    // First check localStorage for immediate response
+    const storedSession = getSessionFromStorage();
+    if (storedSession) {
+      setSession(storedSession);
+    }
+    
     try {
       const res = await authClient.getSession();
       if (res.data) {
         setSession(res.data as Session);
         saveSessionToStorage(res.data as Session);
-      } else {
-        const storedSession = getSessionFromStorage();
-        if (storedSession) {
-          setSession(storedSession);
-        } else {
-          setSession(null);
-        }
+      } else if (!storedSession) {
+        // Only clear if no stored session and no API session
+        setSession(null);
       }
     } catch (err) {
-      const storedSession = getSessionFromStorage();
-      if (storedSession) {
-        setSession(storedSession);
-      } else {
+      // On error, keep using stored session if available
+      if (!storedSession) {
         setSession(null);
         setError(err as Error);
       }
