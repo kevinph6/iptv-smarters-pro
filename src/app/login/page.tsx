@@ -34,56 +34,49 @@ function LoginForm() {
     }
   }, [searchParams]);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-      
-      if (!email || !password) {
-        toast.error('Veuillez remplir tous les champs');
-        return;
-      }
-
-      setLoading(true);
-      
-      try {
-        const result = await authClient.signIn.email({
-          email,
-          password,
-          rememberMe,
-        });
-
-        if (result.error) {
-          toast.error('Email ou mot de passe invalide. Veuillez réessayer.');
-          setLoading(false);
+      const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        
+        if (!email || !password) {
+          toast.error('Veuillez remplir tous les champs');
           return;
         }
 
-        if (result.data?.user) {
-            // Store session in localStorage as fallback for iframe environments
-            if (typeof window !== 'undefined') {
-              try {
-                const sessionData = {
-                  user: result.data.user,
-                  session: { id: 'local', expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) }
-                };
-                localStorage.setItem('better-auth-session', JSON.stringify(sessionData));
-              } catch {}
+        setLoading(true);
+        
+        try {
+          const result = await authClient.signIn.email({
+            email,
+            password,
+            rememberMe,
+            fetchOptions: {
+              credentials: 'include',
             }
-            toast.success('Connexion réussie!');
-            const redirect = searchParams.get('redirect') || '/vxodnasait';
-            // Use router.push with a small delay to ensure state is updated
-            setTimeout(() => {
-              router.push(redirect);
-            }, 100);
-          } else {
-            toast.error('Erreur de connexion. Veuillez réessayer.');
+          });
+
+          if (result.error) {
+            toast.error('Email ou mot de passe invalide. Veuillez réessayer.');
             setLoading(false);
+            return;
           }
-      } catch (err) {
-        toast.error('Une erreur est survenue. Veuillez réessayer.');
-        console.error(err);
-        setLoading(false);
-      }
-    };
+
+          if (result.data?.user) {
+              toast.success('Connexion réussie!');
+              
+              // Force a full page reload to ensure cookies are properly set
+              // This is necessary for iframe environments with partitioned cookies
+              const redirect = searchParams.get('redirect') || '/vxodnasait';
+              window.location.href = redirect;
+            } else {
+              toast.error('Erreur de connexion. Veuillez réessayer.');
+              setLoading(false);
+            }
+        } catch (err) {
+          toast.error('Une erreur est survenue. Veuillez réessayer.');
+          console.error(err);
+          setLoading(false);
+        }
+      };
 
   if (isPending) {
     return (
