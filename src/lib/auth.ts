@@ -3,7 +3,9 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { headers } from "next/headers"
 import { db } from "@/db";
 
-const baseURL = process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+const baseURL = process.env.BETTER_AUTH_URL || 
+                (process.env.NEXT_PUBLIC_BASE_URL && !process.env.NEXT_PUBLIC_BASE_URL.includes('localhost') ? process.env.NEXT_PUBLIC_BASE_URL : undefined) || 
+                'http://localhost:3000';
 const isSecure = baseURL.startsWith('https://');
  
 export const auth = betterAuth({
