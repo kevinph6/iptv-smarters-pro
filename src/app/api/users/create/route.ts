@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { db } from '@/db';
-import { session, user } from '@/db/schema';
+import { user } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
-// Middleware to verify session and check admin role using Better Auth
 async function verifyAdminSession(request: NextRequest) {
   try {
     const session = await auth.api.getSession({ headers: request.headers });
@@ -19,7 +18,6 @@ async function verifyAdminSession(request: NextRequest) {
 
     const currentUser = session.user as any;
 
-    // Check if user has admin role
     if (currentUser.role !== 'admin') {
       return { error: 'Forbidden - Admin role required to create users', status: 403, user: null };
     }
@@ -33,7 +31,6 @@ async function verifyAdminSession(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    // Verify authentication and admin role
     const authResult = await verifyAdminSession(request);
     if (authResult.error || !authResult.user) {
       return NextResponse.json(
@@ -52,7 +49,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate name
     if (typeof name !== 'string' || name.trim().length === 0) {
       return NextResponse.json(
         { error: 'Name must be a non-empty string' },
@@ -60,7 +56,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
@@ -69,7 +64,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate password length
     if (password.length < 8) {
       return NextResponse.json(
         { error: 'Password must be at least 8 characters long' },
@@ -77,7 +71,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate role if provided
     const validRoles = ['admin', 'dev', 'writer'];
     const assignedRole = role || 'writer';
     
@@ -88,7 +81,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Use better-auth to create the user with proper password hashing
     const result = await auth.api.signUpEmail({
       body: {
         name: name.trim(),
@@ -104,7 +96,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Update the user's role if not default
     if (assignedRole !== 'writer') {
       await db.update(user)
         .set({ role: assignedRole })
@@ -124,7 +115,6 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error('Error creating user:', error);
     
-    // Handle specific errors
     if (error.message?.includes('UNIQUE constraint failed') || error.message?.includes('already exists')) {
       return NextResponse.json(
         { error: 'Email already exists' },
