@@ -50,6 +50,7 @@ export const auth = betterAuth({
 			secure: isSecure,
 			path: "/",
 			httpOnly: true,
+			partitioned: isSecure,
 		}
 	}
 });
