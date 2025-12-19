@@ -5,10 +5,12 @@ import { eq, and } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { hash } from '@node-rs/argon2';
 
+import { headers } from "next/headers"
+
 // Middleware to verify session and check admin role using Better Auth
 async function verifyAdminSession(request: NextRequest) {
   try {
-    const session = await auth.api.getSession({ headers: request.headers });
+    const session = await auth.api.getSession({ headers: await headers() });
     
     if (!session) {
       return { error: 'No active session', status: 401, user: null };
