@@ -3,11 +3,17 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { headers } from "next/headers"
 import { db } from "@/db";
 
+// Detect environment more accurately
+const isLocalhost = typeof window !== 'undefined' 
+    ? window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    : process.env.NODE_ENV === 'development' || !process.env.VERCEL;
+
 const baseURL = process.env.BETTER_AUTH_URL || 
-                (process.env.NEXT_PUBLIC_BASE_URL && !process.env.NEXT_PUBLIC_BASE_URL.includes('localhost') ? process.env.NEXT_PUBLIC_BASE_URL : undefined) || 
+                (isLocalhost ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_BASE_URL) || 
                 'http://localhost:3000';
+
 const isSecure = baseURL.startsWith('https://');
- 
+   
 export const auth = betterAuth({
 	baseURL,
 	database: drizzleAdapter(db, {
@@ -19,6 +25,7 @@ export const auth = betterAuth({
 	trustedOrigins: [
 		"http://localhost:3000",
 		"http://localhost:3001",
+		"http://localhost:3003",
 		"https://abonnement-iptv-smarterspro.fr",
 		"https://www.abonnement-iptv-smarterspro.fr",
 		"https://*.proxy.daytona.works",
