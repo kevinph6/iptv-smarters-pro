@@ -5,44 +5,20 @@ import { eq, and } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { hash } from '@node-rs/argon2';
 
-// Middleware to verify session token and check admin role
+// Middleware to verify session and check admin role using Better Auth
 async function verifyAdminSession(request: NextRequest) {
-  const authHeader = request.headers.get('Authorization');
-  
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return { error: 'No authorization token provided', status: 401, user: null };
-  }
-
-  const token = authHeader.substring(7);
-  
   try {
-    const sessions = await db.select()
-      .from(session)
-      .where(eq(session.token, token))
-      .limit(1);
-
-    if (sessions.length === 0) {
-      return { error: 'Invalid session token', status: 401, user: null };
-    }
-
-    const userSession = sessions[0];
+    const session = await auth.api.getSession({ headers: request.headers });
     
-    // Check if session is expired
-    if (new Date(userSession.expiresAt) < new Date()) {
-      return { error: 'Session expired', status: 401, user: null };
+    if (!session) {
+      return { error: 'No active session', status: 401, user: null };
     }
 
-    // Get the user to check their role
-    const users = await db.select()
-      .from(user)
-      .where(eq(user.id, userSession.userId))
-      .limit(1);
-
-    if (users.length === 0) {
-      return { error: 'User not found', status: 401, user: null };
+    if (!session.user) {
+      return { error: 'User not found in session', status: 401, user: null };
     }
 
-    const currentUser = users[0];
+    const currentUser = session.user as any;
 
     // Check if user has admin role
     if (currentUser.role !== 'admin') {
