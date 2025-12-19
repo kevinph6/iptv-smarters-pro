@@ -85,7 +85,15 @@ export function useSession(): SessionState {
     }
     
     try {
-      const res = await authClient.getSession();
+      const res = await authClient.getSession({
+        fetchOptions: {
+          credentials: 'include',
+          cache: 'no-store',
+        }
+      });
+      
+      console.log('Session fetch result:', res);
+      
       if (res.data) {
         const sessionData = res.data as Session;
         setSession(sessionData);
@@ -95,7 +103,7 @@ export function useSession(): SessionState {
         clearSessionFromStorage();
       }
     } catch (err) {
-      // On error, keep using stored session if available
+      console.error('Session fetch error:', err);
       if (!storedSession) {
         setSession(null);
         setError(err as Error);
