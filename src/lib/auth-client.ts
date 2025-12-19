@@ -87,11 +87,12 @@ export function useSession(): SessionState {
     try {
       const res = await authClient.getSession();
       if (res.data) {
-        setSession(res.data as Session);
-        saveSessionToStorage(res.data as Session);
-      } else if (!storedSession) {
-        // Only clear if no stored session and no API session
+        const sessionData = res.data as Session;
+        setSession(sessionData);
+        saveSessionToStorage(sessionData);
+      } else {
         setSession(null);
+        clearSessionFromStorage();
       }
     } catch (err) {
       // On error, keep using stored session if available
