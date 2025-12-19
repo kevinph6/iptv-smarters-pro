@@ -4,9 +4,11 @@ import { db } from '@/db';
 import { user } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
+import { headers } from "next/headers";
+
 async function verifyAdminSession(request: NextRequest) {
   try {
-    const session = await auth.api.getSession({ headers: request.headers });
+    const session = await auth.api.getSession({ headers: await headers() });
     
     if (!session) {
       return { error: 'No active session', status: 401, user: null };
