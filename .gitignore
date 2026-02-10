@@ -45,4 +45,3 @@ local.db-journal
 .env
 .env.local
 .env.production
-src/app/home-2/
