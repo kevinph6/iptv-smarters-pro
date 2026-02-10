@@ -241,8 +241,14 @@ export default function CheckoutPage({ params }: Props) {
         sessionStorage.setItem('pendingOrderEmail', email);
       }
 
-      // Redirect to payment page
-      window.location.href = data.paymentUrl;
+      // Open payment in a new tab, keep this tab for the success page
+      const paymentWindow = window.open(data.paymentUrl, '_blank', 'noopener,noreferrer');
+      if (paymentWindow) {
+        router.push(`/checkout/success?order=${data.orderNumber}`);
+      } else {
+        // Fallback if popup blocked
+        window.location.href = data.paymentUrl;
+      }
     } catch {
       setError('Erreur de connexion. Veuillez réessayer.');
       setLoading(false);

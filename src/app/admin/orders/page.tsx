@@ -20,6 +20,8 @@ interface Order {
   status: string;
   paymentProvider: string | null;
   valueCoin: string | null;
+  ipnToken: string | null;
+  addressIn: string | null;
   iptvUsername: string | null;
   iptvPassword: string | null;
   iptvServerUrl: string | null;
@@ -340,7 +342,10 @@ function OrderDetailModal({ order, onClose, onResendEmail, resending }: {
               {statusConfig.label}
             </span>
           </DetailRow>
+          {order.paymentProvider && <DetailRow label="Provider" value={order.paymentProvider} />}
           {order.valueCoin && <DetailRow label="USDC recu" value={order.valueCoin} />}
+          {order.addressIn && <DetailRow label="Wallet (address_in)" value={order.addressIn} mono />}
+          {order.ipnToken && <DetailRow label="IPN Token" value={order.ipnToken} mono />}
           <DetailRow label="Date" value={new Date(order.createdAt).toLocaleString('fr-FR')} />
 
           {order.iptvUsername && (

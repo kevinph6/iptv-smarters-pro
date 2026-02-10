@@ -82,7 +82,8 @@ export async function POST(request: NextRequest) {
 
     // Generate order number
     const orderNumber = generateOrderNumber();
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_BASE_URL || 'https://abonnement-iptv-smarterspro.fr';
+    const requestOrigin = request.headers.get('origin') || request.nextUrl.origin;
+    const siteUrl = requestOrigin || process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_BASE_URL || 'https://abonnement-iptv-smarterspro.fr';
     
     // Build callback URL with order number as unique parameter
     const callbackUrl = `${siteUrl}/api/checkout/callback?order=${orderNumber}`;
