@@ -131,6 +131,7 @@ export const orders = sqliteTable('orders', {
   valueCoin: text('value_coin'), // USDC amount received from PayGate
   ipnToken: text('ipn_token'),
   addressIn: text('address_in'), // encrypted wallet address from PayGate
+  polygonAddressIn: text('polygon_address_in'), // on-chain wallet for tracking
   // IPTV credentials (filled after MegaOTT provisioning)
   iptvUsername: text('iptv_username'),
   iptvPassword: text('iptv_password'),

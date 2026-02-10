@@ -268,6 +268,43 @@ nextjs-portal {
 }
 
 /* ═══════════════════════════════════════════
+   NETFLIX PAGE RESET (home-2)
+   Override global base styles inside .nf-reset
+   ═══════════════════════════════════════════ */
+
+.nf-reset h1,
+.nf-reset h2,
+.nf-reset h3,
+.nf-reset h4,
+.nf-reset h5,
+.nf-reset h6 {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+.nf-reset p {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+.nf-reset .text-lg {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+.nf-reset .text-sm {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+/* ═══════════════════════════════════════════
    NETFLIX-STYLE ANIMATIONS (home-2)
    ═══════════════════════════════════════════ */
 

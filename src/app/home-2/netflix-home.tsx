@@ -813,7 +813,7 @@ function NetflixFooter() {
 
 export default function NetflixHome() {
   return (
-    <main className="min-h-screen bg-[#141414] text-white">
+    <main className="nf-reset min-h-screen bg-[#141414] text-white">
       <NetflixNav />
       <CinematicHero />
       <FeaturesSection />

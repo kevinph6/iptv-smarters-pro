@@ -45,30 +45,34 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Order not found' }, { status: 404 });
     }
 
-    // Prevent double processing
-    if (order.status === 'provisioned' || order.status === 'paid') {
-      console.log(`[Callback] Order ${orderNumber} already processed (status: ${order.status})`);
+    // Prevent double processing - only skip if already fully provisioned
+    if (order.status === 'provisioned') {
+      console.log(`[Callback] Order ${orderNumber} already provisioned, skipping`);
       return NextResponse.json({ status: 'already_processed' });
     }
 
-    if (order.status !== 'pending') {
+    // Allow 'pending' and 'paid' (retry provisioning if payment confirmed but provisioning failed)
+    if (order.status !== 'pending' && order.status !== 'paid') {
       console.error(`[Callback] Order ${orderNumber} has unexpected status: ${order.status}`);
       return NextResponse.json({ error: 'Invalid order status' }, { status: 400 });
     }
 
     const now = new Date().toISOString();
 
-    // Update order to paid
-    await db
-      .update(orders)
-      .set({
-        status: 'paid',
-        valueCoin: valueCoin || null,
-        updatedAt: now,
-      })
-      .where(eq(orders.orderNumber, orderNumber));
-
-    console.log(`[Callback] Order ${orderNumber} marked as paid`);
+    // Update order to paid (only if still pending)
+    if (order.status === 'pending') {
+      await db
+        .update(orders)
+        .set({
+          status: 'paid',
+          valueCoin: valueCoin || null,
+          updatedAt: now,
+        })
+        .where(eq(orders.orderNumber, orderNumber));
+      console.log(`[Callback] Order ${orderNumber} marked as paid`);
+    } else {
+      console.log(`[Callback] Order ${orderNumber} already paid, retrying provisioning...`);
+    }
 
     // Load settings
     const settings = await loadPaymentSettings();

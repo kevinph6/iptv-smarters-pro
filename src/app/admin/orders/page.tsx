@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Loader2, Mail, RefreshCw, Eye, ShoppingBag, CheckCircle, Clock, AlertTriangle, XCircle } from 'lucide-react';
+import { ArrowLeft, Loader2, Mail, RefreshCw, Eye, ShoppingBag, CheckCircle, Clock, AlertTriangle, XCircle, RotateCcw } from 'lucide-react';
 import { toast } from 'sonner';
 import { useSession } from '@/lib/auth-client';
 
@@ -22,6 +22,7 @@ interface Order {
   valueCoin: string | null;
   ipnToken: string | null;
   addressIn: string | null;
+  polygonAddressIn: string | null;
   iptvUsername: string | null;
   iptvPassword: string | null;
   iptvServerUrl: string | null;
@@ -43,6 +44,7 @@ export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [resending, setResending] = useState<string | null>(null);
+  const [reconciling, setReconciling] = useState<string | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [filter, setFilter] = useState<string>('all');
 
@@ -100,6 +102,32 @@ export default function AdminOrdersPage() {
       toast.error('Erreur de connexion');
     } finally {
       setResending(null);
+    }
+  };
+
+  const handleReconcile = async (orderNumber: string) => {
+    setReconciling(orderNumber);
+    try {
+      const response = await fetch('/api/admin/orders/reconcile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderNumber }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success(`Commande provisionee: ${data.credentials?.username || 'OK'}`);
+        fetchOrders(); // Refresh list
+      } else if (data.error) {
+        toast.error(data.error);
+      } else {
+        toast.info(data.message || 'Statut verifie');
+      }
+    } catch {
+      toast.error('Erreur de connexion');
+    } finally {
+      setReconciling(null);
     }
   };
 
@@ -292,6 +320,8 @@ export default function AdminOrdersPage() {
           onClose={() => setSelectedOrder(null)}
           onResendEmail={handleResendEmail}
           resending={resending}
+          onReconcile={handleReconcile}
+          reconciling={reconciling}
         />
       )}
     </div>
@@ -310,11 +340,13 @@ function StatCard({ label, value, icon }: { label: string; value: number; icon: 
   );
 }
 
-function OrderDetailModal({ order, onClose, onResendEmail, resending }: {
+function OrderDetailModal({ order, onClose, onResendEmail, resending, onReconcile, reconciling }: {
   order: Order;
   onClose: () => void;
   onResendEmail: (orderNumber: string) => void;
   resending: string | null;
+  onReconcile: (orderNumber: string) => void;
+  reconciling: string | null;
 }) {
   const statusConfig = STATUS_CONFIG[order.status] || STATUS_CONFIG['pending'];
 
@@ -344,9 +376,35 @@ function OrderDetailModal({ order, onClose, onResendEmail, resending }: {
           </DetailRow>
           {order.paymentProvider && <DetailRow label="Provider" value={order.paymentProvider} />}
           {order.valueCoin && <DetailRow label="USDC recu" value={order.valueCoin} />}
-          {order.addressIn && <DetailRow label="Wallet (address_in)" value={order.addressIn} mono />}
-          {order.ipnToken && <DetailRow label="IPN Token" value={order.ipnToken} mono />}
+          {order.polygonAddressIn && (
+            <DetailRow label="Wallet Polygon">
+              <a
+                href={`https://polygonscan.com/address/${order.polygonAddressIn}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-cyan-400 hover:text-cyan-300 text-sm font-mono break-all underline"
+              >
+                {order.polygonAddressIn}
+              </a>
+            </DetailRow>
+          )}
           <DetailRow label="Date" value={new Date(order.createdAt).toLocaleString('fr-FR')} />
+
+          {/* Reconcile button for non-provisioned orders */}
+          {order.status !== 'provisioned' && (
+            <button
+              onClick={() => onReconcile(order.orderNumber)}
+              disabled={reconciling === order.orderNumber}
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-amber-500/20 border border-amber-500/30 text-amber-400 rounded-xl hover:bg-amber-500/30 transition-all disabled:opacity-50 mt-2"
+            >
+              {reconciling === order.orderNumber ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <RotateCcw className="w-4 h-4" />
+              )}
+              Verifier paiement &amp; provisionner
+            </button>
+          )}
 
           {order.iptvUsername && (
             <>

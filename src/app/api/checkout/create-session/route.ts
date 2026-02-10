@@ -104,6 +104,9 @@ export async function POST(request: NextRequest) {
     const walletData = await walletResponse.json();
     const addressIn = walletData.address_in;
     const ipnToken = walletData.ipn_token;
+    const polygonAddressIn = walletData.polygon_address_in;
+
+    console.log(`[Checkout] Wallet created: polygon=${polygonAddressIn}, callback=${walletData.callback_url}`);
 
     if (!addressIn) {
       console.error('[Checkout] No address_in in PayGate response:', walletData);
@@ -128,6 +131,7 @@ export async function POST(request: NextRequest) {
       paymentProvider: provider,
       ipnToken: ipnToken || null,
       addressIn: addressIn,
+      polygonAddressIn: polygonAddressIn || null,
       createdAt: now,
       updatedAt: now,
     });
