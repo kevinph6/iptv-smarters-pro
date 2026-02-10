@@ -169,13 +169,19 @@ export async function createSubscription(
   formData.append('username', username);
   formData.append('package_id', params.packageId.toString());
   formData.append('max_connections', (params.maxConnections || 1).toString());
-  formData.append('forced_country', params.forcedCountry || 'ALL');
+
+  // MegaOTT only accepts "ALL" or specific 2-letter codes like "US", "GB", etc.
+  // It does NOT accept "FR" — always fall back to "ALL" if unsure.
+  const country = params.forcedCountry?.toUpperCase() || 'ALL';
+  formData.append('forced_country', country === 'ALL' ? 'ALL' : country);
+
   formData.append('adult', params.adult ? '1' : '0');
   formData.append('enable_vpn', params.enableVpn ? '1' : '0');
   formData.append('paid', params.paid ? '1' : '0');
 
-  // whatsapp_telegram is required and must be a non-empty string
-  formData.append('whatsapp_telegram', params.whatsappTelegram || '0000000000');
+  // whatsapp_telegram is REQUIRED by MegaOTT and must be a non-empty string
+  const phone = params.whatsappTelegram?.trim();
+  formData.append('whatsapp_telegram', phone && phone.length > 0 ? phone : '0000000000');
 
   // Optional fields
   if (params.macAddress) {
