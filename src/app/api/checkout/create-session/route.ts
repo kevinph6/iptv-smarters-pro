@@ -131,11 +131,37 @@ export async function POST(request: NextRequest) {
       updatedAt: now,
     });
 
-    // Step 2: Build payment redirect URL
-    // Always use pay.php (multi-provider checkout) - process-payment.php doesn't support
-    // temporary wallet addresses for fiat providers like Revolut
+    // Step 2: Build payment redirect URL per PayGate.to API docs
+    // https://documenter.getpostman.com/view/14826208/2sA3Bj9aBi
+    //
+    // address_in from wallet.php is already URL-encoded (contains %2F, %3D etc.)
+    // We encodeURIComponent it again so the server receives the original value after decoding.
+    // This matches the curl examples in the official docs.
+    const encodedAddress = encodeURIComponent(addressIn);
     const encodedEmail = encodeURIComponent(email);
-    const paymentUrl = `https://checkout.paygate.to/pay.php?address=${encodeURIComponent(addressIn)}&amount=${product.price}&email=${encodedEmail}&currency=${currency}`;
+
+    let paymentUrl: string;
+
+    // Valid single-provider names per API docs:
+    // moonpay, banxa, transak, particle, guardarian, rampnetwork, mercuryo,
+    // utorg, transfi, stripe, topper, sardine, upi, robinhood, coinbase,
+    // unlimit, bitnovo, simplex, interac, binance, revolut
+    const VALID_PROVIDERS = [
+      'moonpay', 'banxa', 'transak', 'particle', 'guardarian', 'rampnetwork',
+      'mercuryo', 'utorg', 'transfi', 'stripe', 'topper', 'sardine', 'upi',
+      'robinhood', 'coinbase', 'unlimit', 'bitnovo', 'simplex', 'interac',
+      'binance', 'revolut',
+    ];
+
+    if (provider !== 'multi' && VALID_PROVIDERS.includes(provider)) {
+      // Single provider mode → process-payment.php
+      paymentUrl = `https://checkout.paygate.to/process-payment.php?address=${encodedAddress}&amount=${product.price}&provider=${provider}&email=${encodedEmail}&currency=${currency}`;
+    } else {
+      // Multi-provider mode → pay.php (shows all available payment methods)
+      paymentUrl = `https://checkout.paygate.to/pay.php?address=${encodedAddress}&amount=${product.price}&email=${encodedEmail}&currency=${currency}`;
+    }
+
+    console.log(`[Checkout] Order ${orderNumber} | provider=${provider} | url=${paymentUrl}`);
 
     return NextResponse.json({
       success: true,

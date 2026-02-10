@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useInView } from "react-intersection-observer";
 import {
   Play,
   Info,
@@ -46,6 +47,29 @@ import {
   CreditCard,
   HelpCircle,
 } from "lucide-react";
+
+// ═══════════════════════════════════════════
+// ANIMATIONS & UTILS
+// ═══════════════════════════════════════════
+
+function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  return (
+    <div
+      ref={ref}
+      className={`${className} transition-all duration-1000 ease-out ${
+        inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+      }`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
 
 // ═══════════════════════════════════════════
 // DATA
@@ -119,10 +143,10 @@ const faqData = [
 ];
 
 const features = [
-  { icon: Tv2, title: "160,000+ Chaînes Mondiales", description: "Accédez à toutes les chaînes mondiales en qualité 4K, Full HD et HD. Sports, divertissement, actualités.", gradient: "from-red-600 to-red-800", stat: "4K" },
-  { icon: Film, title: "20,000+ VOD Films & Séries", description: "Bibliothèque illimitée de films et séries incluant Netflix, Amazon Prime et plus.", gradient: "from-red-700 to-rose-900", stat: "20K+" },
-  { icon: Zap, title: "Activation Instantanée", description: "Configuration instantanée par email ou WhatsApp. Commencez à regarder immédiatement.", gradient: "from-amber-600 to-red-700", stat: "5min" },
-  { icon: Headphones, title: "Support Client 24/7", description: "Notre équipe est disponible à tout moment pour vous aider par WhatsApp et email.", gradient: "from-red-800 to-pink-900", stat: "24/7" },
+  { icon: Tv2, title: "160,000+ Chaînes Mondiales", description: "Accédez à toutes les chaînes mondiales en qualité 4K, Full HD et HD. Sports, divertissement, actualités.", gradient: "from-red-600 to-red-800", stat: "4K", image: "/assets/feature-channels.png" },
+  { icon: Film, title: "20,000+ VOD Films & Séries", description: "Bibliothèque illimitée de films et séries incluant Netflix, Amazon Prime et plus.", gradient: "from-red-700 to-rose-900", stat: "20K+", image: "/assets/feature-vod.png" },
+  { icon: Zap, title: "Activation Instantanée", description: "Configuration instantanée par email ou WhatsApp. Commencez à regarder immédiatement.", gradient: "from-amber-600 to-red-700", stat: "5min", image: "/assets/feature-speed.png" },
+  { icon: Headphones, title: "Support Client 24/7", description: "Notre équipe est disponible à tout moment pour vous aider par WhatsApp et email.", gradient: "from-red-800 to-pink-900", stat: "24/7", image: "/assets/feature-support.png" },
 ];
 
 const devices = [

@@ -7,24 +7,30 @@ import { ArrowLeft, Save, Loader2, Wallet, Server, Mail, Package, Eye, EyeOff } 
 import { toast } from 'sonner';
 import { useSession, clearSessionFromStorage } from '@/lib/auth-client';
 
+// Exact provider names from PayGate.to API docs:
+// https://documenter.getpostman.com/view/14826208/2sA3Bj9aBi
 const PAYGATE_PROVIDERS = [
   { value: 'multi', label: 'Multi-provider (recommande - tous les moyens de paiement)' },
-  { value: 'stripe', label: 'Stripe' },
+  { value: 'stripe', label: 'Stripe (USD uniquement)' },
+  { value: 'revolut', label: 'Revolut' },
   { value: 'moonpay', label: 'MoonPay' },
   { value: 'banxa', label: 'Banxa' },
   { value: 'transak', label: 'Transak' },
+  { value: 'particle', label: 'Particle' },
   { value: 'guardarian', label: 'Guardarian' },
-  { value: 'rampnetwork', label: 'Ramp Network' },
+  { value: 'rampnetwork', label: 'Ramp Network (USD uniquement)' },
   { value: 'mercuryo', label: 'Mercuryo' },
   { value: 'utorg', label: 'Utorg' },
-  { value: 'transfi', label: 'TransFi' },
+  { value: 'transfi', label: 'TransFi (USD uniquement)' },
   { value: 'topper', label: 'Topper' },
   { value: 'sardine', label: 'Sardine' },
-  { value: 'revolut', label: 'Revolut' },
+  { value: 'upi', label: 'UPI (INR uniquement)' },
+  { value: 'robinhood', label: 'Robinhood (USD uniquement)' },
   { value: 'coinbase', label: 'Coinbase' },
   { value: 'unlimit', label: 'Unlimit' },
   { value: 'bitnovo', label: 'Bitnovo' },
   { value: 'simplex', label: 'Simplex' },
+  { value: 'interac', label: 'Interac (CAD uniquement)' },
   { value: 'binance', label: 'Binance' },
 ];
 
