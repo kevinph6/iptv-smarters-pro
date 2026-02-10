@@ -105,22 +105,29 @@ export default function AdminOrdersPage() {
     }
   };
 
-  const handleReconcile = async (orderNumber: string) => {
+  const handleReconcile = async (orderNumber: string, force = false) => {
     setReconciling(orderNumber);
     try {
       const response = await fetch('/api/admin/orders/reconcile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderNumber }),
+        body: JSON.stringify({ orderNumber, force }),
       });
 
       const data = await response.json();
 
       if (data.success) {
         toast.success(`Commande provisionee: ${data.credentials?.username || 'OK'}`);
-        fetchOrders(); // Refresh list
+        fetchOrders();
       } else if (data.error) {
         toast.error(data.error);
+      } else if (data.paygateStatus === 'unpaid' && !force) {
+        // PayGate says unpaid - offer force option
+        if (confirm('PayGate indique "non paye". Si vous avez verifie le paiement manuellement (wallet/blockchain), cliquez OK pour forcer le provisionnement.')) {
+          handleReconcile(orderNumber, true);
+          return;
+        }
+        toast.info(data.message);
       } else {
         toast.info(data.message || 'Statut verifie');
       }

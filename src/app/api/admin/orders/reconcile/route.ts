@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { orderNumber } = body;
+    const { orderNumber, force } = body;
 
     if (!orderNumber) {
       return NextResponse.json({ error: 'orderNumber requis' }, { status: 400 });
@@ -80,10 +80,10 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // If PayGate says unpaid, return the status
-    if (paygateStatus === 'unpaid') {
+    // If PayGate says unpaid and not force mode, return the status
+    if (paygateStatus === 'unpaid' && !force) {
       return NextResponse.json({
-        message: 'Paiement non encore confirme par PayGate',
+        message: 'Paiement non encore confirme par PayGate. Utilisez "Forcer" si vous avez verifie manuellement.',
         paygateStatus,
         orderStatus: order.status,
         polygonAddress: order.polygonAddressIn,
