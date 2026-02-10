@@ -15,7 +15,7 @@ import { loadPaymentSettings, generateOrderNumber } from '@/lib/payment-settings
 
 // Product data (matches the hardcoded products in the product pages)
 const PRODUCTS: Record<string, { title: string; price: string; type: string; duration: string }> = {
-  'test-iptv-3-mois': { title: 'TEST 3 Mois IPTV', price: '5', type: 'HD', duration: '3 mois' },
+  'test-iptv-3-mois': { title: 'TEST 3 Mois IPTV', price: '11', type: 'HD', duration: '3 mois' },
   'abonnement-iptv-hd-3-mois': { title: '3 Mois IPTV HD', price: '19', type: 'HD', duration: '3 mois' },
   'abonnement-iptv-hd-6-mois': { title: '6 Mois IPTV HD', price: '22', type: 'HD', duration: '6 mois' },
   'abonnement-iptv-hd-12-mois': { title: '12 Mois IPTV HD', price: '39', type: 'HD', duration: '12 mois' },
