@@ -132,16 +132,10 @@ export async function POST(request: NextRequest) {
     });
 
     // Step 2: Build payment redirect URL
-    let paymentUrl: string;
+    // Always use pay.php (multi-provider checkout) - process-payment.php doesn't support
+    // temporary wallet addresses for fiat providers like Revolut
     const encodedEmail = encodeURIComponent(email);
-    
-    if (provider === 'multi') {
-      // Multi-provider mode - shows all payment methods
-      paymentUrl = `https://checkout.paygate.to/pay.php?address=${encodeURIComponent(addressIn)}&amount=${product.price}&email=${encodedEmail}&currency=${currency}`;
-    } else {
-      // Single provider mode
-      paymentUrl = `https://checkout.paygate.to/process-payment.php?address=${encodeURIComponent(addressIn)}&amount=${product.price}&provider=${provider}&email=${encodedEmail}&currency=${currency}`;
-    }
+    const paymentUrl = `https://checkout.paygate.to/pay.php?address=${encodeURIComponent(addressIn)}&amount=${product.price}&email=${encodedEmail}&currency=${currency}`;
 
     return NextResponse.json({
       success: true,
