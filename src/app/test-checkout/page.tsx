@@ -14,7 +14,7 @@ export default function TestCheckoutPage() {
           <h1 className="text-3xl font-black text-white mb-2">Test Checkout</h1>
           <p className="text-white/60 mb-1">Product: TEST 3 Mois IPTV</p>
           <p className="text-white/60 mb-1">Package ID: 6 (3 Months)</p>
-          <p className="text-white/60 mb-6">Price: <span className="text-green-400 font-bold">$11 USD</span></p>
+          <p className="text-white/60 mb-6">Price: <span className="text-green-400 font-bold">7€</span></p>
           
           <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 mb-6 text-left">
             <p className="text-amber-300 text-sm font-bold mb-1">Test Mode</p>
@@ -28,7 +28,7 @@ export default function TestCheckoutPage() {
             href="/checkout/test-iptv-3-mois"
             className="block w-full py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-black text-lg rounded-xl hover:shadow-[0_0_30px_rgba(16,185,129,0.3)] transition-all"
           >
-            Go to Checkout — $11
+            Go to Checkout — 7€
           </Link>
           
           <p className="text-white/30 text-xs mt-4">
