@@ -55,6 +55,7 @@ function CheckoutSuccessContent() {
     if (!orderNumber) return;
 
     try {
+      // First check our order status
       const response = await fetch(`/api/checkout/status/${orderNumber}`);
       if (!response.ok) {
         if (response.status === 404) {
@@ -68,9 +69,26 @@ function CheckoutSuccessContent() {
       const data = await response.json();
       setOrder(data);
 
-      // Stop polling once provisioned or after max attempts
+      // If already provisioned, stop
       if (data.status === 'provisioned' || data.status === 'failed') {
         setLoading(false);
+        return;
+      }
+
+      // If still pending or paid, also check PayGate status directly
+      // This endpoint polls PayGate AND auto-provisions if payment is confirmed
+      const checkResp = await fetch(`/api/checkout/check-payment/${orderNumber}`);
+      if (checkResp.ok) {
+        const checkData = await checkResp.json();
+        if (checkData.status === 'provisioned' && checkData.credentials) {
+          // Payment confirmed and provisioned! Update local state
+          setOrder({
+            ...data,
+            status: 'provisioned',
+            credentials: checkData.credentials,
+          });
+          setLoading(false);
+        }
       }
     } catch {
       setPollCount(prev => prev + 1);

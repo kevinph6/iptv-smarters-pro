@@ -82,8 +82,12 @@ export async function POST(request: NextRequest) {
 
     // Generate order number
     const orderNumber = generateOrderNumber();
-    const requestOrigin = request.headers.get('origin') || request.nextUrl.origin;
-    const siteUrl = requestOrigin || process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_BASE_URL || 'https://abonnement-iptv-smarterspro.fr';
+
+    // Use the Vercel deployment URL for the callback — it's the most reliable
+    // since custom domains may have DNS/routing issues PayGate's bot can't handle.
+    // Fallback chain: VERCEL_URL (auto-set by Vercel) > NEXT_PUBLIC_SITE_URL > request origin
+    const vercelUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null;
+    const siteUrl = vercelUrl || process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_BASE_URL || request.nextUrl.origin;
     
     // Build callback URL with order number as unique parameter
     const callbackUrl = `${siteUrl}/api/checkout/callback?order=${orderNumber}`;
