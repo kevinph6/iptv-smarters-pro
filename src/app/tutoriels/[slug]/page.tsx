@@ -651,6 +651,8 @@ const tutorialsData: Record<string, TutorialData> = {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const tutorial = tutorialsData[slug];
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
+  const seoHomeUrl = `${baseUrl}/abonnement-iptv/`;
   
   if (!tutorial) {
     return {
@@ -659,22 +661,46 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
-    title: `${tutorial.title} - Guide Complet IPTV`,
+    title: `${tutorial.title} - Guide Complet IPTV 2026`,
     description: tutorial.description,
-    keywords: `tutoriel ${slug} iptv, installer iptv ${slug}, configuration iptv smarters pro, guide iptv, abonnement iptv`,
+    keywords: [
+      `tutoriel ${slug} iptv`, `installer iptv ${slug}`, 'configuration iptv smarters pro',
+      'guide iptv', 'abonnement iptv', 'iptv smarters pro', `iptv ${slug}`,
+      'comment installer iptv', 'tuto iptv france',
+    ],
+    alternates: {
+      canonical: `/tutoriels/${slug}`,
+    },
+    openGraph: {
+      type: 'article',
+      locale: 'fr_FR',
+      url: `/tutoriels/${slug}`,
+      title: `${tutorial.title} - Guide Complet`,
+      description: tutorial.description,
+      siteName: 'IPTV SMARTERS PRO',
+      images: [{ url: `${baseUrl}/og-image.jpg`, width: 1200, height: 630, alt: tutorial.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: tutorial.title,
+      description: tutorial.description,
+      images: [`${baseUrl}/og-image.jpg`],
+    },
   };
 }
 
 export default async function TutorialPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const tutorial = tutorialsData[slug];
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
+  const seoHomeUrl = `${baseUrl}/abonnement-iptv/`;
 
   if (!tutorial) {
     return (
       <main className="min-h-screen bg-black">
         <NavigationHeader />
         <div className="pt-32 pb-20 px-6 text-center">
-          <h1 className="text-4xl font-black text-white mb-4">Tutoriel non trouvé</h1>
+          <h1 className="text-4xl font-black text-white mb-4">Tutoriel non trouve</h1>
           <Link href="/tutoriels" className="text-cyan-400 hover:underline">
             Retour aux tutoriels
           </Link>
@@ -684,8 +710,42 @@ export default async function TutorialPage({ params }: { params: Promise<{ slug:
     );
   }
 
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": tutorial.title,
+    "description": tutorial.description,
+    "totalTime": `PT${tutorial.duration.replace(' minutes', 'M')}`,
+    "estimatedCost": { "@type": "MonetaryAmount", "currency": "EUR", "value": "0" },
+    "supply": tutorial.requirements.map(r => ({ "@type": "HowToSupply", "name": r })),
+    "step": tutorial.steps.map((step, i) => ({
+      "@type": "HowToStep",
+      "position": i + 1,
+      "name": step.title,
+      "text": step.description,
+      "itemListElement": step.details.map((detail, j) => ({
+        "@type": "HowToDirection",
+        "position": j + 1,
+        "text": detail,
+      })),
+    })),
+    "inLanguage": "fr-FR",
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Accueil", "item": seoHomeUrl },
+      { "@type": "ListItem", "position": 2, "name": "Tutoriels", "item": `${baseUrl}/tutoriels` },
+      { "@type": "ListItem", "position": 3, "name": tutorial.title, "item": `${baseUrl}/tutoriels/${slug}` },
+    ],
+  };
+
   return (
     <main className="min-h-screen bg-black">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <NavigationHeader />
       
       {/* Hero Section */}
@@ -840,14 +900,14 @@ export default async function TutorialPage({ params }: { params: Promise<{ slug:
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/#contact"
+                href="/abonnement-iptv/#contact"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold rounded-full hover:shadow-[0_0_40px_rgba(6,182,212,0.5)] transition-all duration-300 hover:scale-105"
               >
                 Contacter le Support
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
-                href="/#pricing"
+                href="/abonnement-iptv/#pricing"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/20 text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300"
               >
                 S'abonner Maintenant

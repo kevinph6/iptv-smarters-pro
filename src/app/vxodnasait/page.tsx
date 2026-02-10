@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Plus, Edit, Trash2, Eye, Calendar, User, Loader2, LogOut, Sparkles } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Calendar, User, Loader2, LogOut, Sparkles, ShoppingCart, Settings, CreditCard } from 'lucide-react';
 import { toast } from 'sonner';
 import { authClient, useSession, clearSessionFromStorage } from '@/lib/auth-client';
 
@@ -335,7 +335,31 @@ export default function AdminDashboard() {
         </div>
 
         {/* Quick Links */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <Link
+            href="/admin/orders"
+            className="p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:border-amber-500/50 transition-all group"
+          >
+            <ShoppingCart className="w-8 h-8 text-amber-400 mb-3" />
+            <h3 className="text-white font-bold text-lg mb-2 group-hover:text-amber-400 transition-colors">
+              Commandes
+            </h3>
+            <p className="text-white/60 text-sm">
+              Voir et gérer les commandes clients
+            </p>
+          </Link>
+          <Link
+            href="/admin/settings"
+            className="p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:border-green-500/50 transition-all group"
+          >
+            <Settings className="w-8 h-8 text-green-400 mb-3" />
+            <h3 className="text-white font-bold text-lg mb-2 group-hover:text-green-400 transition-colors">
+              Paiement & Configuration
+            </h3>
+            <p className="text-white/60 text-sm">
+              PayGate.to, MegaOTT, SMTP et paramètres
+            </p>
+          </Link>
           <Link
             href="/blog"
             className="p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:border-cyan-500/50 transition-all group"
@@ -361,11 +385,11 @@ export default function AdminDashboard() {
             </p>
           </Link>
           <Link
-            href="/"
-            className="p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:border-green-500/50 transition-all group"
+            href="/abonnement-iptv/"
+            className="p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:border-rose-500/50 transition-all group"
           >
-            <Eye className="w-8 h-8 text-green-400 mb-3" />
-            <h3 className="text-white font-bold text-lg mb-2 group-hover:text-green-400 transition-colors">
+            <Eye className="w-8 h-8 text-rose-400 mb-3" />
+            <h3 className="text-white font-bold text-lg mb-2 group-hover:text-rose-400 transition-colors">
               Retour au Site
             </h3>
             <p className="text-white/60 text-sm">

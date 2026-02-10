@@ -48,7 +48,7 @@ export default function MiddlewareTest() {
                 <ol className="list-decimal list-inside space-y-1 ml-4">
                   <li>Go to your Vercel project dashboard</li>
                   <li>Click "Settings" → "Domains"</li>
-                  <li>Add domain: <code className="bg-gray-700 px-2 py-1 rounded">restricted.abonnement-iptv-smarterspro.fr</code></li>
+                  <li>Add domain: <code className="bg-gray-700 px-2 py-1 rounded">restricted.officieliptvsmarterspro.fr</code></li>
                   <li>Follow Vercel's verification steps</li>
                 </ol>
               </div>

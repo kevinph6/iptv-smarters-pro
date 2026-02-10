@@ -1,11 +1,14 @@
 export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://abonnement-iptv-smarterspro.fr';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
   
-  // Static tutorial pages (expand this list as you add more tutorials)
+  // Tutorial slugs must match `src/app/tutoriels/[slug]/page.tsx`
   const tutorials = [
-    { slug: 'comment-configurer-iptv-smarters-pro', lastModified: new Date('2025-12-01'), priority: 0.7 },
-    { slug: 'installation-iptv-android', lastModified: new Date('2025-12-01'), priority: 0.7 },
-    { slug: 'configuration-smart-tv', lastModified: new Date('2025-12-01'), priority: 0.7 },
+    { slug: 'android', lastModified: new Date('2026-02-01'), priority: 0.7 },
+    { slug: 'ios', lastModified: new Date('2026-02-01'), priority: 0.7 },
+    { slug: 'smart-tv', lastModified: new Date('2026-02-01'), priority: 0.7 },
+    { slug: 'fire-tv', lastModified: new Date('2026-02-01'), priority: 0.7 },
+    { slug: 'pc-mac', lastModified: new Date('2026-02-01'), priority: 0.7 },
+    { slug: 'android-tv', lastModified: new Date('2026-02-01'), priority: 0.7 },
   ];
 
   const tutorialsPage = {

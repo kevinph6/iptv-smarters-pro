@@ -2,12 +2,33 @@ import NavigationHeader from '@/components/sections/navigation-header';
 import Footer from '@/components/sections/footer';
 import Link from 'next/link';
 import { Smartphone, Tv, Monitor, Play, BookOpen, ArrowRight } from 'lucide-react';
+import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Tutoriels IPTV - Guide Installation IPTV SMARTERS PRO sur Tous Appareils',
-  description: 'Guides complets pour installer votre abonnement IPTV SMARTERS PRO sur Android, iOS, Smart TV, Fire TV, PC. Tutoriels détaillés avec images.',
-  keywords: 'tutoriel iptv, installer iptv, configuration iptv smarters pro, guide iptv android, iptv smart tv, iptv fire tv, iptv ios',
+  title: 'Tutoriels IPTV - Guide Installation IPTV SMARTERS PRO sur Tous Appareils 2026',
+  description: 'Guides complets pour installer votre abonnement IPTV SMARTERS PRO sur Android, iOS, Smart TV, Fire TV, PC. Tutoriels detailles avec images.',
+  keywords: [
+    'tutoriel iptv', 'installer iptv', 'configuration iptv smarters pro',
+    'guide iptv android', 'iptv smart tv', 'iptv fire tv', 'iptv ios',
+    'comment installer iptv', 'tuto iptv france 2026',
+  ],
+  alternates: { canonical: '/tutoriels' },
+  openGraph: {
+    type: 'website',
+    locale: 'fr_FR',
+    url: '/tutoriels',
+    title: 'Tutoriels IPTV - Guide Installation sur Tous Appareils',
+    description: 'Guides complets pour installer IPTV SMARTERS PRO sur tous vos appareils.',
+    siteName: 'IPTV SMARTERS PRO',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Tutoriels IPTV SMARTERS PRO' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Tutoriels IPTV - Installation IPTV SMARTERS PRO',
+    description: 'Guides complets pour installer IPTV sur Android, iOS, Smart TV, Fire TV, PC.',
+    images: ['/og-image.jpg'],
+  },
 };
 
 const tutorials = [
@@ -83,9 +104,10 @@ export default function TutorialsPage() {
   return (
     <main className="min-h-screen bg-black">
       <NavigationHeader />
+      <div className="pt-20"><BreadcrumbNav items={[{ label: 'Tutoriels IPTV' }]} /></div>
       
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 px-6 overflow-hidden">
+      <section className="relative pt-12 pb-16 px-6 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-cyan-900/20" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(168,85,247,0.15),transparent_50%)]" />
         
@@ -243,7 +265,7 @@ export default function TutorialsPage() {
               Souscrivez à votre abonnement IPTV SMARTERS PRO et suivez nos tutoriels pour profiter de 160 000 chaînes en 5 minutes
             </p>
             <Link
-              href="/#pricing"
+              href="/abonnement-iptv/#pricing"
               className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold rounded-full hover:shadow-[0_0_40px_rgba(6,182,212,0.5)] transition-all duration-300 hover:scale-105"
             >
               S'abonner Maintenant

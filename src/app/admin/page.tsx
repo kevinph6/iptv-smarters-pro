@@ -287,7 +287,31 @@ export default function AdminDashboard() {
         </div>
 
         {/* Quick Links */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Link
+            href="/admin/orders"
+            className="p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:border-amber-500/50 transition-all group"
+          >
+            <Eye className="w-8 h-8 text-amber-400 mb-3" />
+            <h3 className="text-white font-bold text-lg mb-2 group-hover:text-amber-400 transition-colors">
+              Commandes
+            </h3>
+            <p className="text-white/60 text-sm">
+              Voir et gerer les commandes clients
+            </p>
+          </Link>
+          <Link
+            href="/admin/settings"
+            className="p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:border-green-500/50 transition-all group"
+          >
+            <Eye className="w-8 h-8 text-green-400 mb-3" />
+            <h3 className="text-white font-bold text-lg mb-2 group-hover:text-green-400 transition-colors">
+              Parametres
+            </h3>
+            <p className="text-white/60 text-sm">
+              Paiement, IPTV, email et configuration
+            </p>
+          </Link>
           <Link
             href="/blog"
             className="p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:border-cyan-500/50 transition-all group"
@@ -301,7 +325,7 @@ export default function AdminDashboard() {
             </p>
           </Link>
           <Link
-            href="/"
+            href="/abonnement-iptv/"
             className="p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:border-purple-500/50 transition-all group"
           >
             <Eye className="w-8 h-8 text-purple-400 mb-3" />
@@ -309,7 +333,7 @@ export default function AdminDashboard() {
               Retour au Site
             </h3>
             <p className="text-white/60 text-sm">
-              Retournez à la page d'accueil IPTV SMARTERS PRO
+              Retournez a la page d'accueil IPTV SMARTERS PRO
             </p>
           </Link>
         </div>

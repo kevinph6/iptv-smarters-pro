@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://abonnement-iptv-smarterspro.fr';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
   
   return {
     rules: [
@@ -14,7 +14,16 @@ export default function robots(): MetadataRoute.Robots {
           '/admin/',
           '/login',
           '/register',
+          '/checkout/',
+          '/geo-check',
           '/*?*utm_source=',
+          '/*?*utm_=',
+          '/*?*utm_medium=',
+          '/*?*utm_campaign=',
+          '/*?*utm_term=',
+          '/*?*utm_content=',
+          '/*?*gclid=',
+          '/*?*fbclid=',
           '/*?*sessionid=',
         ],
         crawlDelay: 0,
@@ -28,6 +37,8 @@ export default function robots(): MetadataRoute.Robots {
           '/admin/',
           '/login',
           '/register',
+          '/checkout/',
+          '/geo-check',
         ],
       },
       {
@@ -43,6 +54,8 @@ export default function robots(): MetadataRoute.Robots {
           '/admin/',
           '/login',
           '/register',
+          '/checkout/',
+          '/geo-check',
         ],
         crawlDelay: 1,
       },

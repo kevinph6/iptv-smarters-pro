@@ -1,46 +1,20 @@
-"use client";
+import dynamic from 'next/dynamic';
+import { ArrowRight, Play, Globe, Clock, Headphones } from 'lucide-react';
 
-import React from 'react';
-import Image from 'next/image';
-import { ArrowRight, Play, Zap, Globe, Clock, Headphones } from 'lucide-react';
-
-const createSeededRandom = (seed: number) => {
-  let value = seed;
-  return () => {
-    const x = Math.sin(value++) * 10000;
-    return x - Math.floor(x);
-  };
-};
-
-const seededRandom = createSeededRandom(42);
-const particleStyles = Array.from({ length: 20 }, () => ({
-  left: `${10 + seededRandom() * 80}%`,
-  top: `${10 + seededRandom() * 80}%`,
-  animationDelay: `${seededRandom() * 1.8}s`,
-  animationDuration: `${2.2 + seededRandom() * 1.6}s`,
-}));
+// Lazy-load the countdown timer (client component) - not needed for initial paint
+const DiscountBanner = dynamic(() => import('./discount-banner'), {
+  loading: () => <div className="max-w-5xl mx-auto h-32 bg-white/5 rounded-2xl" />,
+});
 
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen overflow-hidden bg-black pt-20">
-      {/* Animated Mesh Gradient Background */}
+      {/* Mesh Gradient Background - pure CSS, no JS cost */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,rgba(6,182,212,0.15),transparent_50%)]" />
         <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,rgba(168,85,247,0.15),transparent_50%)]" />
         <div className="absolute bottom-0 left-1/2 w-full h-full bg-[radial-gradient(ellipse_at_bottom,rgba(236,72,153,0.1),transparent_50%)]" />
       </div>
-
-        {/* Floating Particles */}
-        <div className="absolute inset-0 overflow-hidden">
-          {particleStyles.map((style, i) => (
-            <div
-              key={`particle-${i}`}
-              className="absolute w-1 h-1 bg-cyan-400/30 rounded-full animate-pulse"
-              style={style}
-            />
-          ))}
-        </div>
-
 
       <div className="relative z-10 container mx-auto px-6 lg:px-12 max-w-7xl pt-16 pb-20">
         {/* Badge */}
@@ -58,10 +32,10 @@ const HeroSection = () => {
         {/* Main Content */}
         <div className="text-center max-w-5xl mx-auto mb-16">
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-8">
-            <span className="block">Meilleur Abonnement</span>
+            <span className="block">IPTV Smarters Pro</span>
             <span className="relative inline-block">
               <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
-                IPTV N°1 En France
+                Meilleur Abonnement IPTV France
               </span>
               <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none">
                 <path d="M2 10C50 4 100 2 150 6C200 10 250 4 298 8" stroke="url(#gradient)" strokeWidth="3" strokeLinecap="round" />
@@ -137,46 +111,8 @@ const HeroSection = () => {
           )}
         </div>
 
-        {/* Hero Image */}
-        <div className="relative max-w-5xl mx-auto">
-          <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-2xl" />
-          <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-white/10 to-white/5 p-2 !px-2">
-            <Image
-              src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/ba0e4002-35cb-42f6-b185-6a3961472a13-officieliptvsmarterspro-fr/assets/images/officiel-iptv-smarters-1.png"
-              alt="IPTV SMARTERS PRO Interface - Abonnement iptv premium"
-              width={1200}
-              height={600}
-              className="rounded-xl w-full h-auto"
-              priority />
-
-            
-            {/* Floating Elements */}
-            <div className="absolute left-4 top-1/3 -translate-x-1/2 animate-bounce">
-              <div className="px-4 py-3 rounded-xl bg-black/80 backdrop-blur-xl border border-cyan-500/30 shadow-xl">
-                <div className="flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-cyan-400" />
-                  <span className="text-white font-semibold text-sm">4K Ultra HD</span>
-                </div>
-                <p className="text-white/40 text-[8px] mt-0.5">IPTV SMARTERS PRO</p>
-              </div>
-            </div>
-            
-            <div className="absolute right-4 bottom-1/3 translate-x-1/2 animate-bounce delay-500">
-              <div className="px-4 py-3 rounded-xl bg-black/80 backdrop-blur-xl border border-purple-500/30 shadow-xl">
-                <div className="flex items-center gap-2">
-                  <Globe className="w-5 h-5 text-purple-400" />
-                  <span className="text-white font-semibold text-sm">Multi-écrans</span>
-                </div>
-                <p className="text-white/40 text-[8px] mt-0.5">Abonnement iptv</p>
-              </div>
-            </div>
-          </div>
-          
-          {/* SEO Keywords under image */}
-          <p className="text-white/20 text-xs text-center mt-4">
-            IPTV SMARTERS PRO • Abonnement iptv • Meilleur service IPTV France
-          </p>
-        </div>
+        {/* Hero Banner with Discount */}
+        <DiscountBanner />
       </div>
     </section>
   );

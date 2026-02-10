@@ -6,10 +6,10 @@ import Image from 'next/image';
 import { Menu, X, ChevronDown } from 'lucide-react';
 
 const navLinks = [
-  { href: '/', label: 'Accueil' },
+  { href: '/abonnement-iptv/', label: 'Accueil' },
   { href: '/chaines', label: 'Chaînes' },
   { href: '/blog', label: 'Blog' },
-  { href: '/#faq', label: 'FAQ' },
+  { href: '/abonnement-iptv/#faq', label: 'FAQ' },
 ];
 
 const NavigationHeader = () => {
@@ -21,7 +21,7 @@ const NavigationHeader = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -43,17 +43,19 @@ const NavigationHeader = () => {
       }`}>
         <div className="max-w-7xl mx-auto flex h-20 items-center justify-between px-6">
           {/* Logo */}
-          <Link href="/" onClick={closeMenu} className="flex items-center gap-3 group">
+          <Link href="/abonnement-iptv/" onClick={closeMenu} className="flex items-center gap-3 group">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-lg blur-lg opacity-60 group-hover:opacity-100 transition-opacity" />
               <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-transparent">
                 <Image
-                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/50018153493f4fa80d86c84a6b0e85c5421b42336327adc75d63a93c1074e296_200-1765051431427.webp?width=8000&height=8000&resize=contain"
+                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/50018153493f4fa80d86c84a6b0e85c5421b42336327adc75d63a93c1074e296_200-1765051431427.webp?width=96&height=96&resize=contain"
                   alt="IPTV Smarters Pro Logo"
                   width={48}
                   height={48}
                   className="w-full h-full object-contain"
                   style={{ filter: 'drop-shadow(0 0 8px rgba(6, 182, 212, 0.5))' }}
+                  priority
+                  fetchPriority="high"
                 />
               </div>
             </div>
@@ -113,7 +115,7 @@ const NavigationHeader = () => {
           {/* CTA Button */}
           <div className="hidden lg:block">
             <Link
-              href="/#pricing"
+              href="/abonnement-iptv/#pricing"
               className="relative group"
             >
               <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-full blur-md opacity-70 group-hover:opacity-100 transition-opacity animate-pulse" />
@@ -167,7 +169,7 @@ const NavigationHeader = () => {
             
             <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent my-4" />
             <Link
-              href="/#pricing"
+              href="/abonnement-iptv/#pricing"
               onClick={closeMenu}
               className="px-5 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-center"
             >

@@ -1,6 +1,3 @@
-"use client";
-
-import React from 'react';
 import { Sparkles, MessageCircle, Star } from 'lucide-react';
 
 const OnDemandBanner = () => {

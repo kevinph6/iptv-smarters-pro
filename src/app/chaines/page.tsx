@@ -1,13 +1,36 @@
 import NavigationHeader from '@/components/sections/navigation-header';
 import Footer from '@/components/sections/footer';
 import Link from 'next/link';
+import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import { Tv, Film, Trophy, Music, Globe, BookOpen, Baby, Heart, ShoppingCart, Newspaper, ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Chaînes IPTV - 160000+ Chaînes Mondiales en 4K/Full HD',
-  description: '160000+ chaînes IPTV mondiales avec votre abonnement IPTV SMARTERS PRO. Sport, films, séries, documentaires, enfants en qualité 4K Full HD HD.',
-  keywords: 'chaines iptv, iptv france, chaines sport iptv, bein sports iptv, canal+ iptv, abonnement iptv, iptv smarters pro, chaines 4k',
+  title: 'Chaines IPTV - 160000+ Chaines Mondiales en 4K/Full HD | IPTV SMARTERS PRO',
+  description: '160000+ chaines IPTV mondiales avec votre abonnement IPTV SMARTERS PRO. Sport, films, series, documentaires, enfants en qualite 4K Full HD HD. Toutes les chaines francaises et internationales.',
+  keywords: [
+    'chaines iptv', 'iptv france', 'chaines sport iptv', 'bein sports iptv',
+    'canal+ iptv', 'abonnement iptv', 'iptv smarters pro', 'chaines 4k',
+    'chaines iptv france', 'liste chaines iptv', 'iptv sport', 'iptv cinema',
+  ],
+  alternates: {
+    canonical: '/chaines',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'fr_FR',
+    url: '/chaines',
+    title: 'Chaines IPTV - 160000+ Chaines Mondiales 4K | IPTV SMARTERS PRO',
+    description: '160000+ chaines IPTV mondiales. Sport, films, series, documentaires en 4K/FHD/HD.',
+    siteName: 'IPTV SMARTERS PRO',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Chaines IPTV SMARTERS PRO' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Chaines IPTV - 160000+ Chaines 4K | IPTV SMARTERS PRO',
+    description: '160000+ chaines IPTV mondiales. Sport, films, series en 4K/FHD/HD.',
+    images: ['/og-image.jpg'],
+  },
 };
 
 const channelCategories = [
@@ -201,6 +224,7 @@ export default function ChannelsPage() {
   return (
     <main className="min-h-screen bg-black">
       <NavigationHeader />
+      <div className="pt-20"><BreadcrumbNav items={[{ label: 'Chaines IPTV' }]} /></div>
       
       {/* Hero Section */}
       <section className="relative pt-32 pb-16 px-6 overflow-hidden">
@@ -344,7 +368,7 @@ export default function ChannelsPage() {
               Support 24/7 et activation instantanée garantie.
             </p>
             <Link
-              href="/#pricing"
+              href="/abonnement-iptv/#pricing"
               className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold rounded-full hover:shadow-[0_0_40px_rgba(6,182,212,0.5)] transition-all duration-300 hover:scale-105"
             >
               Voir les Offres IPTV

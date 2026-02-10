@@ -15,6 +15,27 @@ interface BlogPost {
   featuredImageUrl?: string | null;
 }
 
+// Category-specific gradients for visual variety
+const categoryGradients: Record<string, string> = {
+  'Tutoriels': 'from-blue-500 via-cyan-500 to-teal-400',
+  'Guides': 'from-purple-500 via-pink-500 to-rose-400',
+  'Comparatifs': 'from-amber-500 via-orange-500 to-red-400',
+  'Sport': 'from-emerald-500 via-green-500 to-lime-400',
+  'Applications': 'from-indigo-500 via-blue-500 to-cyan-400',
+  'VOD': 'from-rose-500 via-pink-500 to-fuchsia-400',
+  'Sécurité': 'from-slate-500 via-gray-500 to-zinc-400',
+};
+
+const categoryIcons: Record<string, string> = {
+  'Tutoriels': '📱',
+  'Guides': '📖',
+  'Comparatifs': '⚡',
+  'Sport': '⚽',
+  'Applications': '💻',
+  'VOD': '🎬',
+  'Sécurité': '🔒',
+};
+
 export default function BlogPreview() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -130,23 +151,26 @@ export default function BlogPreview() {
                   </div>
                 </div>
 
-                  {/* Header with gradient or featured image */}
-                  <div className="h-32 bg-gradient-to-br from-cyan-500 via-purple-500 to-pink-500 relative overflow-hidden">
-                    {post.featuredImageUrl ? (
-                      <img 
-                        src={post.featuredImageUrl} 
-                        alt={`Image de l'article ${post.title} - ${post.category} IPTV`}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <>
-                        <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-all duration-500" />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <BookOpen className="w-12 h-12 text-white/80 group-hover:scale-110 transition-transform duration-500" />
-                        </div>
-                      </>
-                    )}
+                  {/* Header with category gradient and overlay */}
+                  <div className={`h-36 bg-gradient-to-br ${categoryGradients[post.category] || 'from-cyan-500 via-purple-500 to-pink-500'} relative overflow-hidden`}>
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-500" />
+                    {/* Decorative pattern */}
+                    <div className="absolute inset-0 opacity-10">
+                      <div className="absolute top-2 right-2 w-24 h-24 border-2 border-white rounded-full" />
+                      <div className="absolute bottom-2 left-2 w-16 h-16 border-2 border-white rounded-full" />
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 border border-white/50 rounded-full" />
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-5xl drop-shadow-lg group-hover:scale-110 transition-transform duration-500">
+                        {categoryIcons[post.category] || '📺'}
+                      </span>
+                    </div>
+                    {/* Title overlay at bottom */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3">
+                      <p className="text-white/90 text-xs font-medium truncate">
+                        {post.title}
+                      </p>
+                    </div>
                   </div>
 
                 {/* Content */}

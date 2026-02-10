@@ -150,7 +150,7 @@ export default function BlogPageClient() {
               Plus de 160 000 chaînes, 20 000+ VOD, activation instantanée. Votre abonnement IPTV commence maintenant.
             </p>
             <Link
-              href="/#pricing"
+              href="/abonnement-iptv/#pricing"
               className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold rounded-full hover:shadow-[0_0_40px_rgba(6,182,212,0.5)] transition-all duration-300 hover:scale-105"
             >
               S'abonner Maintenant

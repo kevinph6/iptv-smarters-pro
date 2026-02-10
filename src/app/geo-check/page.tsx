@@ -1,4 +1,13 @@
 import { headers } from 'next/headers';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Geo Diagnostic',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function GeoCheckPage() {
   const headersList = await headers();
@@ -64,14 +73,14 @@ export default async function GeoCheckPage() {
           <h3 className="text-xl font-bold mb-3">🧪 Testing Instructions</h3>
           <div className="space-y-2 text-sm">
             <p>1. To test blocking, add <code className="bg-black px-2 py-1 rounded">?test_country=US</code> to any URL</p>
-            <p>2. Example: <code className="bg-black px-2 py-1 rounded">https://abonnement-iptv-smarterspro.fr/?test_country=US</code></p>
+            <p>2. Example: <code className="bg-black px-2 py-1 rounded">https://officieliptvsmarterspro.fr/?test_country=US</code></p>
             <p>3. Use a VPN to test from different countries</p>
             <p>4. Check this page from different locations to verify detection</p>
           </div>
         </div>
 
         <div className="mt-6 text-center">
-          <a href="/" className="inline-block bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-semibold transition">
+          <a href="/abonnement-iptv/" className="inline-block bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-semibold transition">
             ← Back to Homepage
           </a>
         </div>

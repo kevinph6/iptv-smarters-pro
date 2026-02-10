@@ -1,5 +1,5 @@
 export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://abonnement-iptv-smarterspro.fr';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
   
   try {
     const { db } = await import('@/db');
@@ -20,7 +20,7 @@ export async function GET() {
       url: `${baseUrl}/blog`,
       lastModified: new Date(),
       changeFrequency: 'daily',
-      priority: 0.8,
+      priority: 0.9,
     };
 
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -34,8 +34,8 @@ export async function GET() {
 ${posts.map(post => `  <url>
     <loc>${baseUrl}/blog/${post.slug}</loc>
     <lastmod>${new Date(post.updatedAt || post.createdAt).toISOString()}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
   </url>`).join('\n')}
 </urlset>`;
 

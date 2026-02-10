@@ -8,6 +8,15 @@ export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
   try {
+    // Security: require ADMIN_SETUP_SECRET in production
+    const setupSecret = process.env.ADMIN_SETUP_SECRET;
+    if (setupSecret) {
+      const body = await request.json().catch(() => ({}));
+      if (body.secret !== setupSecret) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+    }
+
     const existingUsers = await db.select().from(user).limit(1);
     
     if (existingUsers.length > 0) {
@@ -17,8 +26,8 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const adminEmail = 'admin@iptvsmarterspro.com';
-    const adminPassword = 'AdminIPTV2025!';
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@officieliptvsmarterspro.fr';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'AdminIPTV2026!Secure';
     const adminName = 'Admin IPTV';
 
     const result = await auth.api.signUpEmail({
@@ -41,7 +50,7 @@ export async function POST(request: NextRequest) {
       message: 'Admin user created successfully!',
       credentials: {
         email: adminEmail,
-        password: adminPassword,
+        password: '********',
       },
       loginUrl: '/login',
       warning: 'IMPORTANT: Change this password after first login!'
@@ -54,13 +63,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         message: 'Admin user might already exist',
         loginUrl: '/login',
-        hint: 'Try logging in with: admin@iptvsmarterspro.com'
       }, { status: 409 });
     }
     
     return NextResponse.json({
       error: 'Failed to create admin user',
-      details: error.message || String(error)
+      details: process.env.NODE_ENV === 'development' ? (error.message || String(error)) : 'Internal error'
     }, { status: 500 });
   }
 }

@@ -211,7 +211,7 @@ function LoginForm() {
         {/* Return to site link */}
         <div className="mt-6 text-center">
           <a
-            href="/"
+            href="/abonnement-iptv/"
             className="text-white/60 hover:text-white text-sm transition-colors"
           >
             ← Retour au site

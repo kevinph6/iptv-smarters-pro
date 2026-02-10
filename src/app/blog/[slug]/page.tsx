@@ -1,164 +1,197 @@
-"use client";
-
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
+import type { Metadata } from 'next';
+import { db } from '@/db';
+import { blogPosts } from '@/db/schema';
+import { and, eq } from 'drizzle-orm';
 import NavigationHeader from '@/components/sections/navigation-header';
 import Footer from '@/components/sections/footer';
-import { Calendar, User, ArrowLeft, Loader2, Share2 } from 'lucide-react';
-import { toast } from 'sonner';
+import { Calendar, User, ArrowLeft } from 'lucide-react';
+import { ShareButton } from './share-button';
 
-interface BlogPost {
-  id: number;
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: string;
-  author: string;
-  category: string;
-  featuredImageUrl: string | null;
-  createdAt: string;
-  updatedAt: string;
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
+async function getPost(slug: string) {
+  const posts = await db
+    .select()
+    .from(blogPosts)
+    .where(and(eq(blogPosts.slug, slug), eq(blogPosts.published, true)))
+    .limit(1);
+
+  return posts[0] || null;
 }
 
-export default function BlogPostPage() {
-  const params = useParams();
-  const slug = params.slug as string;
-  
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPost(slug);
 
-  useEffect(() => {
-    if (slug) {
-      fetchPost();
-    }
-  }, [slug]);
+  if (!post) {
+    return { title: 'Article non trouve' };
+  }
 
-  useEffect(() => {
-    if (post) {
-      // Update document title and meta description dynamically
-      document.title = `${post.title} | Blog IPTV SMARTERS PRO`;
-      
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) {
-        metaDescription.setAttribute('content', post.excerpt);
-      } else {
-        const meta = document.createElement('meta');
-        meta.name = 'description';
-        meta.content = post.excerpt;
-        document.head.appendChild(meta);
-      }
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
+  const seoHomeUrl = `${baseUrl}/abonnement-iptv/`;
 
-      // Update Open Graph tags
-      const ogTitle = document.querySelector('meta[property="og:title"]');
-      if (ogTitle) {
-        ogTitle.setAttribute('content', post.title);
-      } else {
-        const meta = document.createElement('meta');
-        meta.setAttribute('property', 'og:title');
-        meta.content = post.title;
-        document.head.appendChild(meta);
-      }
+  // Generate dynamic keywords from title and category
+  const titleWords = post.title.toLowerCase().split(/[\s:,\-–]+/).filter((w: string) => w.length > 3);
+  const dynamicKeywords = [
+    'iptv', 'abonnement iptv', 'iptv smarters pro', 'iptv france',
+    'meilleur iptv', 'iptv pas cher', 'iptv 4k', 'iptv streaming',
+    post.category?.toLowerCase() || 'iptv',
+    ...titleWords.slice(0, 5),
+  ];
 
-      const ogDescription = document.querySelector('meta[property="og:description"]');
-      if (ogDescription) {
-        ogDescription.setAttribute('content', post.excerpt);
-      } else {
-        const meta = document.createElement('meta');
-        meta.setAttribute('property', 'og:description');
-        meta.content = post.excerpt;
-        document.head.appendChild(meta);
-      }
-    }
-  }, [post]);
+  return {
+    title: `${post.title} | IPTV Smarters Pro`,
+    description: post.excerpt,
+    keywords: [...new Set(dynamicKeywords)],
+    alternates: {
+      canonical: `/blog/${post.slug}`,
+    },
+    openGraph: {
+      type: 'article',
+      locale: 'fr_FR',
+      url: `/blog/${post.slug}`,
+      title: post.title,
+      description: post.excerpt,
+      siteName: 'IPTV SMARTERS PRO',
+      publishedTime: post.createdAt,
+      modifiedTime: post.updatedAt,
+      authors: [post.author],
+      images: post.featuredImageUrl
+        ? [{ url: `${baseUrl}${post.featuredImageUrl}`, width: 1200, height: 630, alt: post.title }]
+        : [{ url: `${baseUrl}/og-image.jpg`, width: 1200, height: 630, alt: post.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      images: post.featuredImageUrl ? [`${baseUrl}${post.featuredImageUrl}`] : [`${baseUrl}/og-image.jpg`],
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
 
-  const fetchPost = async () => {
-    try {
-      setLoading(true);
-      setError(false);
-      const response = await fetch(`/api/blog/slug/${slug}`);
-      
-      if (!response.ok) {
-        throw new Error('Article non trouvé');
-      }
-      
-      const data = await response.json();
-      setPost(data);
-    } catch (error) {
-      console.error('Error fetching post:', error);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+
+export default async function BlogPostPage({ params }: Props) {
+  const { slug } = await params;
+  const post = await getPost(slug);
+
+  if (!post) {
+    notFound();
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
+  const seoHomeUrl = `${baseUrl}/abonnement-iptv/`;
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": post.title,
+    "description": post.excerpt,
+    "image": post.featuredImageUrl ? `${baseUrl}${post.featuredImageUrl}` : `${baseUrl}/og-image.jpg`,
+    "author": {
+      "@type": "Person",
+      "name": post.author,
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "IPTV SMARTERS PRO",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${baseUrl}/logo.png`,
+      },
+    },
+    "datePublished": post.createdAt,
+    "dateModified": post.updatedAt || post.createdAt,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `${baseUrl}/blog/${post.slug}`,
+    },
+    "articleSection": post.category,
+    "inLanguage": "fr-FR",
   };
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('fr-FR', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Accueil",
+        "item": seoHomeUrl,
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": `${baseUrl}/blog`,
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": post.title,
+        "item": `${baseUrl}/blog/${post.slug}`,
+      },
+    ],
+  };
+
+  // Extract FAQ schema from content (H3 questions followed by paragraphs)
+  const faqRegex = /<h3>(.*?\?)<\/h3>\s*<p>([\s\S]*?)<\/p>/g;
+  const faqItems: { question: string; answer: string }[] = [];
+  let faqMatch;
+  while ((faqMatch = faqRegex.exec(post.content)) !== null) {
+    faqItems.push({
+      question: faqMatch[1].replace(/<[^>]*>/g, ''),
+      answer: faqMatch[2].replace(/<[^>]*>/g, '').trim(),
     });
-  };
-
-  const handleShare = () => {
-    if (navigator.share && post) {
-      navigator.share({
-        title: post.title,
-        text: post.excerpt,
-        url: window.location.href,
-      }).catch(() => {
-        navigator.clipboard.writeText(window.location.href);
-        toast.success('Lien copié dans le presse-papier !');
-      });
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      toast.success('Lien copié dans le presse-papier !');
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-black">
-        <NavigationHeader />
-        <div className="flex items-center justify-center py-32">
-          <div className="text-center">
-            <Loader2 className="w-12 h-12 text-purple-500 animate-spin mx-auto mb-4" />
-            <p className="text-white/60">Chargement de l'article...</p>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
   }
 
-  if (error || !post) {
-    return (
-      <div className="min-h-screen bg-black">
-        <NavigationHeader />
-        <div className="flex items-center justify-center py-32">
-          <div className="text-center max-w-md">
-            <h1 className="text-4xl font-black text-white mb-4">Article non trouvé</h1>
-            <p className="text-white/60 mb-8">
-              Désolé, l'article que vous recherchez n'existe pas ou a été supprimé.
-            </p>
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold rounded-lg hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] transition-all duration-300"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              Retour au Blog
-            </Link>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
+  const faqSchema = faqItems.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map(item => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer,
+      },
+    })),
+  } : null;
 
   return (
     <div className="min-h-screen bg-black">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+
       <NavigationHeader />
 
       {/* Article Header */}
@@ -167,6 +200,17 @@ export default function BlogPostPage() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(168,85,247,0.15),transparent_50%)]" />
         
         <div className="relative max-w-4xl mx-auto px-6">
+          {/* Breadcrumb Navigation */}
+          <nav aria-label="Fil d'Ariane" className="mb-6">
+            <ol className="flex items-center gap-2 text-sm text-white/50">
+              <li><Link href="/abonnement-iptv/" className="hover:text-white transition-colors">Accueil</Link></li>
+              <li>/</li>
+              <li><Link href="/blog" className="hover:text-white transition-colors">Blog</Link></li>
+              <li>/</li>
+              <li className="text-white/80 truncate max-w-[200px]">{post.title}</li>
+            </ol>
+          </nav>
+
           {/* Back Link */}
           <Link
             href="/blog"
@@ -201,32 +245,37 @@ export default function BlogPostPage() {
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="w-5 h-5" />
-              <span>{formatDate(post.createdAt)}</span>
+              <time dateTime={post.createdAt}>{formatDate(post.createdAt)}</time>
             </div>
-            <button
-              onClick={handleShare}
-              className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition-colors"
-            >
-              <Share2 className="w-4 h-4" />
-              <span>Partager</span>
-            </button>
+            <ShareButton title={post.title} excerpt={post.excerpt} />
           </div>
 
-            {/* Featured Image */}
-            {post.featuredImageUrl && (
-              <div className="mb-12 rounded-2xl overflow-hidden border border-white/10">
-                <img
-                  src={post.featuredImageUrl}
-                  alt={`${post.title} - Guide complet IPTV SMARTERS PRO France`}
-                  className="w-full h-auto"
-                  loading="eager"
-                  onError={(e) => {
-                    // Hide image if it fails to load
-                    e.currentTarget.style.display = 'none';
-                  }}
-                />
-              </div>
+          {/* Featured Image or Gradient Hero */}
+          <div className="mb-12 rounded-2xl overflow-hidden border border-white/10 relative h-[300px] md:h-[500px] bg-gradient-to-br from-cyan-900/40 to-purple-900/40">
+            {post.featuredImageUrl ? (
+              <Image
+                src={post.featuredImageUrl}
+                alt={post.title}
+                fill
+                className="object-cover"
+                priority
+              />
+            ) : (
+              <>
+                <div className="absolute inset-0 bg-black/20" />
+                <div className="absolute inset-0 opacity-10">
+                  <div className="absolute top-6 right-6 w-40 h-40 border-2 border-white rounded-full" />
+                  <div className="absolute bottom-6 left-6 w-28 h-28 border-2 border-white rounded-full" />
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center">
+                    <span className="text-7xl drop-shadow-lg block mb-4">📺</span>
+                    <p className="text-white/80 text-sm font-medium max-w-md px-4">{post.category} • IPTV SMARTERS PRO</p>
+                  </div>
+                </div>
+              </>
             )}
+          </div>
         </div>
       </article>
 
@@ -256,23 +305,23 @@ export default function BlogPostPage() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="relative p-12 rounded-3xl bg-gradient-to-br from-cyan-500/10 to-purple-500/10 backdrop-blur-sm border border-cyan-500/20">
             <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
-              Prêt à Démarrer avec <span className="text-cyan-400">IPTV SMARTERS PRO</span> ?
+              Pret a Demarrer avec <span className="text-cyan-400">IPTV SMARTERS PRO</span> ?
             </h2>
             <p className="text-white/70 text-lg mb-8">
-              Profitez de plus de 160 000 chaînes et 20 000+ contenus VOD avec notre abonnement IPTV premium.
+              Profitez de plus de 160 000 chaines et 20 000+ contenus VOD avec notre abonnement IPTV premium.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
-                href="/#pricing"
+                href="/abonnement-iptv/#pricing"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold rounded-full hover:shadow-[0_0_40px_rgba(6,182,212,0.5)] transition-all duration-300 hover:scale-105"
               >
-                S'abonner Maintenant
+                S&apos;abonner Maintenant
               </Link>
               <Link
                 href="/blog"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-full hover:bg-white/10 transition-colors"
               >
-                Voir Plus d'Articles
+                Voir Plus d&apos;Articles
               </Link>
             </div>
           </div>

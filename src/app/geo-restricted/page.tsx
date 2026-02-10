@@ -11,12 +11,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function GeoRestrictedPage({
+export default async function GeoRestrictedPage({
   searchParams,
 }: {
-  searchParams: { blocked_country?: string };
+  searchParams: Promise<{ blocked_country?: string }>;
 }) {
-  const blockedCountry = searchParams.blocked_country;
+  const params = await searchParams;
+  const blockedCountry = params.blocked_country;
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">

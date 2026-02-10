@@ -1,19 +1,33 @@
 import NavigationHeader from '@/components/sections/navigation-header';
 import Footer from '@/components/sections/footer';
 import Link from 'next/link';
+import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import { Lock, Shield, Eye, Database, UserCheck, Globe } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Politique de Confidentialité - Abonnement IPTV SMARTERS PRO',
-  description: 'Protection de vos données personnelles pour votre abonnement IPTV SMARTERS PRO. Conformité RGPD, sécurité et confidentialité garanties.',
-  keywords: 'confidentialité iptv, protection données, rgpd iptv, sécurité abonnement iptv, vie privée smarters pro',
+  title: 'Politique de Confidentialite - Abonnement IPTV SMARTERS PRO',
+  description: 'Protection de vos donnees personnelles pour votre abonnement IPTV SMARTERS PRO. Conformite RGPD, securite et confidentialite garanties.',
+  keywords: [
+    'confidentialite iptv', 'protection donnees', 'rgpd iptv',
+    'securite abonnement iptv', 'vie privee smarters pro',
+  ],
+  alternates: { canonical: '/confidentialite' },
+  openGraph: {
+    type: 'website',
+    locale: 'fr_FR',
+    url: '/confidentialite',
+    title: 'Politique de Confidentialite - IPTV SMARTERS PRO',
+    description: 'Protection de vos donnees personnelles. Conformite RGPD.',
+    siteName: 'IPTV SMARTERS PRO',
+  },
 };
 
 export default function PrivacyPolicyPage() {
   return (
     <main className="min-h-screen bg-black">
       <NavigationHeader />
+      <div className="pt-20"><BreadcrumbNav items={[{ label: 'Politique de Confidentialite' }]} /></div>
       
       {/* Hero Section */}
       <section className="relative pt-32 pb-16 px-6 overflow-hidden">
@@ -296,13 +310,13 @@ export default function PrivacyPolicyPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/#contact"
+                href="/abonnement-iptv/#contact"
                 className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold rounded-full text-center hover:shadow-[0_0_40px_rgba(6,182,212,0.5)] transition-all duration-300 hover:scale-105"
               >
                 Nous Contacter
               </Link>
               <Link
-                href="/#pricing"
+                href="/abonnement-iptv/#pricing"
                 className="px-8 py-4 bg-white/5 border border-white/20 text-white font-bold rounded-full text-center hover:bg-white/10 transition-all duration-300"
               >
                 S'abonner Maintenant

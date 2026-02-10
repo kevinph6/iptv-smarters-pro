@@ -9,29 +9,29 @@ interface App {
 }
 
 const apps: App[] = [
-  { name: 'SMART IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-icon-for-smart-iptv-app-09c4ab27-20251205181036.jpg' },
-  { name: 'DUPLEX IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-icon-for-duplex-iptv-st-0f19efe5-20251205181034.jpg' },
-  { name: 'FLIX IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-for-flix-iptv-applicati-0c4fe512-20251205181036.jpg' },
-  { name: 'GSE SMART IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-icon-for-gse-smart-iptv-play-4ccaccfa-20251205181035.jpg' },
-  { name: 'HOME IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-for-home-iptv-app-simpl-7a0ce778-20251205181033.jpg' },
-  { name: 'iPLAY TV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-icon-for-iplay-tv-streaming--b9d49484-20251205181037.jpg' },
-  { name: 'IPTV EXTREME', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-for-iptv-extreme-app-bo-b359a439-20251205181034.jpg' },
-  { name: 'KODI', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-icon-for-kodi-media-player-s-4a3f14d5-20251205181033.jpg' },
-  { name: 'MAG', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-for-mag-iptv-set-top-bo-b282c153-20251205181034.jpg' },
-  { name: 'MyIPTV PLAYER', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-icon-for-myiptv-player-appli-dd920b11-20251205181033.jpg' },
-  { name: 'Mytvonline', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-for-mytvonline-streamin-56c45963-20251205181033.jpg' },
-  { name: 'NET IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-icon-for-net-iptv-applicatio-85ce8496-20251205181033.jpg' },
-  { name: 'ROYAL IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-for-royal-iptv-premium--3a114533-20251205181033.jpg' },
-  { name: 'SET IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-icon-for-set-iptv-app-simple-52b314fd-20251205181037.jpg' },
-  { name: 'Smartone IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-for-smartone-iptv-appli-4cb235a5-20251205181034.jpg' },
-  { name: 'SMART +', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-icon-for-smart-iptv-app-simp-b82ccde7-20251205181036.jpg' },
-  { name: 'SMART STB', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-for-smart-stb-set-top-b-8c24f270-20251205181033.jpg' },
-  { name: 'SS IPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-icon-for-ss-iptv-application-0e492234-20251205181033.jpg' },
-  { name: 'STBEMU', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-for-stbemu-emulator-app-58559941-20251205181033.jpg' },
-  { name: 'TIVIMATE', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-icon-for-tivimate-iptv-playe-509ec03e-20251205181034.jpg' },
-  { name: 'Xbox', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-for-xbox-gaming-console-f3a380fe-20251205181033.jpg' },
-  { name: 'VLC PLAYER', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-icon-for-vlc-media-player-si-b48a3277-20251205181033.jpg' },
-  { name: 'XCIPTV', icon: 'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/transparent-logo-for-xciptv-streaming-ap-654244d6-20251205181033.jpg' }
+  { name: 'SMART IPTV', icon: '/icons/apps/smart-iptv.svg' },
+  { name: 'DUPLEX IPTV', icon: '/icons/apps/duplex-iptv.svg' },
+  { name: 'FLIX IPTV', icon: '/icons/apps/flix-iptv.svg' },
+  { name: 'GSE SMART IPTV', icon: '/icons/apps/gse-smart-iptv.svg' },
+  { name: 'HOME IPTV', icon: '/icons/apps/home-iptv.svg' },
+  { name: 'iPLAY TV', icon: '/icons/apps/iplaytv.svg' },
+  { name: 'IPTV EXTREME', icon: '/icons/apps/iptvextreme.svg' },
+  { name: 'KODI', icon: '/icons/apps/kodi.svg' },
+  { name: 'MAG', icon: '/icons/apps/mag.svg' },
+  { name: 'MyIPTV PLAYER', icon: '/icons/apps/myiptv-player.svg' },
+  { name: 'MYTVONLINE', icon: '/icons/apps/mytvonline.svg' },
+  { name: 'NET IPTV', icon: '/icons/apps/net-iptv.svg' },
+  { name: 'ROYAL IPTV', icon: '/icons/apps/royal-iptv.svg' },
+  { name: 'SET IPTV', icon: '/icons/apps/set-iptv.svg' },
+  { name: 'SMARTONE IPTV', icon: '/icons/apps/smart-one.svg' },
+  { name: 'SMART +', icon: '/icons/apps/smart-plus.svg' },
+  { name: 'SMART STB', icon: '/icons/apps/smart-stb.svg' },
+  { name: 'SS IPTV', icon: '/icons/apps/ss-iptv.svg' },
+  { name: 'STBEMU', icon: '/icons/apps/stebmu.svg' },
+  { name: 'TIVIMATE', icon: '/icons/apps/tivimate.svg' },
+  { name: 'XBOX', icon: '/icons/apps/xbox.svg' },
+  { name: 'VLC PLAYER', icon: '/icons/apps/vlc-player.svg' },
+  { name: 'XCIPTV', icon: '/icons/apps/xciptv.svg' },
 ];
 
 const AppCompatibility = () => {
@@ -68,7 +68,7 @@ const AppCompatibility = () => {
           </p>
         </div>
 
-        {/* Apps Grid - Hexagonal inspired */}
+        {/* Apps Grid */}
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
           {apps.map((app) => (
             <div
@@ -80,19 +80,20 @@ const AppCompatibility = () => {
               
               <div className="relative flex flex-col items-center justify-center p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm transition-all duration-300 group-hover:bg-white/10 group-hover:border-cyan-500/30 group-hover:-translate-y-2 group-hover:scale-105">
                 {/* App Icon */}
-                <div className="relative w-14 h-14 mb-3">
-                  <Image
+                <div className="relative w-16 h-16 mb-3 flex items-center justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src={app.icon}
-                    alt={`${app.name} logo IPTV SMARTERS PRO`}
-                    fill
-                    sizes="56px"
-                    className="object-contain"
-                    unoptimized
+                    alt={`${app.name} - IPTV SMARTERS PRO compatible`}
+                    width={64}
+                    height={64}
+                    className="w-14 h-14 object-contain drop-shadow-[0_0_8px_rgba(6,182,212,0.3)]"
+                    loading="lazy"
                   />
                 </div>
                 
                 {/* App Name */}
-                <p className="text-white/70 text-xs font-bold uppercase tracking-wider text-center group-hover:text-white transition-colors mb-1">
+                <p className="text-white/80 text-xs font-bold uppercase tracking-wider text-center group-hover:text-white transition-colors mb-1">
                   {app.name}
                 </p>
                 

@@ -4,14 +4,16 @@ import "./globals.css";
 import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
 import ErrorReporter from "@/components/ErrorReporter";
 import Script from "next/script";
+import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 
 const inter = Inter({
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
   weight: ["400", "600", "700"],
   display: "swap",
   variable: "--font-inter",
   preload: true,
   fallback: ["-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica", "Arial", "sans-serif"],
+  adjustFontFallback: true,
 });
 
 export const viewport: Viewport = {
@@ -23,12 +25,12 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://abonnement-iptv-smarterspro.fr'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr'),
   title: {
-    default: 'IPTV SMARTERS PRO - Meilleur Abonnement IPTV France 2025 | Abonnement IPTV Premium 4K',
+    default: 'IPTV SMARTERS PRO - Meilleur Abonnement IPTV France 2026 | Abonnement IPTV Premium 4K',
     template: '%s | IPTV SMARTERS PRO - Abonnement IPTV France'
   },
-  description: 'IPTV SMARTERS PRO: Meilleur abonnement IPTV France 2025. Plus de 160 000 chaînes TV 4K/FHD/HD, 20 000+ films VOD, activation instantanée en 5min, support 24/7. Compatible Smart TV, Android, iOS, FireStick. Abonnement IPTV stable et premium.',
+  description: 'IPTV SMARTERS PRO: Meilleur abonnement IPTV France 2026. Plus de 160 000 chaînes TV 4K/FHD/HD, 20 000+ films VOD, activation instantanée en 5min, support 24/7. Compatible Smart TV, Android, iOS, FireStick. Abonnement IPTV stable et premium.',
   keywords: [
     'iptv',
     'abonnement iptv',
@@ -68,7 +70,7 @@ export const metadata: Metadata = {
     'duplex iptv',
     'net iptv',
   ],
-  authors: [{ name: 'IPTV SMARTERS PRO', url: 'https://abonnement-iptv-smarterspro.fr' }],
+  authors: [{ name: 'IPTV SMARTERS PRO', url: 'https://officieliptvsmarterspro.fr/abonnement-iptv/' }],
   creator: 'IPTV SMARTERS PRO',
   publisher: 'IPTV SMARTERS PRO',
   formatDetection: {
@@ -76,33 +78,25 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  alternates: {
-    canonical: '/',
-    languages: {
-      'fr-FR': '/',
-      'x-default': '/',
-    },
-  },
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
-    url: '/',
     siteName: 'IPTV SMARTERS PRO - Abonnement IPTV France',
-    title: 'IPTV SMARTERS PRO - Meilleur Abonnement IPTV France 2025 | 160K Chaînes 4K',
-    description: 'Abonnement IPTV premium avec 160 000+ chaînes TV 4K/FHD/HD, 20 000+ films VOD. Activation instantanée, compatible tous appareils. Support 24/7. Meilleur IPTV France 2025.',
+    title: 'IPTV SMARTERS PRO - Meilleur Abonnement IPTV France 2026 | 160K Chaînes 4K',
+    description: 'Abonnement IPTV premium avec 160 000+ chaînes TV 4K/FHD/HD, 20 000+ films VOD. Activation instantanée, compatible tous appareils. Support 24/7. Meilleur IPTV France 2026.',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'IPTV SMARTERS PRO - Meilleur Abonnement IPTV France 2025',
+        alt: 'IPTV SMARTERS PRO - Meilleur Abonnement IPTV France 2026',
         type: 'image/jpeg',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'IPTV SMARTERS PRO - Meilleur Abonnement IPTV France 2025',
+    title: 'IPTV SMARTERS PRO - Meilleur Abonnement IPTV France 2026',
     description: '160K+ chaînes TV 4K/FHD/HD | 20K+ films VOD | Activation instantanée | Support 24/7',
     images: ['/og-image.jpg'],
     creator: '@iptvsmarterspro',
@@ -136,11 +130,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://abonnement-iptv-smarterspro.fr';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
+  const seoHomeUrl = `${baseUrl}/abonnement-iptv/`;
   
   return (
     <html lang="fr" className={inter.variable}>
       <head>
+        {/* ── Performance: DNS Prefetch & Preconnect ── */}
+        <link rel="dns-prefetch" href="https://slelguoygbfzlpylpxfs.supabase.co" />
+        <link rel="preconnect" href="https://slelguoygbfzlpylpxfs.supabase.co" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -148,7 +150,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               "name": "IPTV SMARTERS PRO",
-              "url": baseUrl,
+              "url": seoHomeUrl,
               "logo": {
                 "@type": "ImageObject",
                 "url": "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/50018153493f4fa80d86c84a6b0e85c5421b42336327adc75d63a93c1074e296_200-1765051431427.webp",
@@ -176,7 +178,7 @@ export default function RootLayout({
                 "bestRating": "5",
                 "worstRating": "1"
               },
-              "slogan": "Meilleur Abonnement IPTV N°1 en France 2025"
+              "slogan": "Meilleur Abonnement IPTV N°1 en France 2026"
             })
           }}
         />
@@ -199,8 +201,8 @@ export default function RootLayout({
                 "highPrice": "100.00",
                 "priceCurrency": "EUR",
                 "availability": "https://schema.org/InStock",
-                "url": `${baseUrl}/#pricing`,
-                "priceValidUntil": "2025-12-31",
+                "url": `${seoHomeUrl}#pricing`,
+                "priceValidUntil": "2026-12-31",
                 "offerCount": "8"
               },
               "aggregateRating": {
@@ -226,7 +228,7 @@ export default function RootLayout({
                   "name": "Qu'est-ce que l'IPTV SMARTERS PRO?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "IPTV SMARTERS PRO est le meilleur service d'abonnement IPTV en France pour 2025. Il propose plus de 160 000 chaînes TV en direct en qualité 4K, FHD et HD, ainsi que plus de 20 000 films et séries VOD. Compatible avec tous les appareils: Smart TV Samsung et LG, Android TV, Apple TV, Amazon Fire TV Stick, iPhone, iPad, téléphones Android, tablettes, PC Windows, Mac, Box IPTV, MAG, Enigma2, et plus de 20 applications IPTV populaires."
+                    "text": "IPTV SMARTERS PRO est le meilleur service d'abonnement IPTV en France pour 2026. Il propose plus de 160 000 chaînes TV en direct en qualité 4K, FHD et HD, ainsi que plus de 20 000 films et séries VOD. Compatible avec tous les appareils: Smart TV Samsung et LG, Android TV, Apple TV, Amazon Fire TV Stick, iPhone, iPad, téléphones Android, tablettes, PC Windows, Mac, Box IPTV, MAG, Enigma2, et plus de 20 applications IPTV populaires."
                   }
                 },
                 {
@@ -296,7 +298,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               "name": "IPTV SMARTERS PRO",
-              "url": baseUrl,
+              "url": seoHomeUrl,
               "potentialAction": {
                 "@type": "SearchAction",
                 "target": `${baseUrl}/search?q={search_term_string}`,
@@ -324,7 +326,7 @@ export default function RootLayout({
                   "@type": "ListItem",
                   "position": 1,
                   "name": "Accueil",
-                  "item": baseUrl
+                  "item": seoHomeUrl
                 },
                 {
                   "@type": "ListItem",
@@ -358,29 +360,30 @@ export default function RootLayout({
         <meta name="target" content="all" />
         <meta name="audience" content="all" />
         <meta name="coverage" content="Worldwide" />
-        <meta name="identifier-URL" content={baseUrl} />
+        <meta name="identifier-URL" content={seoHomeUrl} />
         <meta name="subject" content="IPTV, Abonnement IPTV, IPTV SMARTERS PRO, Streaming TV" />
         <meta name="abstract" content="Meilleur service d'abonnement IPTV en France avec 160 000+ chaînes 4K/FHD/HD" />
         <meta name="topic" content="IPTV, Television Streaming, VOD, Entertainment" />
         <meta name="summary" content="IPTV SMARTERS PRO - Abonnement IPTV premium France avec activation instantanée, 160K+ chaînes TV, support 24/7" />
         <meta name="designer" content="IPTV SMARTERS PRO" />
-        <meta name="copyright" content="IPTV SMARTERS PRO 2025" />
+        <meta name="copyright" content="IPTV SMARTERS PRO 2026" />
         <meta name="reply-to" content="support@iptvsmarterspro.fr" />
         <meta name="owner" content="IPTV SMARTERS PRO" />
-        <meta name="url" content={baseUrl} />
+        <meta name="url" content={seoHomeUrl} />
         <meta name="pagename" content="IPTV SMARTERS PRO - Meilleur Abonnement IPTV France" />
-        <link rel="alternate" hrefLang="fr" href={baseUrl} />
-        <link rel="alternate" hrefLang="x-default" href={baseUrl} />
+        <link rel="alternate" hrefLang="fr" href={seoHomeUrl} />
+        <link rel="alternate" hrefLang="x-default" href={seoHomeUrl} />
       </head>
         <body className={`${inter.className} antialiased`}>
           <Script
             id="orchids-browser-logs"
             src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts/orchids-browser-logs.js"
-            strategy="afterInteractive"
+            strategy="lazyOnload"
             data-orchids-project-id="4333d292-4a82-4247-86b6-117a058e7bdd"
           />
           <ErrorReporter />
           {children}
+          <WhatsAppButton />
           <VisualEditsMessenger />
         </body>
 

@@ -2,21 +2,35 @@ import NavigationHeader from '@/components/sections/navigation-header';
 import Footer from '@/components/sections/footer';
 import Link from 'next/link';
 import { Shield, CheckCircle, XCircle, Clock, AlertCircle } from 'lucide-react';
+import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Politique de Remboursement - Abonnement IPTV SMARTERS PRO',
-  description: 'Conditions de remboursement pour votre abonnement IPTV SMARTERS PRO. Garantie de satisfaction, délais et procédure de demande de remboursement.',
-  keywords: 'remboursement iptv, politique remboursement, garantie iptv, abonnement iptv smarters pro, satisfaction client',
+  description: 'Conditions de remboursement pour votre abonnement IPTV SMARTERS PRO. Garantie de satisfaction, delais et procedure de demande de remboursement.',
+  keywords: [
+    'remboursement iptv', 'politique remboursement', 'garantie iptv',
+    'abonnement iptv smarters pro', 'satisfaction client',
+  ],
+  alternates: { canonical: '/remboursement' },
+  openGraph: {
+    type: 'website',
+    locale: 'fr_FR',
+    url: '/remboursement',
+    title: 'Politique de Remboursement - IPTV SMARTERS PRO',
+    description: 'Conditions de remboursement. Garantie de satisfaction.',
+    siteName: 'IPTV SMARTERS PRO',
+  },
 };
 
 export default function RefundPolicyPage() {
   return (
     <main className="min-h-screen bg-black">
       <NavigationHeader />
+      <div className="pt-20"><BreadcrumbNav items={[{ label: 'Politique de Remboursement' }]} /></div>
       
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 px-6 overflow-hidden">
+      <section className="relative pt-12 pb-16 px-6 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-cyan-900/20" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(168,85,247,0.15),transparent_50%)]" />
         
@@ -196,13 +210,13 @@ export default function RefundPolicyPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/#contact"
+                href="/abonnement-iptv/#contact"
                 className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold rounded-full text-center hover:shadow-[0_0_40px_rgba(6,182,212,0.5)] transition-all duration-300 hover:scale-105"
               >
                 Contacter le Support
               </Link>
               <Link
-                href="/#pricing"
+                href="/abonnement-iptv/#pricing"
                 className="px-8 py-4 bg-white/5 border border-white/20 text-white font-bold rounded-full text-center hover:bg-white/10 transition-all duration-300"
               >
                 Voir les Abonnements IPTV

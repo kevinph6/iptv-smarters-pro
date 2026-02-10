@@ -1,5 +1,5 @@
 export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://abonnement-iptv-smarterspro.fr';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
   
   const sitemaps = [
     {
@@ -12,6 +12,10 @@ export async function GET() {
     },
     {
       loc: `${baseUrl}/tutorial-sitemap.xml`,
+      lastmod: new Date().toISOString(),
+    },
+    {
+      loc: `${baseUrl}/product-sitemap.xml`,
       lastmod: new Date().toISOString(),
     },
   ];

@@ -113,3 +113,39 @@ export const productReviews = sqliteTable('product_reviews', {
   verified: integer('verified', { mode: 'boolean' }).notNull().default(false),
   createdAt: text('created_at').notNull(),
 });
+
+// Orders table - tracks every payment attempt
+export const orders = sqliteTable('orders', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  orderNumber: text('order_number').notNull().unique(),
+  email: text('email').notNull(),
+  customerName: text('customer_name'),
+  customerPhone: text('customer_phone'),
+  productId: integer('product_id'),
+  productSlug: text('product_slug').notNull(),
+  productTitle: text('product_title').notNull(),
+  amount: text('amount').notNull(),
+  currency: text('currency').notNull().default('EUR'),
+  status: text('status').notNull().default('pending'), // pending | paid | provisioned | failed
+  paymentProvider: text('payment_provider'),
+  valueCoin: text('value_coin'), // USDC amount received from PayGate
+  ipnToken: text('ipn_token'),
+  addressIn: text('address_in'), // encrypted wallet address from PayGate
+  // IPTV credentials (filled after MegaOTT provisioning)
+  iptvUsername: text('iptv_username'),
+  iptvPassword: text('iptv_password'),
+  iptvServerUrl: text('iptv_server_url'),
+  iptvExpDate: text('iptv_exp_date'),
+  iptvPlaylistUrl: text('iptv_playlist_url'),
+  iptvPlaylistType: text('iptv_playlist_type'), // m3u, mag, enigma
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+});
+
+// Payment settings - admin-configurable key-value store
+export const paymentSettings = sqliteTable('payment_settings', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  key: text('key').notNull().unique(),
+  value: text('value').notNull(),
+  updatedAt: text('updated_at').notNull(),
+});

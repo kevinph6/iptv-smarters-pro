@@ -1,13 +1,48 @@
 import { notFound } from 'next/navigation';
-import { Crown, Star, Check, ShoppingCart, Shield, Clock, Eye, Flame, Gift, ArrowUpRight, Users, MessageSquare } from 'lucide-react';
+import { Crown, Star, Check, ShoppingCart, Shield, Clock, Gift, ArrowUpRight, Users, Tv, Monitor, Smartphone, Zap, Play, Radio, Film, Globe, Laptop, Smartphone as Mobile } from 'lucide-react';
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { CountdownTimer } from '@/components/ui/countdown-timer';
+import { StickyBuyButton } from '@/components/ui/sticky-buy-button';
 import { StockIndicator } from '@/components/ui/stock-indicator';
 import { LiveViewers } from '@/components/ui/live-viewers';
 import { RecentPurchases } from '@/components/ui/recent-purchases';
 import { ReviewForm } from '@/components/ui/review-form';
 
-const products = {
+type Product = {
+  title: string;
+  subtitle: string;
+  price: string;
+  duration: string;
+  type: string;
+  description: string;
+  gradient: string;
+  glowColor: string;
+  checkoutUrl: string;
+  features: string[];
+  stock: number;
+  viewers: number;
+  recentPurchases: number;
+  rating: number;
+  reviewCount: number;
+  popular?: boolean;
+  bonus?: string;
+  reviews: { author: string; rating: number; comment: string; verified: boolean; date: string }[];
+};
+
+const commonReviews = [
+  { author: 'Marc L.', rating: 5, comment: 'Le meilleur iptv france 2026 sans aucun doute. Qualité 4k stable et aucune coupure pendant les matchs de foot.', verified: true, date: '2026-01-15' },
+  { author: 'Sophie D.', rating: 5, comment: 'Activation instantanée après paiement. Mon iptv fire stick fonctionne à merveille. Je recommande vivement ce service.', verified: true, date: '2026-01-20' },
+  { author: 'Thomas B.', rating: 5, comment: 'Service client très réactif. Ils m\'ont aidé à configurer mon abonnement iptv smarters pro en moins de 5 minutes.', verified: true, date: '2026-01-22' },
+  { author: 'Lila K.', rating: 4, comment: 'Très bon service, pas mal de chaînes internationales. Parfois des petits lags sur la 4K mais globalement très satisfait.', verified: true, date: '2026-01-25' },
+  { author: 'Jean-Pierre M.', rating: 5, comment: 'Enfin un iptv sans coupure ! J\'ai testé plusieurs fournisseurs et celui-ci est de loin le plus stable.', verified: true, date: '2026-01-28' },
+  { author: 'Amine R.', rating: 5, comment: 'Superbe interface, zapping rapide. Les films et séries sont mis à jour régulièrement. Top !', verified: true, date: '2026-02-01' },
+  { author: 'Claire V.', rating: 5, comment: 'Excellent rapport qualité prix. Toutes les chaînes de sport en direct sans décalage.', verified: true, date: '2026-02-03' },
+  { author: 'Nicolas S.', rating: 5, comment: 'Meilleur abonnement iptv que j\'ai eu. L\'application iptv smarters pro est très intuitive.', verified: true, date: '2026-02-05' },
+  { author: 'Yasmine H.', rating: 5, comment: 'Installation facile sur ma Smart TV. La qualité d\'image est impressionnante pour le prix.', verified: true, date: '2026-02-07' }
+];
+
+const products: Record<string, Product> = {
   'abonnement-iptv-hd-3-mois': {
     title: '3 Mois IPTV HD',
     subtitle: 'IPTV HD',
@@ -15,37 +50,12 @@ const products = {
     duration: '3 Mois',
     type: 'HD',
     description: 'Profitez de 3 mois d\'accès illimité à notre service IPTV HD avec plus de 120 000 chaînes et contenus VOD. Activation instantanée et qualité HD garantie.',
-    gradient: 'from-cyan-500 to-blue-500',
-    checkoutUrl: 'https://www.officielsmarterspro.fr/step/iptv-smarters-3-mois/',
-    features: [
-      'Activation instantanée',
-      '120K+ chaînes & VOD',
-      'Qualité HD',
-      'Support 24/7',
-      'Multi-appareils',
-      'Mise à jour gratuite',
-      'M3U & MAG compatible',
-      'Serveur stable'
-    ],
-    stock: 2,
-    viewers: 3,
-    recentPurchases: 5,
-    rating: 4.7,
-    reviewCount: 127,
-    reviews: [
-      { author: 'Jean Dupont', rating: 5, comment: 'Excellent service, activation rapide et qualité HD au top ! Les chaînes françaises fonctionnent parfaitement.', verified: true, date: '2025-11-15' },
-      { author: 'Marie Laurent', rating: 4, comment: 'Très bon rapport qualité-prix pour découvrir le service. Quelques micro-coupures mais rien de grave.', verified: true, date: '2025-11-20' },
-      { author: 'Ahmed Ben', rating: 5, comment: 'Interface très intuitive, mes parents ont réussi à l\'utiliser sans problème. Top !', verified: true, date: '2025-11-22' },
-      { author: 'Claire Rousseau', rating: 5, comment: 'Parfait pour tester avant de prendre un abonnement plus long. Je vais renouveler en 12 mois.', verified: true, date: '2025-11-25' },
-      { author: 'Mohamed El', rating: 4, comment: 'Bon service, activation en 5 minutes. Qualité correcte pour du HD.', verified: true, date: '2025-11-28' },
-      { author: 'Sophie Blanc', rating: 5, comment: 'J\'ai essayé plusieurs services IPTV, celui-ci est le meilleur. Support très réactif.', verified: true, date: '2025-11-30' },
-      { author: 'Lucas Martin', rating: 4, comment: 'Contenu varié, bonne stabilité. Quelques chaînes manquent parfois mais globalement satisfait.', verified: true, date: '2025-12-01' },
-      { author: 'Fatima K.', rating: 5, comment: 'Installation facile sur ma Smart TV Samsung. Image nette, pas de freezing.', verified: true, date: '2025-12-02' },
-      { author: 'Antoine Dubois', rating: 5, comment: 'Super pour regarder le foot. Tous les matchs de Ligue 1 disponibles en HD !', verified: true, date: '2025-12-03' },
-      { author: 'Nadia H.', rating: 4, comment: 'Bon service client, ils m\'ont aidé à configurer sur mon Fire Stick rapidement.', verified: true, date: '2025-12-04' },
-      { author: 'Pierre Lefevre', rating: 5, comment: 'Excellent ! Fonctionne parfaitement sur Android TV. VOD bien fournie.', verified: true, date: '2025-12-05' },
-      { author: 'Yasmine A.', rating: 5, comment: 'Très contente, toutes mes chaînes préférées sont là. Je recommande !', verified: true, date: '2025-12-06' }
-    ]
+    gradient: 'from-blue-600 to-indigo-600',
+    glowColor: 'rgba(37, 99, 235, 0.4)',
+    checkoutUrl: '/checkout/abonnement-iptv-hd-3-mois',
+    features: ['120K+ Chaînes & VOD', 'Qualité HD Stable', 'Activation Instantanée', 'Support Client 24/7', 'Compatible Tout Support', 'Mise à jour Gratuite'],
+    stock: 2, viewers: 142, recentPurchases: 5, rating: 4.7, reviewCount: 127,
+    reviews: [...commonReviews]
   },
   'abonnement-iptv-hd-6-mois': {
     title: '6 Mois IPTV HD',
@@ -54,81 +64,27 @@ const products = {
     duration: '6 Mois',
     type: 'HD',
     description: 'Économisez avec notre forfait 6 mois ! Accès complet à toutes les chaînes HD, VOD et contenus premium pendant 6 mois.',
-    gradient: 'from-purple-500 to-pink-500',
-    checkoutUrl: 'https://www.officielsmarterspro.fr/step/iptv-smarters-6-mois/',
-    features: [
-      'Activation instantanée',
-      '120K+ chaînes & VOD',
-      'Qualité HD',
-      'Support 24/7',
-      'Multi-appareils',
-      'Mise à jour gratuite',
-      'M3U & MAG compatible',
-      'Serveur stable'
-    ],
-    stock: 4,
-    viewers: 7,
-    recentPurchases: 12,
-    rating: 4.8,
-    reviewCount: 243,
-    reviews: [
-      { author: 'Thomas Moreau', rating: 5, comment: 'Service impeccable, aucune coupure depuis 3 mois ! Vraiment stable, je suis impressionné.', verified: true, date: '2025-11-10' },
-      { author: 'Sophie Bernard', rating: 5, comment: 'Qualité excellente, je recommande vivement. Meilleur prix que la concurrence.', verified: true, date: '2025-11-18' },
-      { author: 'Karim D.', rating: 5, comment: 'Installation en 2 minutes, fonctionne sur tous mes appareils. Parfait !', verified: true, date: '2025-11-20' },
-      { author: 'Julie Petit', rating: 4, comment: 'Bon rapport qualité-prix. Quelques ralentissements aux heures de pointe mais rien de bloquant.', verified: true, date: '2025-11-23' },
-      { author: 'Michel Blanc', rating: 5, comment: 'Enfin un service fiable ! J\'en ai testé 3 avant, celui-ci est le meilleur.', verified: true, date: '2025-11-26' },
-      { author: 'Samira E.', rating: 5, comment: 'Très satisfaite, toutes les chaînes arabes et françaises. Support disponible 24/7.', verified: true, date: '2025-11-28' },
-      { author: 'Vincent Roy', rating: 4, comment: 'Bonne qualité d\'image, EPG à jour. Je conseille pour les fans de sport.', verified: true, date: '2025-11-30' },
-      { author: 'Amina F.', rating: 5, comment: 'Super ! Mon mari regarde le foot, moi mes séries, les enfants leurs dessins animés. Tout le monde est content.', verified: true, date: '2025-12-01' },
-      { author: 'François Durand', rating: 5, comment: 'Excellent service, activation instantanée comme promis. Aucun souci technique.', verified: true, date: '2025-12-02' },
-      { author: 'Leila M.', rating: 5, comment: 'Je recommande ! Facile à utiliser, bonne qualité, prix correct.', verified: true, date: '2025-12-03' },
-      { author: 'David Cohen', rating: 4, comment: 'Très bon service dans l\'ensemble. VOD mis à jour régulièrement.', verified: true, date: '2025-12-04' },
-      { author: 'Sarah Benoit', rating: 5, comment: 'Parfait sur ma box Android. Image HD stable, zapping rapide.', verified: true, date: '2025-12-05' },
-      { author: 'Omar B.', rating: 5, comment: 'Meilleur IPTV que j\'ai testé. Serveurs très stables, pas de bug.', verified: true, date: '2025-12-06' }
-    ]
+    gradient: 'from-indigo-600 to-violet-600',
+    glowColor: 'rgba(79, 70, 229, 0.4)',
+    checkoutUrl: '/checkout/abonnement-iptv-hd-6-mois',
+    features: ['120K+ Chaînes & VOD', 'Qualité HD Stable', 'Activation Instantanée', 'Support Client 24/7', 'Compatible Tout Support', 'Mise à jour Gratuite'],
+    stock: 4, viewers: 189, recentPurchases: 12, rating: 4.8, reviewCount: 243,
+    reviews: [...commonReviews]
   },
   'abonnement-iptv-hd-12-mois': {
     title: '12 Mois IPTV HD',
-    subtitle: 'IPTV HD - LE PLUS POPULAIRE',
+    subtitle: 'IPTV HD - POPULAIRE',
     price: '39',
     duration: '12 Mois',
     type: 'HD',
     popular: true,
-    description: 'Notre offre la plus populaire ! Un an complet d\'accès illimité à notre service IPTV HD premium. Le meilleur rapport qualité-prix pour une année de divertissement.',
-    gradient: 'from-amber-500 to-orange-500',
-    checkoutUrl: 'https://www.officielsmarterspro.fr/step/iptv-smarters-12-mois-2/',
-    features: [
-      'Activation instantanée',
-      '120K+ chaînes & VOD',
-      'Qualité HD',
-      'Support 24/7',
-      'Multi-appareils',
-      'Mise à jour gratuite',
-      'M3U & MAG compatible',
-      'Serveur stable'
-    ],
-    stock: 3,
-    viewers: 15,
-    recentPurchases: 28,
-    rating: 4.9,
-    reviewCount: 856,
-    reviews: [
-      { author: 'Pierre Martin', rating: 5, comment: 'Le meilleur abonnement ! Aucune coupure, support réactif. Je recommande les yeux fermés.', verified: true, date: '2025-10-05' },
-      { author: 'Sophie Bernard', rating: 5, comment: 'Incroyable ! Plus de 100k chaînes, qualité parfaite, prix imbattable. Mon meilleur achat de l\'année.', verified: true, date: '2025-11-01' },
-      { author: 'Lucas Petit', rating: 4, comment: 'Très satisfait, installation facile et qualité constante. Bon investissement sur 1 an.', verified: true, date: '2025-11-22' },
-      { author: 'Rachid H.', rating: 5, comment: 'Enfin un service sérieux ! 8 mois d\'utilisation, zéro problème. Fonctionne H24.', verified: true, date: '2025-11-15' },
-      { author: 'Emma Dubois', rating: 5, comment: 'Meilleur rapport qualité-prix du marché. Toute la famille l\'utilise quotidiennement.', verified: true, date: '2025-11-18' },
-      { author: 'Hassan K.', rating: 5, comment: 'Service au top ! J\'ai annulé mon abonnement Canal+ et économisé 600€/an.', verified: true, date: '2025-11-20' },
-      { author: 'Isabelle Roy', rating: 4, comment: 'Très bon service, stable et fiable. Les mises à jour sont régulières.', verified: true, date: '2025-11-25' },
-      { author: 'Alexandre M.', rating: 5, comment: 'Parfait pour les fans de sport ! Tous les matchs en direct, qualité HD impeccable.', verified: true, date: '2025-11-27' },
-      { author: 'Fatima Z.', rating: 5, comment: 'Installation facile, fonctionne sur ma Smart TV, mon téléphone et ma tablette. Génial !', verified: true, date: '2025-11-29' },
-      { author: 'Jean-Paul L.', rating: 5, comment: 'J\'utilise depuis 10 mois, jamais déçu. Support technique très réactif quand j\'ai eu un souci.', verified: true, date: '2025-12-01' },
-      { author: 'Nour A.', rating: 5, comment: 'Excellent choix ! Chaînes internationales disponibles, parfait pour ma famille.', verified: true, date: '2025-12-02' },
-      { author: 'Marc Fontaine', rating: 5, comment: 'Qualité professionnelle, serveurs ultra-stables. Je renouvelle sans hésiter.', verified: true, date: '2025-12-03' },
-      { author: 'Laila B.', rating: 4, comment: 'Très satisfaite, bon service client. Quelques micro-coupures mais rares.', verified: true, date: '2025-12-04' },
-      { author: 'Christophe D.', rating: 5, comment: 'Le meilleur IPTV du marché ! Image nette, pas de freezing, EPG complet.', verified: true, date: '2025-12-05' },
-      { author: 'Zineb F.', rating: 5, comment: 'Je recommande à 200% ! Activation instantanée, interface simple, qualité au top.', verified: true, date: '2025-12-06' }
-    ]
+    description: 'Notre offre la plus populaire ! Un an complet d\'accès illimité à notre service IPTV HD premium. Le meilleur rapport qualité-prix.',
+    gradient: 'from-violet-600 to-purple-600',
+    glowColor: 'rgba(139, 92, 246, 0.4)',
+    checkoutUrl: '/checkout/abonnement-iptv-hd-12-mois',
+    features: ['120K+ Chaînes & VOD', 'Qualité HD Stable', 'Activation Instantanée', 'Support Client 24/7', 'Compatible Tout Support', 'Mise à jour Gratuite'],
+    stock: 3, viewers: 423, recentPurchases: 28, rating: 4.9, reviewCount: 856,
+    reviews: [...commonReviews]
   },
   'abonnement-iptv-hd-24-mois': {
     title: '24 Mois IPTV HD',
@@ -137,38 +93,12 @@ const products = {
     duration: '24 Mois',
     type: 'HD',
     description: 'La meilleure valeur ! 2 ans d\'accès illimité à notre service IPTV HD premium. Économisez le plus avec notre forfait longue durée.',
-    gradient: 'from-emerald-500 to-teal-500',
-    checkoutUrl: 'https://www.officielsmarterspro.fr/step/iptv-smarters-24-mois/',
-    features: [
-      'Activation instantanée',
-      '120K+ chaînes & VOD',
-      'Qualité HD',
-      'Support 24/7',
-      'Multi-appareils',
-      'Mise à jour gratuite',
-      'M3U & MAG compatible',
-      'Serveur stable'
-    ],
-    stock: 5,
-    viewers: 9,
-    recentPurchases: 8,
-    rating: 4.8,
-    reviewCount: 412,
-    reviews: [
-      { author: 'Marc Dubois', rating: 5, comment: 'Excellent rapport qualité-prix pour 2 ans. Service stable depuis 1 an déjà !', verified: true, date: '2025-10-20' },
-      { author: 'Isabelle Leroy', rating: 4, comment: 'Bon service, installation simple. Contente de mon achat pour 2 ans.', verified: true, date: '2025-11-05' },
-      { author: 'Kevin Perrin', rating: 5, comment: 'Meilleur investissement ! Économie énorme sur 2 ans comparé aux abonnements classiques.', verified: true, date: '2025-11-10' },
-      { author: 'Amira S.', rating: 5, comment: 'Parfait ! 14 mois d\'utilisation sans aucun problème. Je recommande.', verified: true, date: '2025-11-14' },
-      { author: 'Julien Roy', rating: 4, comment: 'Très satisfait du service, qualité constante. Bon investissement long terme.', verified: true, date: '2025-11-18' },
-      { author: 'Nadia F.', rating: 5, comment: 'Service professionnel, support toujours disponible. Content de mon choix.', verified: true, date: '2025-11-22' },
-      { author: 'Patrick Blanc', rating: 5, comment: 'J\'utilise depuis 1 an et demi, jamais déçu. Très bon rapport qualité-prix.', verified: true, date: '2025-11-25' },
-      { author: 'Samia K.', rating: 5, comment: 'Installation facile, fonctionne sur tous mes appareils. Excellent choix pour 2 ans.', verified: true, date: '2025-11-28' },
-      { author: 'Alain Martin', rating: 4, comment: 'Bon service dans la durée. Quelques mises à jour mais rien de gênant.', verified: true, date: '2025-12-01' },
-      { author: 'Fatima E.', rating: 5, comment: 'Meilleur prix du marché pour 2 ans. Qualité HD stable, je recommande.', verified: true, date: '2025-12-02' },
-      { author: 'Georges Petit', rating: 5, comment: 'Parfait pour les familles ! Tout le monde l\'utilise quotidiennement.', verified: true, date: '2025-12-03' },
-      { author: 'Leila D.', rating: 5, comment: 'Service fiable depuis 18 mois. Je renouvelerai sans hésiter.', verified: true, date: '2025-12-04' },
-      { author: 'Thierry Moreau', rating: 4, comment: 'Très bon service, bon support client. Content sur 2 ans.', verified: true, date: '2025-12-05' }
-    ]
+    gradient: 'from-purple-600 to-fuchsia-600',
+    glowColor: 'rgba(192, 38, 211, 0.4)',
+    checkoutUrl: '/checkout/abonnement-iptv-hd-24-mois',
+    features: ['120K+ Chaînes & VOD', 'Qualité HD Stable', 'Activation Instantanée', 'Support Client 24/7', 'Compatible Tout Support', 'Mise à jour Gratuite'],
+    stock: 5, viewers: 156, recentPurchases: 8, rating: 4.8, reviewCount: 412,
+    reviews: [...commonReviews]
   },
   'abonnement-iptv-premium-4k-3-mois': {
     title: '3 Mois Premium 4K',
@@ -176,38 +106,13 @@ const products = {
     price: '27',
     duration: '3 Mois',
     type: '4K',
-    description: 'Découvrez la qualité 4K premium ! 3 mois d\'accès aux meilleures chaînes en ultra haute définition avec contenus adultes inclus.',
-    gradient: 'from-rose-500 to-pink-600',
-    checkoutUrl: 'https://www.officielsmarterspro.fr/step/premium-4k-3-mois/',
-    features: [
-      'Activation instantanée',
-      '120K+ chaînes & VOD',
-      'Qualité 4K/FHD/HD',
-      'Contenu adulte (+18)',
-      'Support 24/7',
-      'Multi-appareils',
-      'Mise à jour gratuite',
-      'Serveur ultra-stable'
-    ],
-    stock: 2,
-    viewers: 8,
-    recentPurchases: 14,
-    rating: 4.9,
-    reviewCount: 189,
-    reviews: [
-      { author: 'Alexandre R.', rating: 5, comment: 'Qualité 4K exceptionnelle ! Vraiment impressionnant, image ultra-nette.', verified: true, date: '2025-11-12' },
-      { author: 'Julie M.', rating: 5, comment: 'Service premium au top, jamais déçu. La 4K fait toute la différence !', verified: true, date: '2025-11-19' },
-      { author: 'Hassan B.', rating: 5, comment: 'Incroyable qualité d\'image ! Je passe à un abonnement plus long.', verified: true, date: '2025-11-21' },
-      { author: 'Céline Dubois', rating: 4, comment: 'Très bonne qualité premium. Quelques chaînes en FHD mais la majorité en 4K.', verified: true, date: '2025-11-23' },
-      { author: 'Youssef K.', rating: 5, comment: 'Parfait pour tester la qualité premium. Je recommande !', verified: true, date: '2025-11-26' },
-      { author: 'Marine Petit', rating: 5, comment: 'Image cristalline, contenu varié. Excellent service premium.', verified: true, date: '2025-11-28' },
-      { author: 'Rachid F.', rating: 5, comment: 'La qualité 4K est bluffante ! Meilleur que mon ancien fournisseur.', verified: true, date: '2025-11-30' },
-      { author: 'Sophie Martin', rating: 4, comment: 'Très satisfaite, bonne qualité d\'image. Je vais renouveler.', verified: true, date: '2025-12-01' },
-      { author: 'Ahmed S.', rating: 5, comment: 'Service excellent, activation rapide. La 4K est impressionnante.', verified: true, date: '2025-12-02' },
-      { author: 'Claire Roy', rating: 5, comment: 'Parfait ! Contenu premium de qualité, support réactif.', verified: true, date: '2025-12-03' },
-      { author: 'Karim M.', rating: 5, comment: 'Meilleur IPTV premium testé. Image 4K stable et nette.', verified: true, date: '2025-12-04' },
-      { author: 'Emma Lefevre', rating: 4, comment: 'Bonne qualité, bon service. Content de mon achat.', verified: true, date: '2025-12-05' }
-    ]
+    description: 'Découvrez la qualité 4K premium ! 3 mois d\'accès aux meilleures chaînes en ultra haute définition avec IPTV Smarters Pro Officiel.',
+    gradient: 'from-rose-600 to-pink-600',
+    glowColor: 'rgba(225, 29, 72, 0.4)',
+    checkoutUrl: '/checkout/abonnement-iptv-premium-4k-3-mois',
+    features: ['Qualité 4K Ultra HD', '120K+ Chaînes & VOD', 'Anti-Buffering Tech', 'Serveur Ultra-Stable', 'Activation Instantanée', 'Support VIP 24/7'],
+    stock: 2, viewers: 234, recentPurchases: 14, rating: 4.9, reviewCount: 189,
+    reviews: [...commonReviews]
   },
   'abonnement-iptv-premium-4k-6-mois': {
     title: '6 Mois Premium 4K',
@@ -215,72 +120,29 @@ const products = {
     price: '42',
     duration: '6 Mois',
     type: '4K',
-    description: 'Forfait Premium 6 mois ! Profitez de la meilleure qualité d\'image 4K avec tous les contenus premium et adultes.',
-    gradient: 'from-fuchsia-500 to-purple-600',
-    checkoutUrl: 'https://www.officielsmarterspro.fr/step/premium-4k-6-mois/',
-    features: [
-      'Activation instantanée',
-      '120K+ chaînes & VOD',
-      'Qualité 4K/FHD/HD',
-      'Contenu adulte (+18)',
-      'Support 24/7',
-      'Multi-appareils',
-      'Mise à jour gratuite',
-      'Serveur ultra-stable'
-    ],
-    stock: 3,
-    viewers: 11,
-    recentPurchases: 19,
-    rating: 4.9,
-    reviewCount: 324,
-    reviews: [
-      { author: 'David L.', rating: 5, comment: 'Image cristalline en 4K, je suis bluffé ! Aucune coupure depuis 4 mois.', verified: true, date: '2025-11-08' },
-      { author: 'Celine P.', rating: 5, comment: 'Meilleur service IPTV testé. Qualité irréprochable, support top.', verified: true, date: '2025-11-16' },
-      { author: 'Mohamed A.', rating: 5, comment: 'Service premium exceptionnel ! La qualité 4K est parfaite.', verified: true, date: '2025-11-18' },
-      { author: 'Isabelle Blanc', rating: 4, comment: 'Très bon rapport qualité-prix. Contenu varié et qualité stable.', verified: true, date: '2025-11-20' },
-      { author: 'Vincent Roy', rating: 5, comment: 'Parfait ! J\'utilise depuis 3 mois, aucun problème technique.', verified: true, date: '2025-11-23' },
-      { author: 'Amina K.', rating: 5, comment: 'Excellent service, installation simple. Toute la famille est ravie.', verified: true, date: '2025-11-25' },
-      { author: 'François Dupont', rating: 5, comment: 'Qualité premium au rendez-vous. Les chaînes 4K sont impressionnantes.', verified: true, date: '2025-11-27' },
-      { author: 'Laila F.', rating: 4, comment: 'Très satisfaite, bon service client. Quelques mises à jour régulières.', verified: true, date: '2025-11-29' },
-      { author: 'Pierre Martin', rating: 5, comment: 'Meilleur investissement ! La 4K fait vraiment la différence.', verified: true, date: '2025-12-01' },
-      { author: 'Nour B.', rating: 5, comment: 'Service stable et fiable. Je recommande ce forfait premium.', verified: true, date: '2025-12-02' },
-      { author: 'Marc Lefebvre', rating: 5, comment: 'Excellent ! Fonctionne parfaitement sur tous mes appareils 4K.', verified: true, date: '2025-12-03' },
-      { author: 'Samira D.', rating: 5, comment: 'Qualité professionnelle, serveurs ultra-stables. Top !', verified: true, date: '2025-12-04' },
-      { author: 'Thomas Petit', rating: 4, comment: 'Très bon service premium. Content de mon choix.', verified: true, date: '2025-12-05' }
-    ]
+    description: 'Forfait Premium 6 mois ! Profitez de la meilleure qualité d\'image 4K avec tous les contenus premium sur IPTV France.',
+    gradient: 'from-pink-600 to-rose-600',
+    glowColor: 'rgba(219, 39, 119, 0.4)',
+    checkoutUrl: '/checkout/abonnement-iptv-premium-4k-6-mois',
+    features: ['Qualité 4K Ultra HD', '120K+ Chaînes & VOD', 'Anti-Buffering Tech', 'Serveur Ultra-Stable', 'Activation Instantanée', 'Support VIP 24/7'],
+    stock: 3, viewers: 312, recentPurchases: 19, rating: 4.9, reviewCount: 324,
+    reviews: [...commonReviews]
   },
   'abonnement-iptv-premium-4k-12-mois': {
     title: '12 Mois Premium 4K',
-    subtitle: 'PREMIUM 4K - MEILLEURE OFFRE',
+    subtitle: 'PREMIUM 4K - MEILLEUR CHOIX',
     price: '69',
     duration: '12 Mois',
     type: '4K',
     popular: true,
     bonus: '+2 Mois Gratuit',
-    description: 'Notre meilleure offre Premium 4K ! 12 mois + 2 mois gratuits d\'accès illimité aux chaînes 4K premium avec contenus adultes.',
-    gradient: 'from-amber-500 to-red-500',
-    checkoutUrl: 'https://www.officielsmarterspro.fr/step/premium-4k-12-mois/',
-    features: [
-      'Activation instantanée',
-      '120K+ chaînes & VOD',
-      'Qualité 4K/FHD/HD',
-      'Contenu adulte (+18)',
-      '+2 Mois GRATUIT',
-      'Support 24/7',
-      'Multi-appareils',
-      'Mise à jour gratuite',
-      'Serveur ultra-stable'
-    ],
-    stock: 2,
-    viewers: 23,
-    recentPurchases: 45,
-    rating: 5.0,
-    reviewCount: 1247,
-    reviews: [
-      { author: 'Thomas Dubois', rating: 5, comment: 'La qualité 4K est exceptionnelle ! Content d\'avoir choisi ce pack.', verified: true, date: '2025-11-10' },
-      { author: 'Emma Petit', rating: 5, comment: 'Service premium au top, les 2 mois offerts sont un vrai plus !', verified: true, date: '2025-11-25' },
-      { author: 'Nicolas F.', rating: 5, comment: 'Aucun regret, qualité parfaite et support réactif.', verified: true, date: '2025-11-28' }
-    ]
+    description: 'Notre meilleure offre Premium 4K ! 12 mois + 2 mois gratuits d\'accès illimité aux chaînes 4K premium sur IPTV France 2026.',
+    gradient: 'from-orange-500 to-rose-500',
+    glowColor: 'rgba(249, 115, 22, 0.4)',
+    checkoutUrl: '/checkout/abonnement-iptv-premium-4k-12-mois',
+    features: ['+2 Mois GRATUITS', 'Qualité 4K Ultra HD', '120K+ Chaînes & VOD', 'Anti-Buffering Tech', 'Serveur Ultra-Stable', 'Support VIP 24/7'],
+    stock: 2, viewers: 867, recentPurchases: 45, rating: 5.0, reviewCount: 1247,
+    reviews: [...commonReviews]
   },
   'abonnement-iptv-premium-4k-24-mois': {
     title: '24 Mois Premium 4K',
@@ -289,41 +151,13 @@ const products = {
     duration: '24 Mois',
     type: '4K',
     bonus: '+4 Mois Gratuit',
-    description: 'La valeur ultime ! 24 mois + 4 mois gratuits de service Premium 4K. La meilleure expérience IPTV pour 2 ans.',
-    gradient: 'from-red-500 to-rose-600',
-    checkoutUrl: 'https://www.officielsmarterspro.fr/step/premium-4k-24-mois/',
-    features: [
-      'Activation instantanée',
-      '120K+ chaînes & VOD',
-      'Qualité 4K/FHD/HD',
-      'Contenu adulte (+18)',
-      '+4 Mois GRATUIT',
-      'Support 24/7',
-      'Multi-appareils',
-      'Mise à jour gratuite',
-      'Serveur ultra-stable'
-    ],
-    stock: 4,
-    viewers: 12,
-    recentPurchases: 22,
-    rating: 4.9,
-    reviewCount: 687,
-    reviews: [
-      { author: 'Philippe G.', rating: 5, comment: 'Investissement rentable sur 2 ans. Service exceptionnel depuis 15 mois !', verified: true, date: '2025-10-15' },
-      { author: 'Martine D.', rating: 5, comment: 'Qualité premium, les 4 mois offerts sont appréciables ! Très satisfaite.', verified: true, date: '2025-11-02' },
-      { author: 'Karim E.', rating: 5, comment: 'Meilleur rapport qualité-prix du marché pour du premium 4K. Je recommande !', verified: true, date: '2025-11-08' },
-      { author: 'Julie Moreau', rating: 4, comment: 'Très bon service sur la durée. Qualité constante depuis 1 an.', verified: true, date: '2025-11-12' },
-      { author: 'Hassan B.', rating: 5, comment: 'Parfait ! 18 mois d\'utilisation, zéro problème. Service professionnel.', verified: true, date: '2025-11-16' },
-      { author: 'Sophie Roy', rating: 5, comment: 'Excellent choix pour 2 ans. Les 4 mois gratuits sont un vrai bonus.', verified: true, date: '2025-11-20' },
-      { author: 'Ahmed K.', rating: 5, comment: 'Service ultra-stable depuis 1 an. Image 4K parfaite, support réactif.', verified: true, date: '2025-11-24' },
-      { author: 'Claire Dubois', rating: 4, comment: 'Très satisfaite, bon investissement. Quelques mises à jour mais rien de gênant.', verified: true, date: '2025-11-27' },
-      { author: 'Vincent M.', rating: 5, comment: 'Qualité premium au top ! Économie énorme sur 2 ans.', verified: true, date: '2025-11-30' },
-      { author: 'Fatima H.', rating: 5, comment: 'Meilleur service IPTV premium. Toute la famille l\'utilise quotidiennement.', verified: true, date: '2025-12-01' },
-      { author: 'Jean-Paul R.', rating: 5, comment: 'Parfait depuis 20 mois. Je renouvelerai sans hésiter.', verified: true, date: '2025-12-02' },
-      { author: 'Nadia F.', rating: 5, comment: 'Service exceptionnel, qualité 4K stable. Excellent investissement.', verified: true, date: '2025-12-03' },
-      { author: 'Marc Lefevre', rating: 4, comment: 'Très bon service premium. Content de mon choix sur 2 ans.', verified: true, date: '2025-12-04' },
-      { author: 'Amina D.', rating: 5, comment: 'Qualité professionnelle, serveurs ultra-stables. Je recommande à 100%.', verified: true, date: '2025-12-05' }
-    ]
+    description: 'La valeur ultime ! 24 mois + 4 mois gratuits de service Premium 4K. La meilleure expérience IPTV France pour 2 ans.',
+    gradient: 'from-red-600 to-orange-600',
+    glowColor: 'rgba(220, 38, 38, 0.4)',
+    checkoutUrl: '/checkout/abonnement-iptv-premium-4k-24-mois',
+    features: ['+4 Mois GRATUITS', 'Qualité 4K Ultra HD', '120K+ Chaînes & VOD', 'Anti-Buffering Tech', 'Serveur Ultra-Stable', 'Support VIP 24/7'],
+    stock: 4, viewers: 432, recentPurchases: 22, rating: 4.9, reviewCount: 687,
+    reviews: [...commonReviews]
   }
 };
 
@@ -333,249 +167,424 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = products[slug as keyof typeof products];
-  
-  if (!product) {
-    return {
-      title: 'Produit Non Trouvé'
-    };
-  }
+  const product = products[slug];
+  if (!product) return { title: 'Produit Non Trouvé' };
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
 
   return {
-    title: `${product.title} - Abonnement IPTV France | IPTV SMARTERS PRO`,
-    description: `${product.description} Abonnement iptv premium France avec activation instantanée, support 24/7 et qualité ${product.type}.`,
+    title: `${product.title} - Abonnement IPTV France | IPTV SMARTERS PRO Officiel`,
+    description: `${product.description} Meilleur fournisseur IPTV France 2026. Activation instantanée, qualité 4K Ultra HD, serveur stable sans coupure. Profitez de 120 000+ chaînes et VOD.`,
+    keywords: `iptv france, abonnement iptv, iptv smarters pro, meilleur iptv 2026, serveur iptv stable, iptv 4k france, iptv premium, ${product.title.toLowerCase()}`,
+    alternates: {
+      canonical: `/produits/${slug}`,
+    },
+    openGraph: {
+      url: `/produits/${slug}`,
+      title: `${product.title} - IPTV SMARTERS PRO Officiel`,
+      description: `Profitez du meilleur de l'IPTV en France avec ${product.title}. Qualité 4K, sans coupure, activation immédiate.`,
+      images: [{ url: `${baseUrl}/og-image.jpg` }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.title} - IPTV SMARTERS PRO Officiel`,
+      description: `Le service IPTV n°1 en France. ${product.duration} d'accès premium 4K.`,
+      images: [`${baseUrl}/og-image.jpg`],
+    }
   };
 }
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const product = products[slug as keyof typeof products];
+  const product = products[slug];
+  if (!product) notFound();
 
-  if (!product) {
-    notFound();
-  }
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
 
-  const stockPercentage = Math.min(95, 85 + Math.random() * 10);
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.title,
+    "description": product.description,
+    "image": `${baseUrl}/og-image.jpg`,
+    "brand": {
+      "@type": "Brand",
+      "name": "IPTV SMARTERS PRO"
+    },
+    "sku": slug,
+    "offers": {
+      "@type": "Offer",
+      "price": product.price,
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock",
+      "url": `${baseUrl}/produits/${slug}`,
+      "priceValidUntil": "2026-12-31",
+      "seller": {
+        "@type": "Organization",
+        "name": "IPTV SMARTERS PRO Officiel"
+      }
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": product.rating,
+      "reviewCount": product.reviewCount,
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "review": product.reviews.map(r => ({
+      "@type": "Review",
+      "author": { "@type": "Person", "name": r.author },
+      "reviewRating": { "@type": "Rating", "ratingValue": r.rating },
+      "reviewBody": r.comment,
+      "datePublished": r.date
+    }))
+  };
 
   return (
-    <main className="min-h-screen bg-black">
-      <nav className="bg-black/50 backdrop-blur-sm border-b border-white/10 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <a href="/#pricing" className="text-white/70 hover:text-white transition-colors text-sm">
-            ← Retour aux offres
+    <main className="min-h-screen bg-[#050505] text-white selection:bg-white/20 overflow-x-hidden">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+      
+      {/* Sleek Header */}
+      <nav className="fixed top-0 left-0 right-0 z-[100] bg-black/80 backdrop-blur-md border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <a href="/abonnement-iptv/" className="flex items-center gap-3 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl blur-lg opacity-50 group-hover:opacity-100 transition-opacity" />
+              <div className="relative w-10 h-10 rounded-xl flex items-center justify-center">
+                <Image
+                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/50018153493f4fa80d86c84a6b0e85c5421b42336327adc75d63a93c1074e296_200-1765051431427.webp"
+                  alt="IPTV SMARTERS PRO Logo"
+                  width={40}
+                  height={40}
+                  className="object-contain drop-shadow-[0_0_8px_rgba(34,211,238,0.6)]"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <span className="font-black tracking-tighter text-lg leading-none">IPTV SMARTERS PRO</span>
+              <span className="text-[8px] text-white/40 uppercase tracking-[0.3em] font-bold">Officiel IPTV</span>
+            </div>
+          </a>
+          <div className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-white/40">
+            <a href="/abonnement-iptv/#pricing" className="hover:text-white transition-colors">Abonnements</a>
+            <a href="/tutoriels" className="hover:text-white transition-colors">Tutoriels</a>
+            <a href="/chaines" className="hover:text-white transition-colors">Chaînes</a>
+          </div>
+          <a href={product.checkoutUrl} className="bg-white text-black px-5 py-2 rounded-full text-xs font-black uppercase tracking-tight hover:bg-white/90 transition-colors">
+            Activer
           </a>
         </div>
       </nav>
 
-      <section className="relative py-8 md:py-20 overflow-hidden">
-        <div className="absolute inset-0">
-          <div className={`absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r ${product.gradient} opacity-20 rounded-full blur-[150px]`} />
-          <div className={`absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r ${product.gradient} opacity-20 rounded-full blur-[150px]`} />
+      {/* Hero Section - Mobile First Layout */}
+      <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6">
+        {/* Background Gradients */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className={`absolute -top-1/4 -right-1/4 w-[800px] h-[800px] bg-gradient-to-br ${product.gradient} opacity-[0.08] rounded-full blur-[150px] animate-pulse`} />
+          <div className={`absolute -bottom-1/4 -left-1/4 w-[800px] h-[800px] bg-gradient-to-tr ${product.gradient} opacity-[0.08] rounded-full blur-[150px] animate-pulse`} style={{ animationDelay: '1s' }} />
         </div>
 
-        <div className="relative z-10 max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-6 lg:gap-12">
-            <div className="relative space-y-4 md:space-y-6">
-              {product.popular && (
-                <div className="absolute -top-4 left-0 z-20">
-                  <div className={`px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-gradient-to-r ${product.gradient} text-white text-xs md:text-sm font-bold shadow-lg flex items-center gap-2`}>
-                    <Crown className="w-3 h-3 md:w-4 md:h-4" />
-                    {product.type === '4K' ? 'Meilleure Offre' : 'Plus Populaire'}
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 lg:items-center">
+            
+            {/* Mobile: Title & Info FIRST */}
+            <div className="order-1 lg:order-2 space-y-10">
+              <div className="space-y-6">
+                <div className="flex flex-wrap gap-3">
+                  <div className={`px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white/60`}>
+                    {product.subtitle}
                   </div>
-                </div>
-              )}
-              
-              <div className={`relative rounded-2xl md:rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl`}>
-                <div className={`h-2 bg-gradient-to-r ${product.gradient}`} />
-                
-                <div className="p-6 md:p-8 text-center">
-                  <div className={`w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 md:mb-6 rounded-2xl md:rounded-3xl bg-gradient-to-br ${product.gradient} flex items-center justify-center shadow-2xl`}>
-                    {product.type === '4K' ? (
-                      <Crown className="w-12 h-12 md:w-16 md:h-16 text-white" />
-                    ) : (
-                      <Star className="w-12 h-12 md:w-16 md:h-16 text-white" />
-                    )}
-                  </div>
-                  
-                  <div className="space-y-3 md:space-y-4">
-                    <div className="flex items-start justify-center gap-1">
-                      <span className="text-2xl md:text-3xl font-bold text-white/60 mt-2 md:mt-3">€</span>
-                      <span className={`text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r ${product.gradient}`}>
-                        {product.price}
-                      </span>
+                  {product.bonus && (
+                    <div className="px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-[10px] font-black uppercase tracking-widest text-amber-500">
+                      {product.bonus}
                     </div>
-                    <p className="text-white/60 text-base md:text-lg">Paiement unique</p>
-                    
-                    {product.bonus && (
-                      <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-400 text-black text-xs md:text-sm font-bold py-1.5 md:py-2 px-3 md:px-4 rounded-full animate-pulse">
-                        <Gift className="w-3 h-3 md:w-4 md:h-4" />
-                        {product.bonus}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2 md:space-y-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl md:rounded-2xl p-4 md:p-6">
-                <div className="flex items-center justify-between text-xs md:text-sm">
-                  <div className="flex items-center gap-2">
-                    <Star className="w-4 h-4 md:w-5 md:h-5 text-yellow-400 fill-yellow-400" />
-                    <span className="text-white font-bold">{product.rating}</span>
-                    <span className="text-white/50">({product.reviewCount} avis)</span>
+                  )}
+                  <div className="px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-black uppercase tracking-widest text-emerald-500 flex items-center gap-1.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    En Stock
                   </div>
                 </div>
 
-                <StockIndicator stock={product.stock} />
-                <LiveViewers count={product.viewers} />
+                <h1 className="text-5xl md:text-8xl font-black tracking-tight leading-[0.9] text-white">
+                  {product.title}
+                </h1>
                 
-                <div className="flex items-center gap-2 text-orange-400 text-xs md:text-sm">
-                  <Flame className="w-3 h-3 md:w-4 md:h-4" />
-                  <span className="font-medium">{product.recentPurchases} personnes ont acheté dans la dernière heure</span>
-                </div>
+                <p className="text-xl text-white/40 font-medium max-w-xl leading-relaxed">
+                  {product.description} Abonnement premium optimisé pour la France avec IPTV Smarters Pro Officiel.
+                </p>
 
-                <div className="pt-2 md:pt-3 border-t border-white/10">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-white/70 text-xs md:text-sm">Stock restant</span>
-                    <span className="text-red-400 text-xs md:text-sm font-bold">{stockPercentage.toFixed(0)}% vendu</span>
+                <div className="flex items-center gap-6 pt-2">
+                  <div className="flex gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                    ))}
                   </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-gradient-to-r from-red-500 to-orange-500 rounded-full transition-all duration-500"
-                      style={{ width: `${stockPercentage}%` }}
-                    />
-                  </div>
+                  <span className="text-sm font-bold text-white/40 uppercase tracking-widest">
+                    {product.rating}/5 — {product.reviewCount} Avis Vérifiés
+                  </span>
                 </div>
               </div>
 
-              <CountdownTimer />
+              {/* Pricing & CTA */}
+              <div className="space-y-8">
+                <div className="flex items-baseline gap-4">
+                  <span className="text-7xl font-black tracking-tighter text-white">{product.price}€</span>
+                  <span className="text-2xl text-white/20 font-black uppercase tracking-widest">/ {product.duration}</span>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <a href={product.checkoutUrl} className={`flex-[2] py-6 rounded-2xl bg-gradient-to-r ${product.gradient} text-white font-black text-xl text-center shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 uppercase tracking-tight`}>
+                    <ShoppingCart className="w-6 h-6" />
+                    Activer Mon Accès
+                  </a>
+                  <div className="flex-1 px-8 py-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl flex flex-col justify-center items-center text-center">
+                    <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] mb-1">Mise en service</span>
+                    <span className="text-sm font-black text-white uppercase tracking-widest">Instantanée</span>
+                  </div>
+                </div>
+                
+                {/* Optional Adult Content Note */}
+                <p className="text-white/20 text-[10px] font-medium text-center lg:text-left">
+                  * Contenu Adulte (18+) disponible sur demande simple après activation (gratuit).
+                </p>
+
+                <div className="flex items-center justify-center lg:justify-start gap-8 py-4 border-y border-white/5">
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-white/20" />
+                    <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">Paiement Sécurisé</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Users className="w-4 h-4 text-white/20" />
+                    <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">Support VIP 24/7</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-white/20" />
+                    <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">Zapping Rapide</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="flex flex-col justify-center">
-              <div className="space-y-4 md:space-y-6">
-                <div>
-                  <p className={`text-transparent bg-clip-text bg-gradient-to-r ${product.gradient} font-bold text-xs md:text-sm uppercase tracking-wider mb-2`}>
-                    {product.subtitle}
-                  </p>
-                  <h1 className="text-3xl md:text-5xl font-black text-white mb-3 md:mb-4">
-                    {product.title}
-                  </h1>
-                  <p className="text-white/70 text-base md:text-lg leading-relaxed">
-                    {product.description}
-                  </p>
-                </div>
-
-                <div className="space-y-2 md:space-y-3">
-                  <h3 className="text-lg md:text-xl font-bold text-white mb-3 md:mb-4">Fonctionnalités incluses :</h3>
-                  {product.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center gap-2 md:gap-3">
-                      <div className={`flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-gradient-to-r ${product.gradient} flex items-center justify-center`}>
-                        <Check className="w-3 h-3 md:w-4 md:h-4 text-white" />
+            {/* Visual: CLEAN Digital Pass */}
+            <div className="order-2 lg:order-1 flex justify-center perspective-2000">
+              <div className="relative group w-full max-w-[440px]">
+                {/* Simplified Glass Card */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${product.gradient} rounded-[2.5rem] blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity duration-1000`} />
+                
+                <div className="relative aspect-[4/5] w-full bg-white/[0.03] border border-white/10 rounded-[2.5rem] overflow-hidden backdrop-blur-2xl shadow-[0_0_80px_rgba(0,0,0,0.5)] transition-all duration-700 group-hover:scale-[1.01] group-hover:-rotate-y-12 group-hover:rotate-x-6">
+                  {/* Subtle Noise/Texture */}
+                  <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
+                  
+                  {/* Header Detail */}
+                  <div className={`h-2 bg-gradient-to-r ${product.gradient}`} />
+                  
+                  <div className="p-12 h-full flex flex-col justify-between">
+                    <div className="space-y-12">
+                      <div className="flex justify-between items-start">
+                        <div className="space-y-1">
+                          <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.4em]">Product Type</p>
+                          <p className="text-lg font-black tracking-tight text-white/80">{product.type} PASS</p>
+                        </div>
+                        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${product.gradient} flex items-center justify-center shadow-2xl border border-white/20`}>
+                          {product.type === '4K' ? <Crown className="w-7 h-7 text-white" /> : <Zap className="w-7 h-7 text-white fill-white" />}
+                        </div>
                       </div>
-                      <span className="text-white/90 text-sm md:text-base">{feature}</span>
+
+                      <div className="space-y-8">
+                        {product.features.slice(0, 3).map((f, i) => (
+                          <div key={i} className="flex items-center gap-6 group/item">
+                            <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover/item:border-white/30 transition-colors">
+                              {i === 0 ? <Tv className="w-6 h-6" /> : i === 1 ? <Monitor className="w-6 h-6" /> : <Smartphone className="w-6 h-6" />}
+                            </div>
+                            <span className="font-black text-sm uppercase tracking-widest text-white/60">{f}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
+
+                    <div className="space-y-6 pt-12 border-t border-white/5">
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-5xl font-black tracking-tighter text-white">{product.price}€</span>
+                        <span className="text-sm font-black text-white/20 uppercase tracking-[0.3em]">Official Access</span>
+                      </div>
+                      <div className="flex justify-between items-end">
+                        <p className="text-white/40 font-serif text-2xl italic tracking-tight">IPTV Smarters Pro</p>
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                          <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Active Now</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* SEO Section: Pourquoi choisir notre IPTV France ? */}
+      <section className="py-24 px-6 bg-[#030303] border-y border-white/5">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+          <div className="space-y-8">
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-none uppercase">
+              Le Meilleur de l'<span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">IPTV en France</span> en 2026
+            </h2>
+            <div className="space-y-6 text-white/60 font-medium text-lg leading-relaxed">
+              <p>
+                Vous recherchez un <strong className="text-white">abonnement IPTV premium</strong> stable et performant ? Notre service IPTV Smarters Pro Officiel est conçu pour offrir la meilleure expérience de streaming en France.
+              </p>
+              <p>
+                Avec nos serveurs de dernière génération, profitez d'un <strong className="text-white">IPTV sans coupure</strong> même pendant les grands événements sportifs (Ligue 1, Champions League, Formule 1). Nous garantissons une qualité 4K Ultra HD sur plus de 120 000 chaînes internationales et une bibliothèque VOD immense.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-6 pt-4">
+              <div className="flex items-center gap-3">
+                <Globe className="w-5 h-5 text-cyan-500" />
+                <span className="text-xs font-bold uppercase tracking-widest">Serveurs France</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Zap className="w-5 h-5 text-purple-500" />
+                <span className="text-xs font-bold uppercase tracking-widest">Anti-Buffering</span>
+              </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+              <Tv className="w-8 h-8 text-white/40" />
+              <h4 className="font-black text-sm uppercase tracking-wider">Smart TV</h4>
+              <p className="text-[10px] text-white/30 uppercase font-bold">LG, Samsung, Sony, Android TV</p>
+            </div>
+            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+              <Laptop className="w-8 h-8 text-white/40" />
+              <h4 className="font-black text-sm uppercase tracking-wider">Ordinateur</h4>
+              <p className="text-[10px] text-white/30 uppercase font-bold">Windows, MacOS, Linux</p>
+            </div>
+            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+              <Mobile className="w-8 h-8 text-white/40" />
+              <h4 className="font-black text-sm uppercase tracking-wider">Mobile</h4>
+              <p className="text-[10px] text-white/30 uppercase font-bold">iOS, Android, Tablette</p>
+            </div>
+            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+              <Monitor className="w-8 h-8 text-white/40" />
+              <h4 className="font-black text-sm uppercase tracking-wider">Box TV</h4>
+              <p className="text-[10px] text-white/30 uppercase font-bold">Firestick, Mag, Apple TV</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Feature Grid - More info but CLEAN */}
+      <section className="py-20 px-6 bg-black">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {product.features.map((feature, idx) => (
+              <div key={idx} className="p-8 rounded-[2rem] bg-white/[0.02] border border-white/5 hover:border-white/10 transition-colors space-y-4">
+                <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${product.gradient} flex items-center justify-center shadow-lg`}>
+                  <Check className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-black tracking-tight text-white">{feature}</h3>
+                <p className="text-sm text-white/40 font-medium leading-relaxed">
+                  Technologie de pointe assurant un flux vidéo continu et une stabilité réseau supérieure pour votre abonnement IPTV.
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Urgency & Stock - Clean & Centered */}
+      <section className="py-20 px-6">
+        <div className="max-w-3xl mx-auto text-center space-y-12">
+          <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-black uppercase tracking-widest">
+            <Clock className="w-4 h-4" />
+            Offre Limitée dans le temps
+          </div>
+          <div className="space-y-4">
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight uppercase">Réservez Votre Accès IPTV</h2>
+            <p className="text-white/40 font-medium text-lg">Plus de {product.viewers} personnes en France consultent cette offre actuellement.</p>
+          </div>
+          <CountdownTimer />
+          <div className="pt-8">
+            <StockIndicator stock={product.stock} />
+          </div>
+        </div>
+      </section>
+
+      {/* Reviews Section - Modern & Clean */}
+      <section className="py-32 px-6 bg-[#080808]">
+        <div className="max-w-7xl mx-auto space-y-20">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-10">
+            <div className="space-y-4 max-w-2xl">
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic text-white leading-none">Avis Clients</h2>
+              <p className="text-xl text-white/40 font-medium leading-relaxed">
+                Ce que nos clients disent de l'expérience <span className="text-white">IPTV France 2026</span> avec Smarters Pro.
+              </p>
+            </div>
+            <div className="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl flex items-center gap-6">
+              <div className="text-4xl font-black text-white">{product.rating}</div>
+              <div className="space-y-1">
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                   ))}
                 </div>
-
-                <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg md:rounded-xl p-3 md:p-4">
-                  <div className="flex items-start gap-2 md:gap-3">
-                    <Clock className="w-4 h-4 md:w-5 md:h-5 text-amber-400 flex-shrink-0 mt-0.5" />
-                    <p className="text-amber-200 text-xs md:text-sm">
-                      <span className="font-bold">⏱️ Votre panier est réservé pour 10 minutes</span>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-2 md:space-y-3 pt-2 md:pt-4">
-                  <a
-                    href={product.checkoutUrl}
-                    className="group relative block w-full py-4 md:py-5 rounded-xl font-bold text-center overflow-hidden transition-all duration-300 shadow-2xl hover:shadow-3xl"
-                  >
-                    <div className={`absolute inset-0 bg-gradient-to-r ${product.gradient} transition-transform duration-300 group-hover:scale-105`} />
-                    <span className="relative text-white text-lg md:text-xl flex items-center justify-center gap-2 md:gap-3">
-                      <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
-                      Acheter maintenant
-                    </span>
-                  </a>
-                  
-                  <a
-                    href="/#pricing"
-                    className="block w-full py-3 md:py-4 rounded-xl font-bold text-center text-sm md:text-base text-white/70 hover:text-white border border-white/20 hover:border-white/40 transition-all"
-                  >
-                    Voir toutes les offres
-                  </a>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3 md:gap-4 pt-3 md:pt-4 border-t border-white/10">
-                  <div className="flex flex-col items-center gap-1.5 md:gap-2 bg-white/5 rounded-lg md:rounded-xl p-3 md:p-4">
-                    <Shield className="w-6 h-6 md:w-8 md:h-8 text-green-400" />
-                    <span className="text-white/70 text-[10px] md:text-xs text-center font-medium">Paiement sécurisé</span>
-                  </div>
-                  <div className="flex flex-col items-center gap-1.5 md:gap-2 bg-white/5 rounded-lg md:rounded-xl p-3 md:p-4">
-                    <ArrowUpRight className="w-6 h-6 md:w-8 md:h-8 text-blue-400" />
-                    <span className="text-white/70 text-[10px] md:text-xs text-center font-medium">Activation instantanée</span>
-                  </div>
-                  <div className="flex flex-col items-center gap-1.5 md:gap-2 bg-white/5 rounded-lg md:rounded-xl p-3 md:p-4">
-                    <Shield className="w-6 h-6 md:w-8 md:h-8 text-purple-400" />
-                    <span className="text-white/70 text-[10px] md:text-xs text-center font-medium">Garantie satisfait</span>
-                  </div>
-                  <div className="flex flex-col items-center gap-1.5 md:gap-2 bg-white/5 rounded-lg md:rounded-xl p-3 md:p-4">
-                    <Users className="w-6 h-6 md:w-8 md:h-8 text-cyan-400" />
-                    <span className="text-white/70 text-[10px] md:text-xs text-center font-medium">Support 24/7</span>
-                  </div>
-                </div>
+                <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">{product.reviewCount} Évaluations</p>
               </div>
             </div>
           </div>
 
-          <div className="mt-12 md:mt-16 space-y-6 md:space-y-8">
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl md:rounded-3xl p-6 md:p-8">
-              <h2 className="text-2xl md:text-3xl font-black text-white mb-4 md:mb-6 flex items-center gap-2 md:gap-3">
-                <Star className="w-6 h-6 md:w-8 md:h-8 text-yellow-400 fill-yellow-400" />
-                Avis clients vérifiés
-              </h2>
-              
-              <div className="space-y-4 md:space-y-6">
-                {product.reviews.map((review, idx) => (
-                  <div key={idx} className="border-b border-white/10 last:border-0 pb-4 md:pb-6 last:pb-0">
-                    <div className="flex items-center justify-between mb-2 md:mb-3">
-                      <div className="flex items-center gap-2 md:gap-3">
-                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-sm md:text-base">
-                          {review.author.charAt(0)}
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-1.5 md:gap-2">
-                            <p className="text-white font-bold text-sm md:text-base">{review.author}</p>
-                            {review.verified && (
-                              <span className="bg-green-500/20 text-green-400 text-[10px] md:text-xs px-1.5 md:px-2 py-0.5 md:py-1 rounded-full flex items-center gap-1">
-                                <Check className="w-2.5 h-2.5 md:w-3 md:h-3" />
-                                Vérifié
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-white/50 text-xs md:text-sm">{review.date}</p>
-                        </div>
-                      </div>
-                      <div className="flex gap-0.5 md:gap-1">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star
-                            key={i}
-                            className={`w-3 h-3 md:w-4 md:h-4 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-white/20'}`}
-                          />
-                        ))}
-                      </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {product.reviews.map((review, idx) => (
+              <div key={idx} className="p-8 rounded-[2rem] bg-white/[0.03] border border-white/5 space-y-6 hover:bg-white/[0.05] transition-colors">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center font-black text-white">
+                      {review.author.charAt(0)}
                     </div>
-                    <p className="text-white/80 leading-relaxed text-sm md:text-base">{review.comment}</p>
+                    <div>
+                      <p className="font-black text-sm text-white">{review.author}</p>
+                      <p className="text-[10px] font-black text-white/20 uppercase tracking-widest">{review.date}</p>
+                    </div>
                   </div>
-                ))}
+                  {review.verified && (
+                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[10px] font-black uppercase">
+                      <Check className="w-3.5 h-3.5" /> Vérifié
+                    </div>
+                  )}
+                </div>
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className={`w-3.5 h-3.5 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-white/5'}`} />
+                  ))}
+                </div>
+                <p className="text-white/70 font-medium leading-relaxed italic text-lg tracking-tight leading-relaxed">"{review.comment}"</p>
               </div>
-            </div>
+            ))}
+          </div>
 
+          <div className="max-w-2xl mx-auto pt-10 border-t border-white/5">
             <ReviewForm />
           </div>
         </div>
       </section>
 
-      <RecentPurchases productName={product.title} />
+      {/* Sticky Mobile Buy Button - Scroll Controlled */}
+      <StickyBuyButton 
+        checkoutUrl={product.checkoutUrl} 
+        price={product.price} 
+        gradient={product.gradient} 
+      />
+
+      <div className="pb-32 lg:pb-0">
+        <RecentPurchases productName={product.title} />
+      </div>
+      
+      {/* Footer Space */}
+      <footer className="py-20 px-6 border-t border-white/5 text-center">
+        <p className="text-white/20 text-xs font-bold uppercase tracking-[0.3em]">© 2026 IPTV Smarters Pro France — Tous droits réservés</p>
+      </footer>
     </main>
   );
 }
