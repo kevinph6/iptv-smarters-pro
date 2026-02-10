@@ -72,7 +72,7 @@ export async function GET() {
     }
 
     // Step 2: Build payment URL
-    const encodedAddress = encodeURIComponent(addressIn);
+    // address_in is already URL-encoded — do NOT encodeURIComponent it again
     const encodedEmail = encodeURIComponent('test@example.com');
     const testAmount = '7';
 
@@ -85,16 +85,16 @@ export async function GET() {
 
     let paymentUrl: string;
     if (provider !== 'multi' && VALID_PROVIDERS.includes(provider)) {
-      paymentUrl = `https://checkout.paygate.to/process-payment.php?address=${encodedAddress}&amount=${testAmount}&provider=${provider}&email=${encodedEmail}&currency=${currency}`;
+      paymentUrl = `https://checkout.paygate.to/process-payment.php?address=${addressIn}&amount=${testAmount}&provider=${provider}&email=${encodedEmail}&currency=${currency}`;
     } else {
-      paymentUrl = `https://checkout.paygate.to/pay.php?address=${encodedAddress}&amount=${testAmount}&email=${encodedEmail}&currency=${currency}`;
+      paymentUrl = `https://checkout.paygate.to/pay.php?address=${addressIn}&amount=${testAmount}&email=${encodedEmail}&currency=${currency}`;
     }
 
     debug.step2_paymentUrl = {
       mode: VALID_PROVIDERS.includes(provider) ? 'single-provider' : 'multi-provider',
       provider,
       url: paymentUrl,
-      encodedAddressPreview: `${encodedAddress.substring(0, 40)}...`,
+      addressInPreview: `${addressIn.substring(0, 40)}...`,
     };
 
     return NextResponse.json({ success: true, debug });

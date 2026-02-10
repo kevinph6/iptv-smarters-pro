@@ -134,18 +134,15 @@ export async function POST(request: NextRequest) {
     // Step 2: Build payment redirect URL per PayGate.to API docs
     // https://documenter.getpostman.com/view/14826208/2sA3Bj9aBi
     //
-    // address_in from wallet.php is already URL-encoded (contains %2F, %3D etc.)
-    // We encodeURIComponent it again so the server receives the original value after decoding.
-    // This matches the curl examples in the official docs.
-    const encodedAddress = encodeURIComponent(addressIn);
+    // IMPORTANT: address_in from wallet.php is ALREADY URL-encoded (contains %2F, %3D, %2B).
+    // Do NOT use encodeURIComponent() on it — double-encoding causes PayGate to reject it
+    // with "Provided wallet address is not allowed" (400 error).
+    // Pass address_in directly into the URL as-is.
     const encodedEmail = encodeURIComponent(email);
 
     let paymentUrl: string;
 
-    // Valid single-provider names per API docs:
-    // moonpay, banxa, transak, particle, guardarian, rampnetwork, mercuryo,
-    // utorg, transfi, stripe, topper, sardine, upi, robinhood, coinbase,
-    // unlimit, bitnovo, simplex, interac, binance, revolut
+    // Valid single-provider names per API docs
     const VALID_PROVIDERS = [
       'moonpay', 'banxa', 'transak', 'particle', 'guardarian', 'rampnetwork',
       'mercuryo', 'utorg', 'transfi', 'stripe', 'topper', 'sardine', 'upi',
@@ -155,10 +152,10 @@ export async function POST(request: NextRequest) {
 
     if (provider !== 'multi' && VALID_PROVIDERS.includes(provider)) {
       // Single provider mode → process-payment.php
-      paymentUrl = `https://checkout.paygate.to/process-payment.php?address=${encodedAddress}&amount=${product.price}&provider=${provider}&email=${encodedEmail}&currency=${currency}`;
+      paymentUrl = `https://checkout.paygate.to/process-payment.php?address=${addressIn}&amount=${product.price}&provider=${provider}&email=${encodedEmail}&currency=${currency}`;
     } else {
       // Multi-provider mode → pay.php (shows all available payment methods)
-      paymentUrl = `https://checkout.paygate.to/pay.php?address=${encodedAddress}&amount=${product.price}&email=${encodedEmail}&currency=${currency}`;
+      paymentUrl = `https://checkout.paygate.to/pay.php?address=${addressIn}&amount=${product.price}&email=${encodedEmail}&currency=${currency}`;
     }
 
     console.log(`[Checkout] Order ${orderNumber} | provider=${provider} | url=${paymentUrl}`);
