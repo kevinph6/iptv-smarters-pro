@@ -153,6 +153,7 @@ export async function GET(request: NextRequest) {
         if (emailConfig) {
           await sendCredentialsEmail(emailConfig, {
             orderNumber,
+            customerName: order.customerName || '',
             customerEmail: order.email,
             productTitle: order.productTitle,
             amount: order.amount,

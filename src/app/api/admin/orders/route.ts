@@ -107,6 +107,7 @@ export async function POST(request: NextRequest) {
 
     const success = await sendCredentialsEmail(emailConfig, {
       orderNumber: order.orderNumber,
+      customerName: order.customerName || '',
       customerEmail: order.email,
       productTitle: order.productTitle,
       amount: order.amount,
