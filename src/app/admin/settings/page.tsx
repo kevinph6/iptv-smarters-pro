@@ -29,6 +29,7 @@ const PAYGATE_PROVIDERS = [
 ];
 
 const PRODUCT_SLUGS = [
+  { slug: 'test-iptv-3-mois', label: 'TEST 3 Mois ($5)' },
   { slug: 'abonnement-iptv-hd-3-mois', label: 'IPTV HD 3 Mois' },
   { slug: 'abonnement-iptv-hd-6-mois', label: 'IPTV HD 6 Mois' },
   { slug: 'abonnement-iptv-hd-12-mois', label: 'IPTV HD 12 Mois' },

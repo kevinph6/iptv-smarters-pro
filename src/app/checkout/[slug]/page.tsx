@@ -25,6 +25,21 @@ const PRODUCTS: Record<string, {
   connections: string;
   support: string;
 }> = {
+  'test-iptv-3-mois': {
+    title: 'TEST 3 Mois IPTV',
+    subtitle: 'TEST MODE',
+    price: '5',
+    duration: '3 Mois',
+    durationMonths: 3,
+    type: 'HD',
+    gradient: 'from-green-600 to-emerald-600',
+    features: ['Test product - 3 mois', 'Package ID: 6', 'Prix: $5 USD'],
+    channels: 'TEST',
+    vod: 'TEST',
+    quality: 'HD',
+    connections: '1',
+    support: 'Test',
+  },
   'abonnement-iptv-hd-3-mois': {
     title: '3 Mois IPTV HD',
     subtitle: 'IPTV HD',
