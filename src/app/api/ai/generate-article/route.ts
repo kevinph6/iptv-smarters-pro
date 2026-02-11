@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'OpenRouter API key not configured' }, { status: 500 });
     }
 
-    // Select model based on preference
+    // Select model based on preference (claude-3.7-sonnet is fast + high quality)
     let modelId: string;
     switch (model) {
       case 'opus':
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
         modelId = 'openai/gpt-4o';
         break;
       default:
-        modelId = 'anthropic/claude-sonnet-4';
+        modelId = 'anthropic/claude-3.7-sonnet';
     }
 
     const userKeywords = keywords ? keywords.split(',').map((k: string) => k.trim()).filter(Boolean) : [];
@@ -147,7 +147,7 @@ IMPORTANT: Le JSON doit être valide. Le contenu HTML ne doit PAS contenir de sa
             content: prompt,
           },
         ],
-        max_tokens: 8192,
+        max_tokens: 4096,
         temperature: 0.7,
         response_format: { type: 'json_object' },
       }),

@@ -314,9 +314,9 @@ export default function AIGeneratePage() {
                 <label className="block text-white font-semibold mb-2">Modèle IA pour l'article</label>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                   {[
-                    { id: 'claude', label: 'Claude Sonnet', desc: 'Recommandé' },
-                    { id: 'opus', label: 'Claude Opus', desc: 'Plus créatif' },
-                    { id: 'sonnet', label: 'Claude Sonnet 4', desc: 'Dernière version' },
+                    { id: 'claude', label: 'Claude 3.7 Sonnet', desc: 'Rapide (Recommandé)' },
+                    { id: 'sonnet', label: 'Claude Sonnet 4', desc: 'Haute qualité' },
+                    { id: 'opus', label: 'Claude Opus 4', desc: 'Le plus créatif' },
                     { id: 'gpt', label: 'GPT-4o', desc: 'Alternative' },
                   ].map((m) => (
                     <button

@@ -62,7 +62,7 @@ function getModelId(model: string): string {
     case 'opus': return 'anthropic/claude-opus-4';
     case 'sonnet': return 'anthropic/claude-sonnet-4';
     case 'gpt': return 'openai/gpt-4o';
-    default: return 'anthropic/claude-sonnet-4';
+    default: return 'anthropic/claude-3.7-sonnet';
   }
 }
 
@@ -122,7 +122,7 @@ FORMAT JSON:
         { role: 'system', content: 'Tu es un rédacteur SEO expert. Tu réponds TOUJOURS en JSON valide uniquement.' },
         { role: 'user', content: prompt },
       ],
-      max_tokens: 8192,
+      max_tokens: 4096,
       temperature: 0.7,
       response_format: { type: 'json_object' },
     }),
