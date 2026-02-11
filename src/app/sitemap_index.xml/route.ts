@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
   
@@ -30,8 +33,9 @@ ${sitemaps.map(sitemap => `  <sitemap>
 
   return new Response(sitemapIndex, {
     headers: {
-      'Content-Type': 'text/xml',
-      'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=600, s-maxage=600, stale-while-revalidate=300',
+      'X-Robots-Tag': 'noindex',
     },
   });
 }

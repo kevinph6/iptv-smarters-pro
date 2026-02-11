@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 const tutorials = [
   {
     title: 'Android (Téléphone & Tablette)',
-    description: 'Installation complète de votre abonnement IPTV SMARTERS PRO sur Android. Google Play Store ou APK direct.',
+    description: 'Apprenez à télécharger l\'application, entrer vos identifiants et regarder vos chaînes sur votre téléphone ou tablette Android.',
     icon: <Smartphone className="w-10 h-10" />,
     slug: 'android',
     duration: '5 min',
@@ -45,7 +45,7 @@ const tutorials = [
   },
   {
     title: 'iOS (iPhone & iPad)',
-    description: 'Guide détaillé pour configurer IPTV SMARTERS PRO sur App Store. Installation en 3 étapes simples.',
+    description: 'Guide pas à pas pour installer une application IPTV sur votre iPhone ou iPad et configurer votre abonnement.',
     icon: <Smartphone className="w-10 h-10" />,
     slug: 'ios',
     duration: '5 min',
@@ -56,7 +56,7 @@ const tutorials = [
   },
   {
     title: 'Smart TV (Samsung & LG)',
-    description: 'Installation IPTV sur Smart TV Samsung et LG avec Smart IPTV, SS IPTV. Configuration pas à pas.',
+    description: 'Installez une application IPTV directement sur votre Smart TV Samsung ou LG et ajoutez votre playlist pour regarder vos chaînes.',
     icon: <Tv className="w-10 h-10" />,
     slug: 'smart-tv',
     duration: '10 min',
@@ -67,7 +67,7 @@ const tutorials = [
   },
   {
     title: 'Amazon Fire TV Stick',
-    description: 'Tutoriel complet Fire TV Stick 4K. Downloader, installation APK, activation abonnement IPTV.',
+    description: 'Comment installer IPTV Smarters sur votre Fire TV Stick étape par étape, même si l\'app n\'est pas sur l\'Amazon Store.',
     icon: <Play className="w-10 h-10" />,
     slug: 'fire-tv',
     duration: '8 min',
@@ -78,7 +78,7 @@ const tutorials = [
   },
   {
     title: 'PC & Mac (Windows/MacOS)',
-    description: 'Configuration IPTV sur ordinateur. VLC Player, Kodi, IPTV Smarters Windows. Liste M3U.',
+    description: 'Regardez vos chaînes IPTV sur votre ordinateur avec VLC Media Player ou l\'application IPTV Smarters pour bureau.',
     icon: <Monitor className="w-10 h-10" />,
     slug: 'pc-mac',
     duration: '7 min',
@@ -89,7 +89,7 @@ const tutorials = [
   },
   {
     title: 'Android TV & Box IPTV',
-    description: 'Installation sur Android TV, Nvidia Shield, Mi Box, Box IPTV. Application SMARTERS PRO.',
+    description: 'Configuration sur Android TV, Nvidia Shield, Xiaomi Mi Box ou toute box Android. Téléchargez et configurez en quelques minutes.',
     icon: <Tv className="w-10 h-10" />,
     slug: 'android-tv',
     duration: '6 min',
@@ -229,20 +229,24 @@ export default function TutorialsPage() {
           <div className="space-y-4">
             {[
               {
-                q: 'Combien de temps prend l\'installation de l\'abonnement IPTV ?',
-                a: 'L\'installation de IPTV SMARTERS PRO prend entre 5 et 10 minutes selon votre appareil. Nos tutoriels sont conçus pour une configuration rapide de votre abonnement IPTV.',
+                q: 'C\'est quoi l\'IPTV exactement ?',
+                a: 'L\'IPTV (Internet Protocol Television) permet de regarder des chaînes TV et du contenu vidéo via votre connexion Internet, au lieu d\'une antenne ou d\'un câble. Il vous suffit d\'un appareil connecté (téléphone, TV, PC...) et d\'une application IPTV pour profiter de vos chaînes.',
               },
               {
-                q: 'Puis-je installer mon abonnement IPTV sur plusieurs appareils ?',
-                a: 'Oui, votre abonnement IPTV SMARTERS PRO peut être installé sur plusieurs appareils. Consultez les conditions de votre pack pour le nombre d\'appareils simultanés autorisés.',
+                q: 'Qu\'est-ce que je reçois après mon abonnement ?',
+                a: 'Après votre achat, vous recevez par email et/ou WhatsApp vos identifiants de connexion : un nom d\'utilisateur (username), un mot de passe (password) et une adresse de serveur (URL). Ces 3 informations sont à entrer dans l\'application IPTV de votre choix.',
               },
               {
-                q: 'Que faire si l\'installation IPTV ne fonctionne pas ?',
-                a: 'Notre support client 24h/7j est disponible pour vous aider. Contactez-nous par email ou WhatsApp pour une assistance personnalisée concernant votre abonnement IPTV.',
+                q: 'Combien de temps prend l\'installation ?',
+                a: 'L\'installation prend entre 5 et 10 minutes selon votre appareil. Le plus long est le téléchargement de l\'application. Une fois installée, il suffit d\'entrer vos 3 identifiants et c\'est prêt.',
               },
               {
-                q: 'Les tutoriels sont-ils à jour avec la dernière version IPTV SMARTERS PRO ?',
-                a: 'Oui, tous nos guides sont régulièrement mis à jour pour refléter les dernières versions de l\'application IPTV SMARTERS PRO et des systèmes d\'exploitation.',
+                q: 'Que faire si ça ne fonctionne pas ?',
+                a: 'Vérifiez d\'abord que vos identifiants sont correctement saisis (pas d\'espace en trop, URL complète avec http://). Si le problème persiste, contactez notre support 24h/7j par email ou WhatsApp, nous vous aiderons en direct.',
+              },
+              {
+                q: 'Puis-je utiliser mon abonnement sur plusieurs appareils ?',
+                a: 'Oui, vous pouvez installer l\'application sur plusieurs appareils. Le nombre de connexions simultanées dépend de votre formule d\'abonnement. Consultez votre offre pour connaître le nombre d\'écrans inclus.',
               },
             ].map((faq, index) => (
               <div key={index} className="p-6 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10">

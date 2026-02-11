@@ -1,30 +1,8 @@
 import NavigationHeader from '@/components/sections/navigation-header';
 import Footer from '@/components/sections/footer';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle, AlertCircle, Download, Settings, Play, Smartphone } from 'lucide-react';
-import Image from 'next/image';
+import { ArrowRight, CheckCircle, AlertCircle, Download, Settings, Play, Smartphone, Tv, Monitor, Shield, Search, LogIn, Wifi, Zap, Info } from 'lucide-react';
 import type { Metadata } from 'next';
-
-const tutorialImages: Record<string, string[]> = {
-  android: [
-    'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/modern-smartphone-displaying-iptv-smarte-eb807e92-20251205183127.jpg',
-  ],
-  ios: [
-    'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/iphone-displaying-iptv-streaming-app-wit-b31ace0e-20251205183127.jpg',
-  ],
-  'smart-tv': [
-    'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/large-samsung-smart-tv-displaying-iptv-i-f0a6ddbf-20251205183126.jpg',
-  ],
-  'fire-tv': [
-    'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/amazon-fire-tv-stick-4k-device-with-alex-3eff4fe7-20251205183127.jpg',
-  ],
-  'pc-mac': [
-    'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/modern-desktop-computer-setup-showing-ip-a2ff9ce3-20251205183128.jpg',
-  ],
-  'android-tv': [
-    'https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/ba0e4002-35cb-42f6-b185-6a3961472a13/generated_images/android-tv-box-and-nvidia-shield-setup-s-6e871463-20251205183127.jpg',
-  ],
-};
 
 type TutorialData = {
   title: string;
@@ -36,6 +14,7 @@ type TutorialData = {
     title: string;
     description: string;
     details: string[];
+    note?: string;
     imageAlt: string;
   }[];
   tips: string[];
@@ -48,601 +27,706 @@ type TutorialData = {
 const tutorialsData: Record<string, TutorialData> = {
   android: {
     title: 'Installation IPTV SMARTERS PRO sur Android',
-    description: 'Guide complet pour installer et configurer votre abonnement IPTV SMARTERS PRO sur smartphone et tablette Android',
+    description: 'Guide complet pas-à-pas pour installer et configurer IPTV SMARTERS PRO sur votre smartphone ou tablette Android en quelques minutes',
     duration: '5 minutes',
     difficulty: 'Facile',
     requirements: [
-      'Smartphone ou tablette Android 5.0+',
-      'Connexion Internet stable (WiFi ou 4G/5G)',
-      'Abonnement IPTV SMARTERS PRO actif',
-      'Codes d\'activation (reçus par email/WhatsApp)',
+      'Smartphone ou tablette Android version 5.0 ou supérieur',
+      'Connexion Internet stable (WiFi recommandé, 4G/5G possible)',
+      'Un abonnement IPTV SMARTERS PRO actif',
+      'Vos identifiants de connexion IPTV (Username, Password, URL serveur) reçus par email ou WhatsApp après achat',
     ],
     steps: [
       {
-        title: 'Télécharger l\'Application IPTV SMARTERS PRO',
-        description: 'Installez l\'application depuis Google Play Store ou APK',
+        title: 'Télécharger l\'application IPTV Smarters Pro',
+        description: 'L\'application IPTV Smarters Pro n\'est plus disponible sur le Google Play Store officiel. Vous devez télécharger le fichier APK.',
         details: [
-          'Ouvrez le Google Play Store sur votre appareil Android',
-          'Recherchez "IPTV Smarters Pro" dans la barre de recherche',
-          'Sélectionnez l\'application officielle (développeur: WHMCS SMARTERS)',
-          'Appuyez sur "Installer" et attendez la fin du téléchargement',
-          'Alternative : Téléchargez l\'APK depuis notre site web',
+          'Ouvrez le navigateur de votre téléphone Android (Chrome, Firefox, etc.)',
+          'Rendez-vous sur le site officiel : iptvsmarters.com puis cliquez sur "Downloads"',
+          'Sélectionnez "Download for Android" pour obtenir le fichier APK',
+          'Si votre navigateur affiche un avertissement de sécurité, appuyez sur "Télécharger quand même" — le fichier est sans danger',
+          'Attendez la fin du téléchargement du fichier APK (environ 30 secondes)',
         ],
-        imageAlt: 'Google Play Store IPTV Smarters Pro Download',
+        note: 'Important : L\'application sur le Google Play Store n\'est PAS la version officielle complète. Utilisez toujours l\'APK du site officiel pour avoir toutes les fonctionnalités.',
+        imageAlt: 'Téléchargement APK IPTV Smarters Pro depuis le site officiel',
       },
       {
-        title: 'Ouvrir et Configurer l\'Application',
-        description: 'Lancez IPTV SMARTERS PRO et configurez votre premier profil',
+        title: 'Autoriser l\'installation depuis des sources inconnues',
+        description: 'Android bloque par défaut l\'installation d\'applications hors Play Store. Vous devez autoriser cette permission.',
         details: [
-          'Ouvrez l\'application IPTV SMARTERS PRO installée',
-          'Sur l\'écran d\'accueil, sélectionnez "Ajouter un Utilisateur"',
-          'Choisissez "Login with Xtream Codes API" comme type de connexion',
-          'Cette option permet la connexion avec votre abonnement IPTV',
-          'Préparez vos identifiants reçus par email ou WhatsApp',
+          'Allez dans les Paramètres de votre téléphone Android',
+          'Cherchez "Sécurité" ou "Confidentialité" (selon votre version Android)',
+          'Trouvez l\'option "Sources inconnues" ou "Installer des apps inconnues"',
+          'Sur Android 8.0 et plus : autorisez votre navigateur (Chrome) à installer des apps',
+          'Sur Android plus ancien : activez simplement "Sources inconnues"',
+          'Validez le message d\'avertissement en appuyant sur "OK" ou "Autoriser"',
         ],
-        imageAlt: 'IPTV Smarters Pro Welcome Screen Android',
+        note: 'Cette étape est obligatoire. Sans cette autorisation, Android refusera d\'installer le fichier APK.',
+        imageAlt: 'Paramètres Android — Autoriser sources inconnues',
       },
       {
-        title: 'Entrer vos Identifiants IPTV',
-        description: 'Saisissez les informations de votre abonnement IPTV SMARTERS PRO',
+        title: 'Installer et ouvrir IPTV Smarters Pro',
+        description: 'Installez le fichier APK téléchargé et lancez l\'application pour la première fois.',
         details: [
-          'Nom d\'utilisateur : Entrez votre username IPTV',
-          'Mot de passe : Saisissez votre password IPTV',
-          'URL du serveur : Collez l\'URL fournie (format: http://exemple.com:port)',
-          'Vérifiez que tous les champs sont correctement remplis',
-          'Cliquez sur "Ajouter Utilisateur" pour valider',
+          'Ouvrez votre gestionnaire de fichiers ou allez dans "Téléchargements"',
+          'Appuyez sur le fichier "iptv-smarters-pro.apk" téléchargé',
+          'Appuyez sur "Installer" quand Android vous le propose',
+          'Attendez quelques secondes que l\'installation se termine',
+          'Appuyez sur "Ouvrir" pour lancer IPTV Smarters Pro',
+          'Au premier lancement, choisissez le mode "Mobile" et appuyez sur "SAVE"',
+          'Lisez et acceptez les conditions d\'utilisation en appuyant sur "Accept"',
         ],
-        imageAlt: 'IPTV Login Credentials Android Configuration',
+        imageAlt: 'Installation APK IPTV Smarters Pro sur Android',
       },
       {
-        title: 'Activation et Vérification',
-        description: 'Attendez la connexion aux serveurs IPTV et la synchronisation',
+        title: 'Connecter votre abonnement IPTV',
+        description: 'Entrez vos identifiants pour accéder à vos chaînes. Vous avez reçu ces informations par email ou WhatsApp après votre achat.',
         details: [
-          'L\'application se connecte aux serveurs IPTV (5-10 secondes)',
-          'Chargement de vos 160 000+ chaînes IPTV et VOD',
-          'Une fois connecté, vous verrez le menu principal',
-          'Explorez les catégories : Live TV, Films, Séries, Catch-Up',
-          'Testez quelques chaînes pour vérifier la qualité streaming',
+          'Sur l\'écran d\'accueil de l\'app, appuyez sur "Add New User" (Ajouter Utilisateur)',
+          'Choisissez "Login with Xtream Codes API" — c\'est la méthode la plus simple',
+          'Remplissez les 3 champs avec les informations reçues :',
+          '— "Any Name" : Donnez un nom à votre profil (exemple : "Mon IPTV")',
+          '— "Username" : Collez votre nom d\'utilisateur exactement comme reçu',
+          '— "Password" : Collez votre mot de passe exactement comme reçu',
+          '— "Server URL" : Collez l\'URL du serveur (format : http://xxxxx.com:port)',
+          'Vérifiez bien qu\'il n\'y a pas d\'espace avant ou après vos identifiants',
+          'Appuyez sur "Add User" pour vous connecter',
         ],
-        imageAlt: 'IPTV Smarters Pro Main Interface Android',
+        note: 'Attention : les identifiants sont sensibles aux majuscules/minuscules. Copiez-collez les directement depuis l\'email ou WhatsApp reçu pour éviter les erreurs.',
+        imageAlt: 'Écran de connexion IPTV Smarters Pro — Xtream Codes API',
       },
       {
-        title: 'Paramètres et Optimisation',
-        description: 'Configurez les paramètres pour une expérience optimale',
+        title: 'Naviguer et profiter de vos chaînes IPTV',
+        description: 'Votre compte est connecté ! Découvrez comment naviguer dans l\'application et optimiser votre expérience.',
         details: [
-          'Accédez au menu Paramètres (icône engrenage)',
-          'Player Settings : Sélectionnez "ExoPlayer" pour meilleure performance',
-          'Qualité vidéo : Choisissez "Auto" ou "4K/Full HD" selon votre connexion',
-          'EPG (Guide TV) : Activez pour voir les programmes à venir',
-          'Contrôle parental : Activez un code PIN pour contenus adultes (Premium)',
+          'L\'application charge automatiquement toutes vos chaînes (patientez 10-30 secondes)',
+          'Menu principal : "Live TV" pour les chaînes en direct, "Movies" pour les films, "Series" pour les séries',
+          'Dans "Live TV", les chaînes sont classées par pays et catégories (Sport, Cinéma, Actualités...)',
+          'Appuyez sur une chaîne pour lancer la lecture vidéo',
+          'Pour ajouter une chaîne en favori : appuyez longuement dessus et sélectionnez "Add to Favorites"',
+          'Pour les paramètres : allez dans "Settings" > "Player Selection" > choisissez "ExoPlayer" (recommandé)',
+          'Pour le guide TV (EPG) : allez dans "Install EPG" depuis le menu principal',
         ],
-        imageAlt: 'IPTV Smarters Pro Settings Android Optimization',
+        imageAlt: 'Interface principale IPTV Smarters Pro avec catégories de chaînes',
       },
     ],
     tips: [
-      'Utilisez une connexion WiFi 5 GHz ou 4G/5G pour streaming 4K optimal',
-      'Fermez les applications en arrière-plan pour libérer la RAM',
-      'Activez le mode "Ne pas déranger" pendant le visionnage IPTV',
-      'Mettez à jour régulièrement IPTV SMARTERS PRO depuis Play Store',
-      'Sauvegardez vos identifiants IPTV dans un endroit sûr',
-      'Utilisez un VPN pour une confidentialité maximale (optionnel)',
+      'Utilisez le WiFi plutôt que les données mobiles pour éviter la consommation de votre forfait — le streaming IPTV utilise beaucoup de données',
+      'Fermez les autres applications en arrière-plan avant de regarder l\'IPTV pour éviter les lags et les coupures',
+      'Si une chaîne ne marche pas, essayez-en une autre — certaines chaînes peuvent être temporairement hors ligne',
+      'Pour la qualité 4K, vous avez besoin d\'une connexion Internet d\'au moins 25 Mbps — testez votre débit sur speedtest.net',
+      'Sauvegardez vos identifiants (username, password, URL) dans vos notes — vous en aurez besoin si vous réinstallez l\'app',
+      'Si vous avez du buffering, changez le lecteur vidéo dans Settings > Player Selection (essayez ExoPlayer ou VLC)',
     ],
     troubleshooting: [
       {
-        problem: 'L\'application ne se connecte pas au serveur IPTV',
-        solution: 'Vérifiez votre connexion Internet, l\'URL du serveur (inclure http://), et que votre abonnement IPTV est actif. Redémarrez l\'application.',
+        problem: 'Le fichier APK ne s\'installe pas — message "Installation bloquée"',
+        solution: 'Vous n\'avez pas autorisé les sources inconnues. Allez dans Paramètres > Sécurité > Sources inconnues et activez l\'option pour votre navigateur. Puis réessayez l\'installation.',
       },
       {
-        problem: 'Buffering constant ou coupures pendant le streaming',
-        solution: 'Testez votre vitesse Internet (minimum 10 Mbps pour HD, 25 Mbps pour 4K). Changez de serveur IPTV dans les paramètres. Réduisez la qualité vidéo.',
+        problem: 'Erreur "Invalid Credentials" ou "Authentication Failed" lors de la connexion',
+        solution: 'Vos identifiants sont incorrects. Vérifiez que vous avez copié-collé exactement le username, password et URL serveur depuis l\'email/WhatsApp reçu. Attention aux espaces avant/après et aux majuscules. Si le problème persiste, contactez notre support.',
       },
       {
-        problem: 'Les chaînes ne se chargent pas ou écran noir',
-        solution: 'Changez le lecteur vidéo dans Paramètres (ExoPlayer recommandé). Videz le cache de l\'application. Réinstallez IPTV SMARTERS PRO si nécessaire.',
+        problem: 'Les chaînes chargent mais l\'écran reste noir ou le son ne fonctionne pas',
+        solution: 'Allez dans Settings > Player Selection et changez le lecteur vidéo. Essayez "ExoPlayer" d\'abord, puis "VLC" si ça ne marche pas. Vous pouvez aussi vider le cache : allez dans Paramètres Android > Applications > IPTV Smarters > Vider le cache.',
       },
       {
-        problem: 'Erreur "Invalid Credentials" lors de la connexion',
-        solution: 'Vérifiez que username, password et URL sont exacts (sensible aux majuscules). Contactez le support pour vérifier que votre abonnement IPTV est bien activé.',
+        problem: 'Buffering constant — la vidéo se coupe et recharge sans arrêt',
+        solution: 'Votre connexion Internet est trop lente. Testez votre débit sur speedtest.net (minimum 10 Mbps pour HD, 25 Mbps pour 4K). Connectez-vous en WiFi 5 GHz si possible. Fermez toutes les autres apps. En dernier recours, contactez notre support pour changer de serveur.',
+      },
+      {
+        problem: 'L\'application crash ou se ferme toute seule',
+        solution: 'Désinstallez complètement IPTV Smarters Pro, puis retéléchargez la dernière version de l\'APK depuis le site officiel. Si votre téléphone est ancien, libérez de l\'espace de stockage et de la RAM en fermant les autres applications.',
       },
     ],
   },
   ios: {
-    title: 'Installation IPTV SMARTERS PRO sur iOS',
-    description: 'Guide complet pour installer et configurer votre abonnement IPTV sur iPhone et iPad',
+    title: 'Installation IPTV SMARTERS PRO sur iPhone & iPad',
+    description: 'Guide complet pour installer et configurer votre abonnement IPTV sur iOS avec l\'application Smarters Player Lite',
     duration: '5 minutes',
     difficulty: 'Facile',
     requirements: [
-      'iPhone ou iPad avec iOS 12.0 ou supérieur',
-      'Connexion Internet WiFi ou données mobiles',
-      'Abonnement IPTV SMARTERS PRO actif',
-      'Identifiants de connexion IPTV',
+      'iPhone ou iPad avec iOS 13.0 ou supérieur',
+      'Connexion Internet WiFi stable',
+      'Un abonnement IPTV SMARTERS PRO actif',
+      'Vos identifiants de connexion IPTV (Username, Password, URL serveur)',
     ],
     steps: [
       {
-        title: 'Télécharger depuis l\'App Store',
-        description: 'Installez l\'application officielle IPTV SMARTERS PRO',
+        title: 'Télécharger Smarters Player Lite depuis l\'App Store',
+        description: 'Sur iOS, l\'application s\'appelle "Smarters Player Lite" sur l\'App Store. C\'est l\'application officielle.',
         details: [
           'Ouvrez l\'App Store sur votre iPhone ou iPad',
-          'Recherchez "IPTV Smarters Pro" dans la barre de recherche',
-          'Téléchargez l\'application officielle WHMCS SMARTERS',
-          'Entrez votre mot de passe Apple ID ou utilisez Touch ID/Face ID',
-          'Attendez la fin de l\'installation (environ 30 secondes)',
+          'Appuyez sur l\'icône de recherche (loupe) en bas de l\'écran',
+          'Tapez "Smarters Player Lite" dans la barre de recherche',
+          'Trouvez l\'application avec le logo IPTV Smarters (vérifiez les avis et notes)',
+          'Appuyez sur "Obtenir" ou le bouton de téléchargement',
+          'Confirmez avec Face ID, Touch ID ou votre mot de passe Apple ID',
+          'Attendez la fin du téléchargement et de l\'installation automatique',
         ],
-        imageAlt: 'App Store IPTV Smarters Pro iOS Download',
+        note: 'Attention : ne confondez pas avec d\'autres applications similaires. L\'application officielle s\'appelle "Smarters Player Lite". Vérifiez les avis avant de télécharger.',
+        imageAlt: 'App Store — Téléchargement Smarters Player Lite',
       },
       {
-        title: 'Configuration Initiale iOS',
-        description: 'Première ouverture et ajout de votre profil IPTV',
+        title: 'Ouvrir l\'application et accepter les conditions',
+        description: 'Lancez l\'application pour la première fois et configurez-la.',
         details: [
-          'Lancez IPTV SMARTERS PRO depuis l\'écran d\'accueil',
-          'Acceptez les autorisations demandées (notifications optionnelles)',
-          'Appuyez sur "Add New User" pour créer votre profil',
-          'Sélectionnez "Login with Xtream Codes API"',
-          'Préparez vos identifiants d\'abonnement IPTV reçus',
+          'Retrouvez l\'icône "Smarters Player Lite" sur votre écran d\'accueil',
+          'Appuyez dessus pour ouvrir l\'application',
+          'Si demandé, appuyez sur "Autoriser" ou "Ne pas autoriser" pour les notifications (au choix)',
+          'Lisez les conditions d\'utilisation affichées à l\'écran',
+          'Appuyez sur "Accept" pour accepter et continuer',
+          'L\'écran de connexion s\'affiche avec les options disponibles',
         ],
-        imageAlt: 'IPTV Smarters iOS First Launch Setup',
+        imageAlt: 'Premier lancement Smarters Player Lite sur iOS',
       },
       {
-        title: 'Saisie des Identifiants',
-        description: 'Entrez vos informations d\'abonnement IPTV SMARTERS PRO',
+        title: 'Connecter votre abonnement IPTV',
+        description: 'Entrez vos identifiants de connexion reçus après votre achat pour accéder à vos chaînes.',
         details: [
-          'Username : Votre nom d\'utilisateur IPTV',
-          'Password : Votre mot de passe IPTV',
-          'Server URL : L\'adresse du serveur (http://serveur:port)',
-          'Utilisez le clavier iOS pour saisir précisément',
-          'Touchez "Add User" pour finaliser',
+          'Sur l\'écran de connexion, choisissez "Login with Xtream Codes API"',
+          'Remplissez les champs suivants avec les informations reçues par email/WhatsApp :',
+          '— "Any Name" : Donnez un nom (exemple : "Mon Abonnement IPTV")',
+          '— "Username" : Votre nom d\'utilisateur IPTV',
+          '— "Password" : Votre mot de passe IPTV',
+          '— "Server URL" : L\'adresse du serveur au format http://xxxxx.com:port',
+          'Vérifiez bien chaque champ — pas d\'espace en trop, majuscules/minuscules respectées',
+          'Appuyez sur "Add User" pour lancer la connexion',
+          'Patientez quelques secondes pendant que l\'app se connecte au serveur',
         ],
-        imageAlt: 'iOS IPTV Login Screen Configuration',
+        note: 'Copiez-collez vos identifiants directement depuis l\'email ou le message WhatsApp pour éviter toute erreur de frappe.',
+        imageAlt: 'Écran de connexion Xtream Codes sur iOS',
       },
       {
-        title: 'Connexion et Synchronisation',
-        description: 'Chargement de vos chaînes et contenu VOD',
+        title: 'Découvrir l\'interface et regarder vos chaînes',
+        description: 'Votre compte est connecté ! Voici comment naviguer dans l\'application et regarder vos chaînes.',
         details: [
-          'L\'app se connecte aux serveurs IPTV',
-          'Synchronisation des 160 000+ chaînes en cours',
-          'Téléchargement des images et métadonnées',
-          'Interface principale affichée avec toutes vos options',
-          'Navigation : Live TV, Movies, Series, Settings',
+          'L\'écran d\'accueil affiche les catégories principales : Live TV, Movies, Series, Catch-Up TV',
+          'Appuyez sur "Live TV" pour voir toutes vos chaînes en direct',
+          'Les chaînes sont organisées par groupes : France, Sport, Cinéma, Enfants, etc.',
+          'Appuyez sur un groupe pour voir la liste des chaînes de cette catégorie',
+          'Appuyez sur une chaîne pour lancer le streaming vidéo',
+          'Utilisez les contrôles en bas de l\'écran : pause, volume, plein écran',
+          'Pour revenir en arrière, appuyez sur la flèche en haut à gauche',
         ],
-        imageAlt: 'IPTV Smarters Pro iOS Main Dashboard',
+        imageAlt: 'Interface principale IPTV Smarters sur iPhone avec liste de chaînes',
       },
       {
-        title: 'Paramètres iOS Optimaux',
-        description: 'Optimisez l\'application pour iOS',
+        title: 'Optimiser les paramètres pour iOS',
+        description: 'Quelques réglages pour une meilleure expérience de streaming sur votre iPhone ou iPad.',
         details: [
-          'Ouvrez Settings depuis le menu',
-          'Player : Sélectionnez "AVPlayer" (natif iOS)',
-          'Qualité : "Auto" pour adaptation automatique',
-          'Sous-titres : Activez si nécessaire',
-          'EPG : Synchronisez le guide TV',
+          'Depuis l\'écran d\'accueil de l\'app, appuyez sur "Settings" (Paramètres)',
+          'Player Selection : Gardez "AVPlayer" qui est le lecteur natif iOS (meilleur pour iPhone/iPad)',
+          'Si vous avez des problèmes de lecture, essayez de changer vers un autre lecteur',
+          'Sous-titres : Activez si besoin dans les paramètres du lecteur vidéo',
+          'Picture-in-Picture : Sur iOS, vous pouvez regarder l\'IPTV en mode flottant — activez PiP dans Réglages iOS > Général > PiP',
+          'Pour diffuser sur votre TV : utilisez AirPlay en appuyant sur l\'icône AirPlay pendant la lecture',
         ],
-        imageAlt: 'IPTV Smarters iOS Settings Configuration',
+        imageAlt: 'Paramètres Smarters Player Lite optimisés pour iOS',
       },
     ],
     tips: [
-      'Connectez-vous en WiFi pour le premier chargement (économie de données)',
-      'Ajoutez IPTV SMARTERS à votre dock iOS pour accès rapide',
-      'Activez le mode Picture-in-Picture dans les paramètres iOS',
-      'Utilisez AirPlay pour diffuser sur Apple TV',
-      'Mettez l\'app à jour régulièrement depuis l\'App Store',
-      'Créez plusieurs profils IPTV pour différents membres de la famille',
+      'Connectez-vous en WiFi plutôt qu\'en 4G/5G pour économiser votre forfait mobile et avoir une meilleure qualité vidéo',
+      'Activez le mode Picture-in-Picture (PiP) pour continuer à regarder la TV tout en utilisant d\'autres applications',
+      'Utilisez AirPlay pour diffuser le contenu IPTV sur une Apple TV ou une TV compatible AirPlay',
+      'Pour les familles : vous pouvez créer plusieurs profils dans l\'app avec des identifiants différents',
+      'Mettez l\'application à jour régulièrement depuis l\'App Store pour profiter des corrections de bugs',
+      'En cas de problème de son, vérifiez que le mode silencieux de votre iPhone est bien désactivé (bouton sur le côté)',
     ],
     troubleshooting: [
       {
-        problem: 'L\'application crash au démarrage sur iOS',
-        solution: 'Redémarrez votre iPhone/iPad. Désinstallez et réinstallez IPTV SMARTERS PRO. Vérifiez que vous avez iOS 12.0 minimum. Libérez de l\'espace de stockage.',
+        problem: 'Je ne trouve pas l\'application sur l\'App Store',
+        solution: 'Cherchez exactement "Smarters Player Lite" (pas "IPTV Smarters Pro"). Si vous ne la trouvez toujours pas, changez la région de votre Apple ID ou essayez la version web : webtv-new.iptvsmarters.com depuis Safari.',
       },
       {
-        problem: 'Impossible de télécharger depuis l\'App Store',
-        solution: 'Vérifiez votre connexion Internet. Assurez-vous que votre Apple ID est valide. Essayez de vous déconnecter/reconnecter à l\'App Store. Redémarrez l\'appareil.',
+        problem: 'Erreur de connexion ou "Invalid Credentials"',
+        solution: 'Vérifiez chaque identifiant un par un. Le Username et Password sont sensibles aux majuscules. L\'URL du serveur doit commencer par http:// et inclure le port (exemple : http://serveur.com:8080). Copiez-collez directement depuis votre email.',
       },
       {
-        problem: 'Le streaming lag ou se coupe sur iPhone',
-        solution: 'Passez en WiFi plutôt que 4G. Fermez toutes les apps en arrière-plan. Baissez la qualité vidéo dans les paramètres IPTV. Testez votre vitesse Internet.',
+        problem: 'Le streaming lag ou se coupe régulièrement',
+        solution: 'Passez en WiFi plutôt que 4G/5G. Rapprochez-vous de votre box Internet. Fermez toutes les applications en arrière-plan (double-clic bouton Home ou swipe up). Si le problème persiste, testez votre vitesse Internet sur speedtest.net.',
       },
       {
-        problem: 'Les chaînes mettent du temps à charger',
-        solution: 'Videz le cache dans les paramètres de l\'app. Changez de serveur IPTV. Vérifiez que votre abonnement IPTV n\'est pas expiré. Contactez le support.',
+        problem: 'L\'application se ferme toute seule (crash)',
+        solution: 'Mettez à jour vers la dernière version depuis l\'App Store. Si ça persiste, désinstallez l\'application (appui long > Supprimer) et réinstallez-la. Vérifiez aussi que votre iOS est à jour dans Réglages > Général > Mise à jour logicielle.',
+      },
+      {
+        problem: 'Pas de son malgré le volume au maximum',
+        solution: 'Vérifiez que le bouton de silence sur le côté de votre iPhone est désactivé (pas de ligne orange visible). Vérifiez aussi que le volume média est bien monté (pas seulement le volume sonnerie). Essayez de brancher puis débrancher des écouteurs.',
       },
     ],
   },
   'smart-tv': {
     title: 'Installation IPTV sur Smart TV Samsung & LG',
-    description: 'Configuration complète de votre abonnement IPTV SMARTERS PRO sur Smart TV',
+    description: 'Guide pas-à-pas pour configurer votre abonnement IPTV sur votre télévision Samsung Tizen ou LG webOS',
     duration: '10 minutes',
     difficulty: 'Moyen',
     requirements: [
-      'Smart TV Samsung (Tizen 2016+) ou LG (webOS 3.0+)',
-      'Connexion Internet Ethernet ou WiFi',
-      'Télécommande Smart TV',
-      'Abonnement IPTV SMARTERS PRO avec URL M3U',
+      'Smart TV Samsung (modèle 2016 ou plus récent) ou LG (webOS 3.0 ou plus récent)',
+      'Connexion Internet sur la TV (WiFi ou câble Ethernet — Ethernet recommandé)',
+      'Télécommande de votre Smart TV',
+      'Un abonnement IPTV SMARTERS PRO actif',
+      'Vos identifiants de connexion ou votre URL de playlist M3U',
     ],
     steps: [
       {
-        title: 'Installer Smart IPTV ou SS IPTV',
-        description: 'Téléchargez l\'application IPTV depuis le store de votre TV',
+        title: 'Choisir et installer l\'application IPTV sur votre TV',
+        description: 'Plusieurs applications compatibles existent pour Smart TV. Voici les meilleures options selon votre marque.',
         details: [
-          'Samsung : Ouvrez "Apps" puis cherchez "Smart IPTV" ou "SS IPTV"',
-          'LG : Ouvrez "LG Content Store" puis "Apps"',
-          'Recherchez "Smart IPTV", "SS IPTV" ou "IPTV Smarters"',
-          'Installez l\'application sélectionnée',
-          'Attendez la fin du téléchargement (1-2 minutes)',
+          'SAMSUNG : Appuyez sur le bouton "Home" de la télécommande > Allez dans "Apps" > Recherchez "Smart IPTV" ou "IPTV Smarters"',
+          'LG : Appuyez sur "Home" > Allez dans "LG Content Store" > Recherchez "Smart IPTV" ou "SS IPTV"',
+          'Applications recommandées par ordre de préférence : 1) Smart IPTV, 2) IPTV Smarters, 3) SS IPTV',
+          'Smart IPTV est le plus fiable mais nécessite une activation de 5,49€ après 7 jours d\'essai gratuit',
+          'SS IPTV est entièrement gratuit (avec quelques publicités)',
+          'Sélectionnez l\'application et appuyez sur "Installer" ou "Télécharger"',
+          'Attendez 1-2 minutes que l\'installation soit terminée',
         ],
-        imageAlt: 'Smart TV App Store IPTV Installation',
+        note: 'Si aucune de ces applications n\'apparaît dans le store de votre TV, votre modèle est peut-être trop ancien. Dans ce cas, utilisez une Amazon Fire TV Stick branchée sur votre TV (voir tutoriel Fire TV).',
+        imageAlt: 'Store Samsung TV montrant les applications IPTV disponibles',
       },
       {
-        title: 'Lancer et Configurer l\'Application',
-        description: 'Première configuration sur votre Smart TV',
+        title: 'Lancer l\'application et noter votre adresse MAC',
+        description: 'Au premier lancement, l\'application affiche des informations importantes dont vous aurez besoin.',
         details: [
-          'Ouvrez l\'application IPTV installée',
-          'Notez le code MAC address affiché à l\'écran (si Smart IPTV)',
-          'Pour SS IPTV : Choisissez "External Playlist"',
-          'Préparez votre URL de playlist M3U',
-          'Utilisez la télécommande pour naviguer',
+          'Ouvrez l\'application IPTV que vous venez d\'installer',
+          'Si vous utilisez Smart IPTV : l\'écran affiche votre adresse MAC (format XX:XX:XX:XX:XX:XX) — NOTEZ-LA sur papier ou prenez une photo',
+          'Si vous utilisez SS IPTV : l\'app s\'ouvre directement sur le menu principal',
+          'Si vous utilisez IPTV Smarters : un écran de connexion s\'affiche (passez directement à l\'étape 4)',
+          'L\'adresse MAC est unique à votre TV et nécessaire pour la méthode d\'activation à distance',
         ],
-        imageAlt: 'Smart TV IPTV App First Launch',
+        note: 'Pour Smart IPTV : vous aurez besoin de l\'adresse MAC pour ajouter votre playlist depuis un ordinateur ou téléphone — c\'est plus facile que de taper une longue URL avec la télécommande.',
+        imageAlt: 'Écran Smart IPTV affichant l\'adresse MAC de la TV',
       },
       {
-        title: 'Ajouter la Playlist IPTV M3U',
-        description: 'Configuration de votre liste de chaînes IPTV',
+        title: 'Ajouter votre playlist IPTV (Méthode Smart IPTV)',
+        description: 'Ajoutez votre liste de chaînes depuis un ordinateur ou téléphone — c\'est beaucoup plus facile que de taper avec la télécommande.',
         details: [
-          'Méthode 1 : Entrez l\'URL M3U directement sur la TV',
-          'Méthode 2 : Allez sur le site Smart IPTV depuis un PC',
-          'Entrez le code MAC de votre TV + URL M3U',
-          'Pour SS IPTV : Settings > Content > External Playlists',
-          'Collez votre URL d\'abonnement IPTV SMARTERS PRO',
+          'Sur votre ordinateur ou téléphone, ouvrez un navigateur web',
+          'Allez sur le site : siptv.eu/mylist (c\'est le site officiel de Smart IPTV)',
+          'Dans le champ "MAC Address", entrez l\'adresse MAC notée à l\'étape précédente',
+          'Dans le champ "Playlist URL (link)", collez l\'URL M3U fournie avec votre abonnement',
+          'Cochez "I\'m not a robot" et cliquez sur "Send/Envoyer"',
+          'Un message de confirmation s\'affiche : "Playlist added successfully"',
+          'Retournez sur votre TV et redémarrez l\'application Smart IPTV',
+          'Vos chaînes se chargent automatiquement — patientez 1-3 minutes',
         ],
-        imageAlt: 'Smart TV M3U Playlist Configuration',
+        note: 'Méthode alternative pour SS IPTV : Dans l\'app sur la TV, allez dans "Settings" > "Content" > "External Playlists" > "Add" et entrez votre URL M3U avec la télécommande.',
+        imageAlt: 'Site siptv.eu — Ajout de playlist avec adresse MAC',
       },
       {
-        title: 'Chargement des Chaînes',
-        description: 'Synchronisation de votre abonnement IPTV',
+        title: 'Méthode alternative : IPTV Smarters sur Smart TV',
+        description: 'Si vous préférez IPTV Smarters, la connexion se fait comme sur téléphone avec vos identifiants Xtream Codes.',
         details: [
-          'L\'application télécharge la liste des chaînes IPTV',
-          'Temps de chargement : 2-5 minutes selon le nombre de chaînes',
-          'Les catégories s\'affichent : Sport, Cinéma, Séries, etc.',
-          'Logos des chaînes se téléchargent progressivement',
-          'Une fois terminé, naviguez dans vos 160 000+ chaînes',
+          'Ouvrez IPTV Smarters sur votre TV',
+          'Sélectionnez "Add New User" avec la télécommande',
+          'Choisissez "Login with Xtream Codes API"',
+          'Entrez vos identifiants avec la télécommande (c\'est plus long mais possible) :',
+          '— "Any Name" : un nom pour votre profil',
+          '— "Username" : votre nom d\'utilisateur',
+          '— "Password" : votre mot de passe',
+          '— "Server URL" : l\'adresse du serveur',
+          'Astuce : utilisez l\'application mobile de votre TV (Samsung SmartThings ou LG ThinQ) comme clavier pour taper plus vite',
+          'Appuyez sur "Add User" et patientez pendant la connexion',
         ],
-        imageAlt: 'Smart TV IPTV Channels Loading',
+        imageAlt: 'Connexion IPTV Smarters sur Smart TV avec télécommande',
       },
       {
-        title: 'Optimisation et Paramètres TV',
-        description: 'Configuration optimale pour streaming 4K',
+        title: 'Naviguer dans vos chaînes et optimiser la TV',
+        description: 'Vos chaînes sont chargées ! Voici comment en profiter au maximum sur grand écran.',
         details: [
-          'Paramètres réseau : Privilégiez Ethernet pour stabilité',
-          'Paramètres d\'image : Mode "Film" ou "Standard" recommandé',
-          'Buffer : Augmentez la mise en mémoire tampon si buffering',
-          'EPG : Ajoutez l\'URL du guide TV électronique',
-          'Favoris : Marquez vos chaînes IPTV préférées',
+          'Les chaînes s\'affichent par catégories : Sport, Cinéma, France, Enfants, International, etc.',
+          'Utilisez les flèches haut/bas de la télécommande pour naviguer dans la liste',
+          'Appuyez sur OK/Enter pour lancer une chaîne',
+          'Pour une meilleure qualité : branchez un câble Ethernet entre la TV et votre box Internet',
+          'Dans les paramètres d\'image de votre TV : utilisez le mode "Film" ou "Standard" pour les meilleures couleurs',
+          'Pour les favoris : sélectionnez une chaîne et ajoutez-la à vos favoris pour un accès rapide',
+          'Guide TV (EPG) : si disponible, le programme des émissions s\'affiche automatiquement',
         ],
-        imageAlt: 'Smart TV IPTV Settings Optimization',
+        note: 'Le câble Ethernet (branché entre votre TV et votre box Internet) donne une connexion beaucoup plus stable que le WiFi. C\'est fortement recommandé pour le streaming 4K.',
+        imageAlt: 'Smart TV affichant les catégories de chaînes IPTV',
       },
     ],
     tips: [
-      'Utilisez un câble Ethernet pour connexion stable (recommandé pour 4K)',
-      'Redémarrez votre Smart TV après installation pour meilleure performance',
-      'Smart IPTV nécessite activation payante après 7 jours d\'essai (6€)',
-      'SS IPTV est gratuit mais avec publicités',
-      'Mettez à jour le firmware de votre Smart TV régulièrement',
-      'Créez des listes de favoris par catégorie (Sport, Films, Actualités)',
+      'Le câble Ethernet est largement supérieur au WiFi pour le streaming IPTV sur TV — moins de buffering et meilleure qualité vidéo',
+      'Redémarrez votre TV après l\'installation pour que tout fonctionne correctement',
+      'Smart IPTV coûte 5,49€ une seule fois après la période d\'essai de 7 jours — c\'est un achat unique, pas un abonnement',
+      'SS IPTV est 100% gratuit mais affiche des publicités. C\'est une bonne alternative si vous ne voulez pas payer pour Smart IPTV',
+      'Mettez à jour le firmware de votre Smart TV régulièrement (Paramètres > Assistance > Mise à jour logicielle) pour éviter les bugs',
+      'Si votre TV est loin de la box Internet, utilisez un adaptateur CPL (courant porteur en ligne) plutôt que le WiFi pour une connexion stable',
     ],
     troubleshooting: [
       {
-        problem: 'L\'application IPTV n\'apparaît pas dans le store',
-        solution: 'Vérifiez que votre Smart TV est bien connectée à Internet. Changez de région dans les paramètres TV. Pour Samsung ancien modèle, utilisez clé USB avec APK. Contactez support Samsung/LG.',
+        problem: 'L\'application IPTV n\'apparaît pas dans le store de ma TV',
+        solution: 'Votre TV est peut-être trop ancienne ou d\'une région différente. Essayez de changer la région dans les paramètres de la TV. Si ça ne marche pas, la meilleure solution est d\'acheter une Amazon Fire TV Stick (environ 30€) et de la brancher sur votre TV.',
       },
       {
-        problem: 'Les chaînes IPTV ne se chargent pas',
-        solution: 'Vérifiez que l\'URL M3U est correcte et active. Testez l\'URL sur un PC avec VLC. Redémarrez l\'application et la TV. Vérifiez que votre abonnement IPTV n\'est pas expiré.',
+        problem: 'Les chaînes ne se chargent pas après l\'ajout de la playlist',
+        solution: 'Vérifiez que votre URL M3U est correcte en la testant sur un PC avec VLC Media Player. Redémarrez l\'application IPTV sur la TV. Vérifiez que votre abonnement est toujours actif. Si l\'URL est correcte mais ne charge pas, contactez notre support pour obtenir un nouveau lien.',
       },
       {
-        problem: 'Image saccadée ou buffering constant',
-        solution: 'Passez en connexion Ethernet. Vérifiez vitesse Internet (minimum 25 Mbps pour 4K). Réduisez qualité dans paramètres. Fermez autres applications Smart TV. Redémarrez le routeur.',
+        problem: 'Image saccadée, pixelisée ou buffering constant',
+        solution: 'Branchez un câble Ethernet entre votre TV et votre box Internet au lieu du WiFi. Vérifiez votre vitesse Internet (minimum 15 Mbps pour HD, 30 Mbps pour 4K). Redémarrez votre box Internet. Fermez les autres applications de la TV.',
       },
       {
-        problem: 'Smart IPTV demande activation après 7 jours',
-        solution: 'C\'est normal, Smart IPTV nécessite paiement unique de 6€. Allez sur siptv.eu, entrez MAC address de votre TV, payez par carte. Alternative gratuite : utilisez SS IPTV.',
+        problem: 'Smart IPTV demande une activation après 7 jours',
+        solution: 'C\'est normal. Smart IPTV offre 7 jours d\'essai gratuit puis coûte 5,49€ (paiement unique). Rendez-vous sur siptv.eu, entrez l\'adresse MAC de votre TV et payez par carte. Sinon, basculez sur SS IPTV qui est entièrement gratuit.',
       },
     ],
   },
   'fire-tv': {
     title: 'Installation IPTV sur Amazon Fire TV Stick',
-    description: 'Guide complet pour Fire TV Stick 4K, Fire TV Stick et Fire TV Cube',
+    description: 'Tutoriel détaillé pour installer IPTV Smarters Pro sur Fire TV Stick, Fire TV Stick 4K et Fire TV Cube',
     duration: '8 minutes',
     difficulty: 'Facile',
     requirements: [
-      'Amazon Fire TV Stick, Fire TV Stick 4K ou Fire TV Cube',
-      'Télécommande Fire TV',
+      'Amazon Fire TV Stick (n\'importe quel modèle), Fire TV Stick 4K, Fire TV Stick 4K Max ou Fire TV Cube',
+      'Télécommande Fire TV fonctionnelle',
       'Connexion Internet WiFi stable',
-      'Abonnement IPTV SMARTERS PRO actif',
+      'Un abonnement IPTV SMARTERS PRO actif',
+      'Vos identifiants de connexion IPTV (Username, Password, URL serveur)',
     ],
     steps: [
       {
-        title: 'Autoriser Sources Inconnues',
-        description: 'Activez l\'installation d\'applications tierces',
+        title: 'Activer les options développeurs et autoriser les sources inconnues',
+        description: 'Le Fire TV Stick ne permet pas d\'installer IPTV Smarters depuis l\'Amazon Appstore. Vous devez d\'abord modifier un réglage.',
         details: [
-          'Allez dans "Paramètres" depuis l\'écran d\'accueil Fire TV',
-          'Sélectionnez "My Fire TV" ou "Ma Fire TV"',
-          'Choisissez "Options pour les développeurs"',
-          'Activez "Apps provenant de sources inconnues"',
-          'Confirmez le message d\'avertissement',
+          'Depuis l\'écran d\'accueil du Fire TV Stick, allez tout à droite vers l\'icône "Paramètres" (engrenage)',
+          'Sélectionnez "Ma Fire TV" ou "My Fire TV"',
+          'Sélectionnez "Options pour les développeurs" (Developer Options)',
+          'Si vous ne voyez pas cette option : allez dans "Paramètres" > "Ma Fire TV" > "À propos" > cliquez 7 fois sur le numéro de série',
+          'Activez "Applications de sources inconnues" ou "Apps from Unknown Sources"',
+          'Pour Fire TV Stick Lite/Gen 3 : vous verrez une liste d\'apps — activez "Downloader"',
+          'Un message d\'avertissement s\'affiche — confirmez avec "Activer" ou "Turn On"',
         ],
-        imageAlt: 'Fire TV Settings Unknown Sources Enable',
+        note: 'Cette manipulation est nécessaire car IPTV Smarters Pro n\'est pas disponible sur l\'Amazon Appstore. C\'est une procédure courante et sans risque pour votre appareil.',
+        imageAlt: 'Paramètres Fire TV — Activation des sources inconnues',
       },
       {
-        title: 'Installer Downloader App',
-        description: 'Téléchargez l\'outil pour installer IPTV SMARTERS',
+        title: 'Installer l\'application "Downloader"',
+        description: 'Downloader est un outil gratuit qui permet de télécharger des fichiers APK sur Fire TV. Il est disponible dans l\'Amazon Appstore.',
         details: [
-          'Retournez à l\'écran d\'accueil Fire TV',
-          'Utilisez la recherche (icône loupe) et tapez "Downloader"',
-          'Sélectionnez l\'app "Downloader" (par AFTVnews)',
-          'Cliquez sur "Télécharger" ou "Get"',
-          'Attendez la fin de l\'installation',
+          'Retournez à l\'écran d\'accueil du Fire TV Stick',
+          'Appuyez sur l\'icône de recherche (loupe) en haut de l\'écran',
+          'Tapez "Downloader" avec la télécommande ou la recherche vocale',
+          'Sélectionnez l\'application "Downloader" par AFTVnews (icône orange)',
+          'Appuyez sur "Obtenir" ou "Télécharger" puis "Ouvrir" une fois installé',
+          'Au premier lancement, l\'app demande l\'accès au stockage — appuyez sur "Autoriser" (Allow)',
         ],
-        imageAlt: 'Fire TV Downloader App Installation',
+        note: 'Downloader est une application officielle et approuvée par Amazon. Elle est gratuite et utilisée par des millions de personnes.',
+        imageAlt: 'Amazon Appstore — Téléchargement de l\'application Downloader',
       },
       {
-        title: 'Télécharger IPTV SMARTERS PRO APK',
-        description: 'Utilisez Downloader pour obtenir l\'application IPTV',
+        title: 'Télécharger IPTV Smarters Pro avec Downloader',
+        description: 'Utilisez Downloader pour télécharger le fichier APK de IPTV Smarters Pro directement sur votre Fire TV Stick.',
         details: [
-          'Ouvrez l\'application Downloader',
-          'Dans le champ URL, entrez : https://bit.ly/iptvsmarterspro',
-          'Ou utilisez le code fourni par notre support',
-          'Cliquez sur "Go" pour lancer le téléchargement',
-          'L\'APK IPTV SMARTERS PRO se télécharge (15-30 secondes)',
+          'Ouvrez l\'application Downloader (si pas déjà ouverte)',
+          'Vous voyez un champ URL au centre de l\'écran — cliquez dessus',
+          'Le clavier virtuel s\'affiche — tapez l\'adresse suivante : iptvsmarters.com',
+          'Appuyez sur "Go" pour accéder au site',
+          'Sur le site, trouvez et cliquez sur "Downloads" puis "Download for Android"',
+          'Le téléchargement du fichier APK commence automatiquement (15-30 secondes)',
+          'Une fois terminé, une fenêtre "Installer" s\'affiche automatiquement',
         ],
-        imageAlt: 'Fire TV Downloader IPTV Smarters APK Download',
+        note: 'Si vous avez du mal à naviguer sur le site avec la télécommande, vous pouvez utiliser une souris Bluetooth connectée à votre Fire TV Stick pour plus de facilité.',
+        imageAlt: 'Downloader — Saisie de l\'URL pour télécharger IPTV Smarters',
       },
       {
-        title: 'Installer IPTV SMARTERS PRO',
-        description: 'Installation de l\'application sur Fire TV',
+        title: 'Installer l\'application IPTV Smarters Pro',
+        description: 'Le fichier est téléchargé. Installez-le maintenant sur votre Fire TV Stick.',
         details: [
-          'Une fois le téléchargement terminé, cliquez sur "Install"',
-          'L\'installation démarre automatiquement',
-          'Attendez le message "App installed" (10-20 secondes)',
-          'Cliquez sur "Done" (ne pas ouvrir tout de suite)',
-          'Supprimez l\'APK pour libérer de l\'espace',
+          'La fenêtre d\'installation s\'affiche automatiquement après le téléchargement',
+          'Appuyez sur "Installer" (Install) en bas à droite',
+          'L\'installation prend environ 10-20 secondes',
+          'Quand le message "Application installée" apparaît, appuyez sur "Terminé" (Done) — PAS sur "Ouvrir"',
+          'Downloader vous propose de supprimer le fichier APK pour libérer de l\'espace',
+          'Appuyez sur "Supprimer" (Delete) puis confirmez avec "Supprimer" à nouveau',
+          'IPTV Smarters Pro est maintenant installé sur votre Fire TV Stick !',
         ],
-        imageAlt: 'Fire TV IPTV Smarters Installation Complete',
+        note: 'Appuyez sur "Done" (Terminé) et pas sur "Open" (Ouvrir) pour retourner à Downloader et pouvoir supprimer le fichier APK.',
+        imageAlt: 'Installation APK IPTV Smarters sur Fire TV Stick',
       },
       {
-        title: 'Configuration et Connexion IPTV',
-        description: 'Configurez votre abonnement IPTV SMARTERS PRO',
+        title: 'Ouvrir IPTV Smarters et connecter votre abonnement',
+        description: 'Lancez l\'application et entrez vos identifiants pour accéder à vos chaînes IPTV.',
         details: [
-          'Ouvrez IPTV SMARTERS PRO depuis "Your Apps & Channels"',
-          'Sélectionnez "Add New User"',
+          'Allez dans "Vos applications et chaînes" (Your Apps & Channels) depuis l\'écran d\'accueil',
+          'Si IPTV Smarters n\'apparaît pas directement, faites défiler vers la droite ou allez dans "Tout voir"',
+          'Ouvrez IPTV Smarters Pro',
+          'Au premier lancement : choisissez "TV" comme type d\'appareil et appuyez sur "Save"',
+          'Acceptez les conditions d\'utilisation (Accept)',
+          'Appuyez sur "Add New User"',
           'Choisissez "Login with Xtream Codes API"',
-          'Entrez vos identifiants : Username, Password, Server URL',
-          'Validez et attendez la connexion aux serveurs IPTV',
+          'Entrez vos identifiants : Any Name, Username, Password et Server URL',
+          'Appuyez sur "Add User" — vos chaînes se chargent en quelques secondes',
         ],
-        imageAlt: 'Fire TV IPTV Smarters Login Configuration',
+        note: 'Astuce : pour déplacer IPTV Smarters en première position dans vos apps, maintenez le bouton Menu de la télécommande enfoncé sur l\'icône de l\'app et sélectionnez "Déplacer vers l\'avant".',
+        imageAlt: 'Configuration IPTV Smarters Pro sur Fire TV Stick avec identifiants',
       },
     ],
     tips: [
-      'Ajoutez IPTV SMARTERS à vos favoris Fire TV pour accès rapide',
-      'Utilisez WiFi 5 GHz pour meilleure qualité streaming 4K',
-      'Redémarrez Fire TV Stick après installation pour optimisation',
-      'Désactivez les mises à jour automatiques d\'Amazon pour stabilité',
-      'Utilisez une souris Bluetooth pour navigation plus facile',
-      'Nettoyez le cache régulièrement dans "Applications"',
+      'Déplacez IPTV Smarters en première position de vos applications pour un accès plus rapide depuis l\'écran d\'accueil',
+      'Connectez votre Fire TV Stick au WiFi 5 GHz (et non 2.4 GHz) pour une meilleure qualité vidéo et moins de buffering',
+      'Redémarrez votre Fire TV Stick après l\'installation en débranchant puis rebranchant le câble USB',
+      'Vous pouvez connecter une souris Bluetooth au Fire TV Stick pour naviguer plus facilement dans l\'application',
+      'Pour vider le cache en cas de lenteur : Paramètres > Applications > Gérer les applications installées > IPTV Smarters > Vider le cache',
+      'Si votre Fire TV Stick est loin de la box Internet, utilisez un répéteur WiFi ou un câble Ethernet avec adaptateur',
     ],
     troubleshooting: [
       {
-        problem: 'Downloader n\'apparaît pas dans la recherche Fire TV',
-        solution: 'Allez dans Amazon Appstore depuis un navigateur, cherchez Downloader, et envoyez-le vers votre Fire TV. Ou recherchez "Downloader by AFTVnews" exactement.',
+        problem: 'Je ne trouve pas "Options pour les développeurs" dans les paramètres',
+        solution: 'Allez dans Paramètres > Ma Fire TV > À propos. Cliquez 7 fois rapidement sur le "Numéro de série" ou le nom de votre appareil. Un message "Vous êtes maintenant un développeur" s\'affiche. Retournez en arrière et l\'option apparaît.',
       },
       {
-        problem: 'Erreur "Installation bloquée" lors de l\'install APK',
-        solution: 'Retournez dans Paramètres > My Fire TV > Options développeurs et vérifiez que "Sources inconnues" est bien activé. Redémarrez Fire TV et réessayez.',
+        problem: 'Le téléchargement dans Downloader ne démarre pas ou échoue',
+        solution: 'Vérifiez votre connexion WiFi. Essayez de redémarrer le Fire TV Stick. Si le site ne charge pas, vérifiez que l\'adresse est correcte. Vous pouvez aussi essayer un lien direct vers l\'APK fourni par notre support.',
       },
       {
-        problem: 'IPTV SMARTERS lag ou crash sur Fire TV Stick',
-        solution: 'Videz le cache : Paramètres > Applications > Gérer applications > IPTV Smarters > Vider cache. Fermez apps en arrière-plan. Redémarrez Fire TV Stick.',
+        problem: 'Message "Installation bloquée" lors de l\'installation de l\'APK',
+        solution: 'Retournez dans Paramètres > Ma Fire TV > Options pour les développeurs et vérifiez que "Sources inconnues" est bien activé pour Downloader. Redémarrez le Fire TV Stick et réessayez.',
       },
       {
-        problem: 'Pas de son ou image noire sur certaines chaînes',
-        solution: 'Changez le lecteur dans paramètres IPTV (ExoPlayer). Vérifiez les paramètres audio Fire TV. Testez avec une autre chaîne. Réinstallez l\'app si problème persiste.',
+        problem: 'IPTV Smarters freeze ou ne répond plus sur Fire TV',
+        solution: 'Forcez l\'arrêt : Paramètres > Applications > Gérer les applications > IPTV Smarters > Forcer l\'arrêt > Vider le cache. Puis relancez l\'application. Si le problème persiste, désinstallez et réinstallez.',
+      },
+      {
+        problem: 'La télécommande ne fonctionne pas bien dans l\'application',
+        solution: 'Utilisez les flèches directionnelles pour naviguer et le bouton central pour sélectionner. Si ça ne répond pas bien, connectez une souris Bluetooth : Paramètres > Contrôleurs et appareils Bluetooth > Autres appareils Bluetooth.',
       },
     ],
   },
   'pc-mac': {
     title: 'Installation IPTV sur PC Windows & Mac',
-    description: 'Configuration IPTV SMARTERS PRO sur ordinateur Windows et MacOS',
+    description: 'Comment configurer et regarder l\'IPTV sur votre ordinateur Windows ou Mac avec IPTV Smarters ou VLC Media Player',
     duration: '7 minutes',
     difficulty: 'Facile',
     requirements: [
-      'PC Windows 7+ ou Mac OS X 10.10+',
-      'Connexion Internet haut débit',
-      'Abonnement IPTV SMARTERS PRO',
-      'URL de playlist M3U ou identifiants Xtream',
+      'Ordinateur PC Windows 7/8/10/11 ou Mac OS X 10.12 ou supérieur',
+      'Connexion Internet haut débit (minimum 10 Mbps)',
+      'Un abonnement IPTV SMARTERS PRO actif',
+      'Vos identifiants IPTV (Username, Password, URL serveur) ou votre lien M3U',
     ],
     steps: [
       {
-        title: 'Télécharger IPTV SMARTERS Windows/Mac',
-        description: 'Installation de l\'application bureau',
+        title: 'Télécharger IPTV Smarters Pro pour Windows ou Mac',
+        description: 'L\'application de bureau est disponible sur le site officiel. Téléchargement gratuit.',
         details: [
-          'Windows : Visitez le site officiel whmcssmarters.com',
-          'Mac : Téléchargez depuis l\'App Store ou site officiel',
-          'Cliquez sur "Download for Windows" ou "Download for Mac"',
-          'Enregistrez le fichier d\'installation (exe/dmg)',
-          'Attendez la fin du téléchargement (50-100 Mo)',
+          'Ouvrez votre navigateur web (Chrome, Firefox, Safari, Edge)',
+          'Allez sur le site officiel : iptvsmarters.com',
+          'Cliquez sur "Downloads" dans le menu en haut',
+          'Pour Windows : cliquez sur "Download for Windows" (fichier .exe, environ 80 Mo)',
+          'Pour Mac : cliquez sur "Download for MAC" (fichier .dmg, environ 90 Mo)',
+          'Le téléchargement commence — attendez qu\'il soit terminé (1-3 minutes selon votre connexion)',
+          'Le fichier se trouve dans votre dossier "Téléchargements"',
         ],
-        imageAlt: 'PC Mac IPTV Smarters Download Website',
+        note: 'Si votre antivirus bloque le téléchargement, c\'est un faux positif. Autorisez le fichier dans votre antivirus ou désactivez-le temporairement pendant l\'installation.',
+        imageAlt: 'Site officiel IPTV Smarters — Page de téléchargement Windows et Mac',
       },
       {
-        title: 'Installation sur PC/Mac',
-        description: 'Installer l\'application sur votre ordinateur',
+        title: 'Installer l\'application sur votre ordinateur',
+        description: 'Suivez la procédure d\'installation standard pour Windows ou Mac.',
         details: [
-          'Windows : Double-cliquez sur le fichier .exe téléchargé',
-          'Mac : Ouvrez le fichier .dmg et glissez l\'app dans Applications',
-          'Suivez l\'assistant d\'installation (Next > Accept > Install)',
-          'Autorisez l\'installation si Windows Defender ou Gatekeeper demande',
-          'Lancez IPTV SMARTERS PRO une fois installé',
+          'WINDOWS : Double-cliquez sur le fichier .exe téléchargé',
+          'Si Windows Defender affiche un avertissement : cliquez sur "Informations complémentaires" puis "Exécuter quand même"',
+          'Suivez l\'assistant d\'installation : Next > I Agree > Install > Finish',
+          'L\'application se lance automatiquement ou créez un raccourci sur le bureau',
+          '',
+          'MAC : Double-cliquez sur le fichier .dmg téléchargé',
+          'Faites glisser l\'icône IPTV Smarters vers le dossier Applications',
+          'Si Mac bloque l\'ouverture : Préférences Système > Sécurité > "Ouvrir quand même"',
+          'Ou bien : clic droit sur l\'application > "Ouvrir" > Confirmer',
         ],
-        imageAlt: 'IPTV Smarters PC Mac Installation Wizard',
+        note: 'Sur Mac, Apple peut bloquer l\'application car elle ne vient pas de l\'App Store. C\'est normal et sans danger — utilisez l\'option "Ouvrir quand même" dans les paramètres de sécurité.',
+        imageAlt: 'Installation IPTV Smarters Pro sur Windows et Mac',
       },
       {
-        title: 'Connexion avec Identifiants',
-        description: 'Ajoutez votre abonnement IPTV',
+        title: 'Connecter votre abonnement IPTV',
+        description: 'Ouvrez l\'application et entrez vos identifiants IPTV pour accéder à vos chaînes.',
         details: [
-          'Cliquez sur "Add User" ou "Ajouter Utilisateur"',
-          'Sélectionnez "Login with Xtream Codes API"',
-          'Remplissez : Username, Password, Server URL',
-          'Ou choisissez "Load Your Playlist or File/URL" pour M3U',
-          'Cliquez "Add User" et attendez la connexion',
+          'Lancez IPTV Smarters Pro depuis le menu Démarrer (Windows) ou le Launchpad (Mac)',
+          'Cliquez sur "Add New User" pour ajouter votre profil',
+          'Méthode 1 — Xtream Codes (recommandée) : Cliquez sur "Login with Xtream Codes API"',
+          '— "Any Name" : un nom pour votre profil',
+          '— "Username" : votre nom d\'utilisateur IPTV',
+          '— "Password" : votre mot de passe IPTV',
+          '— "Server URL" : l\'adresse du serveur',
+          'Méthode 2 — M3U URL : Cliquez sur "Load Your Playlist or File/URL"',
+          '— Collez votre lien M3U complet dans le champ URL',
+          'Cliquez sur "Add User" et patientez pendant la connexion au serveur',
         ],
-        imageAlt: 'PC IPTV Smarters Login Screen',
+        note: 'Sur PC, vous pouvez facilement copier-coller (Ctrl+V sur Windows, Cmd+V sur Mac) vos identifiants depuis votre email. C\'est beaucoup plus facile que sur une TV.',
+        imageAlt: 'Écran de connexion IPTV Smarters sur PC avec identifiants Xtream Codes',
       },
       {
-        title: 'Navigation Interface PC',
-        description: 'Découvrez l\'interface IPTV sur ordinateur',
+        title: 'Naviguer dans l\'interface sur ordinateur',
+        description: 'L\'interface PC est très complète avec toutes les fonctionnalités accessibles facilement.',
         details: [
-          'Menu latéral gauche : Live TV, Movies, Series, Settings',
-          'Grille de chaînes avec logos et noms',
-          'Double-cliquez sur une chaîne pour lancer le streaming',
-          'Barre de recherche en haut pour trouver chaînes rapidement',
-          'Utilisez clavier (flèches, espace, F) pour contrôles',
+          'Le menu principal affiche les catégories : Live TV, Movies, Series, Catch-Up, Recordings, EPG',
+          'Cliquez sur "Live TV" pour voir toutes vos chaînes en direct',
+          'Les chaînes sont classées par groupes/pays — cliquez sur un groupe pour le dérouler',
+          'Double-cliquez sur une chaîne pour la regarder en plein écran',
+          'Raccourcis clavier : F = Plein écran, Espace = Pause, Flèches = Volume/Navigation',
+          'Utilisez la barre de recherche en haut pour trouver rapidement une chaîne par nom',
+          'Cliquez droit sur une chaîne pour l\'ajouter aux favoris',
         ],
-        imageAlt: 'IPTV Smarters PC Interface Dashboard',
+        imageAlt: 'Interface IPTV Smarters Pro sur PC avec liste de chaînes',
       },
       {
-        title: 'Configuration Avancée PC',
-        description: 'Optimisez les paramètres pour PC/Mac',
+        title: 'Alternative gratuite : utiliser VLC Media Player',
+        description: 'Si vous ne souhaitez pas installer IPTV Smarters, vous pouvez regarder l\'IPTV directement avec VLC — un lecteur gratuit et très populaire.',
         details: [
-          'Settings > Player Settings : Choisissez "VLC" ou "Default"',
-          'Qualité vidéo : Sélectionnez "4K" ou "Auto"',
-          'EPG : Synchronisez le guide TV électronique',
-          'Sous-titres : Configurez taille et position',
-          'Raccourcis clavier : Personnalisez les touches',
+          'Téléchargez VLC depuis : videolan.org (100% gratuit et open source)',
+          'Installez VLC sur votre ordinateur',
+          'Ouvrez VLC puis allez dans : Média > Ouvrir un flux réseau (Ctrl+N)',
+          'Collez votre URL M3U dans le champ "Adresse réseau"',
+          'Cliquez sur "Lire" pour lancer le streaming',
+          'VLC charge la liste des chaînes — sélectionnez une chaîne dans la liste de lecture',
+          'Pour voir la playlist : Vue > Liste de lecture (ou Ctrl+L)',
+          'Avantage de VLC : lecteur très stable qui supporte tous les formats vidéo',
         ],
-        imageAlt: 'PC IPTV Smarters Advanced Settings',
+        note: 'VLC est parfait si vous voulez juste regarder les chaînes simplement. IPTV Smarters offre cependant plus de fonctionnalités (favoris, EPG, interface visuelle avec logos).',
+        imageAlt: 'VLC Media Player avec flux réseau IPTV M3U',
       },
     ],
     tips: [
-      'Installez VLC Media Player pour meilleure compatibilité codecs',
-      'Utilisez mode plein écran (F ou F11) pour expérience optimale',
-      'Connectez votre PC à la TV via HDMI pour grand écran',
-      'Créez un raccourci bureau pour IPTV SMARTERS',
-      'Utilisez souris ou clavier pour navigation rapide',
-      'Activez accélération matérielle GPU dans paramètres vidéo',
+      'Connectez votre PC à votre TV via un câble HDMI pour profiter de l\'IPTV sur grand écran avec le confort du clavier et de la souris',
+      'Le mode plein écran (touche F ou F11) offre la meilleure expérience de visionnage',
+      'Installez VLC Media Player en complément — certaines chaînes fonctionnent mieux avec VLC qu\'avec le lecteur intégré',
+      'Créez un raccourci de IPTV Smarters sur votre bureau pour un accès rapide',
+      'Sur un PC portable, branchez-le sur secteur pendant le streaming pour éviter que la batterie se vide vite',
+      'Activez l\'accélération matérielle GPU dans les paramètres vidéo pour une lecture plus fluide (Settings > Player Settings)',
     ],
     troubleshooting: [
       {
-        problem: 'L\'application ne s\'installe pas sur Windows',
-        solution: 'Désactivez temporairement l\'antivirus. Exécutez le fichier en tant qu\'administrateur (clic droit > Exécuter en tant qu\'administrateur). Vérifiez que Windows est à jour.',
+        problem: 'L\'application ne s\'installe pas — bloquée par l\'antivirus ou Windows Defender',
+        solution: 'C\'est un faux positif courant avec les applications IPTV. Désactivez temporairement votre antivirus pendant l\'installation. Sur Windows : cliquez sur "Informations complémentaires" puis "Exécuter quand même" quand l\'avertissement s\'affiche.',
       },
       {
-        problem: 'Mac bloque l\'ouverture de l\'application',
-        solution: 'Allez dans Préférences Système > Sécurité et Confidentialité > Général. Cliquez "Ouvrir quand même" à côté du message bloqué. Ou : clic droit sur l\'app > Ouvrir.',
+        problem: 'Mac refuse d\'ouvrir l\'application — "développeur non identifié"',
+        solution: 'Allez dans Préférences Système (ou Réglages Système) > Sécurité et confidentialité > Onglet Général. Cliquez sur "Ouvrir quand même" à côté du message. Sinon : clic droit sur l\'app > Ouvrir > Confirmer.',
       },
       {
-        problem: 'Écran noir ou pas de vidéo sur PC',
-        solution: 'Installez VLC Media Player. Changez le lecteur dans Settings. Mettez à jour vos pilotes graphiques (NVIDIA/AMD). Désactivez accélération matérielle si problème.',
+        problem: 'Écran noir ou pas de vidéo lors de la lecture d\'une chaîne',
+        solution: 'Changez le lecteur vidéo dans Settings > Player Selection (essayez les différentes options). Installez VLC Media Player si ce n\'est pas fait. Mettez à jour vos pilotes graphiques (surtout sur Windows avec NVIDIA ou AMD).',
       },
       {
-        problem: 'Streaming lag ou saccadé sur ordinateur',
-        solution: 'Fermez les programmes en arrière-plan. Vérifiez utilisation CPU/RAM (Gestionnaire tâches). Baissez la qualité vidéo. Utilisez connexion Ethernet plutôt que WiFi.',
+        problem: 'La vidéo est saccadée ou en basse qualité sur PC',
+        solution: 'Fermez les onglets de navigateur et programmes gourmands (jeux, montage vidéo). Vérifiez votre débit Internet sur speedtest.net. Activez l\'accélération matérielle GPU dans les paramètres de l\'app. Utilisez une connexion Ethernet plutôt que WiFi.',
       },
     ],
   },
   'android-tv': {
     title: 'Installation IPTV sur Android TV & Box IPTV',
-    description: 'Guide pour Android TV, Nvidia Shield, Mi Box, Box IPTV',
+    description: 'Guide complet pour Android TV, Nvidia Shield, Xiaomi Mi Box, Mecool et autres box Android',
     duration: '6 minutes',
     difficulty: 'Facile',
     requirements: [
-      'Android TV, Nvidia Shield, Mi Box ou Box IPTV',
-      'Android TV 8.0 ou supérieur recommandé',
+      'Android TV, Nvidia Shield, Xiaomi Mi Box, Mecool Box, ou toute box sous Android TV / Google TV',
+      'Android TV version 7.0 ou supérieur recommandé',
       'Télécommande ou souris USB/Bluetooth',
-      'Abonnement IPTV SMARTERS PRO actif',
+      'Un abonnement IPTV SMARTERS PRO actif',
+      'Vos identifiants de connexion IPTV',
     ],
     steps: [
       {
-        title: 'Installer depuis Google Play Store',
-        description: 'Téléchargement direct sur Android TV',
+        title: 'Vérifier si le Play Store est disponible sur votre box',
+        description: 'Certaines box Android ont le Google Play Store, d\'autres non. La méthode d\'installation dépend de votre appareil.',
         details: [
-          'Ouvrez le Play Store sur votre Android TV',
-          'Utilisez la recherche et tapez "IPTV Smarters Pro"',
-          'Sélectionnez l\'application officielle',
-          'Cliquez sur "Installer" avec la télécommande',
-          'Attendez le téléchargement et installation automatique',
+          'Allumez votre box Android TV / Google TV',
+          'Cherchez l\'icône "Google Play Store" ou "Play Store" dans vos applications',
+          'SI vous avez le Play Store : passez à l\'étape 2',
+          'SI vous N\'AVEZ PAS le Play Store : vous devrez installer l\'APK manuellement — voir l\'étape alternative ci-dessous',
+          'Alternative sans Play Store : Installez d\'abord "Downloader" depuis le navigateur web de votre box',
+          'Puis suivez la même procédure que pour le Fire TV Stick (activez sources inconnues + Downloader)',
         ],
-        imageAlt: 'Android TV Play Store IPTV Installation',
+        note: 'Les box officielles Android TV/Google TV (Nvidia Shield, Mi Box, Chromecast Google TV) ont le Play Store. Les box génériques chinoises n\'ont souvent PAS le Play Store.',
+        imageAlt: 'Écran d\'accueil Android TV avec Google Play Store',
       },
       {
-        title: 'Lancement et Configuration',
-        description: 'Première ouverture sur Android TV',
+        title: 'Installer IPTV Smarters Pro depuis le Play Store',
+        description: 'Si votre box a le Play Store, l\'installation est très simple.',
         details: [
-          'Ouvrez IPTV SMARTERS PRO depuis le lanceur d\'apps',
-          'Interface optimisée Android TV s\'affiche',
-          'Sélectionnez "Add New User" avec la télécommande',
-          'Choisissez "Login with Xtream Codes API"',
-          'Préparez vos identifiants d\'abonnement IPTV',
+          'Ouvrez le Google Play Store sur votre Android TV',
+          'Utilisez la recherche (icône loupe) et tapez "IPTV Smarters"',
+          'Important : recherchez la bonne application — vérifiez le développeur et les avis',
+          'Appuyez sur "Installer" avec la télécommande (bouton OK)',
+          'Le téléchargement et l\'installation sont automatiques (environ 1 minute)',
+          'Une fois installé, appuyez sur "Ouvrir"',
+          'Alternative si l\'app n\'est pas sur le Play Store TV : installez l\'APK via Downloader (comme expliqué dans le tutoriel Fire TV)',
         ],
-        imageAlt: 'Android TV IPTV Smarters First Launch',
+        note: 'Si l\'application n\'apparaît pas sur le Play Store de votre Android TV, elle peut être filtrée pour votre appareil. Utilisez la méthode APK avec Downloader dans ce cas.',
+        imageAlt: 'Google Play Store sur Android TV — Installation IPTV Smarters',
       },
       {
-        title: 'Saisie Identifiants avec Télécommande',
-        description: 'Entrez vos informations IPTV',
+        title: 'Premier lancement et sélection du mode TV',
+        description: 'Configurez l\'application pour une utilisation optimale sur votre télévision.',
         details: [
-          'Utilisez le clavier virtuel Android TV',
-          'Username : Votre nom d\'utilisateur IPTV',
-          'Password : Votre mot de passe IPTV',
-          'Server URL : L\'adresse complète du serveur',
-          'Validez avec le bouton OK de la télécommande',
+          'Ouvrez IPTV Smarters Pro depuis le lanceur d\'applications de votre Android TV',
+          'Au premier lancement, l\'app vous demande de choisir le type d\'écran',
+          'Sélectionnez "TV" (pas "Mobile") pour avoir l\'interface optimisée grand écran',
+          'Appuyez sur "SAVE" pour valider votre choix',
+          'Lisez et acceptez les conditions d\'utilisation en appuyant sur "Accept"',
+          'L\'écran de connexion s\'affiche',
         ],
-        imageAlt: 'Android TV Virtual Keyboard IPTV Login',
+        imageAlt: 'IPTV Smarters Pro — Sélection du mode TV sur Android TV',
       },
       {
-        title: 'Synchronisation Chaînes',
-        description: 'Chargement du contenu IPTV',
+        title: 'Connecter votre abonnement avec vos identifiants',
+        description: 'Entrez vos informations de connexion IPTV pour accéder à vos chaînes et contenus.',
         details: [
-          'Connexion aux serveurs IPTV en cours',
-          'Téléchargement liste 160 000+ chaînes',
-          'Interface Android TV adaptée au format TV',
-          'Navigation : Flèches directionnelles télécommande',
-          'Testez quelques chaînes pour vérifier',
+          'Appuyez sur "Add New User" avec la télécommande',
+          'Sélectionnez "Login with Xtream Codes API"',
+          'Le clavier virtuel Android TV s\'affiche pour chaque champ :',
+          '— "Any Name" : tapez un nom pour votre profil (ex: "Mon IPTV")',
+          '— "Username" : tapez votre nom d\'utilisateur exactement comme reçu',
+          '— "Password" : tapez votre mot de passe exactement comme reçu',
+          '— "Server URL" : tapez l\'URL du serveur (http://xxxxx.com:port)',
+          'Astuce : utilisez l\'application mobile Android TV Remote ou une souris Bluetooth pour taper plus facilement',
+          'Appuyez sur "Add User" et patientez pendant le chargement des chaînes (10-30 secondes)',
         ],
-        imageAlt: 'Android TV IPTV Content Loaded',
+        note: 'La saisie avec la télécommande est lente. Utilisez l\'app "Android TV Remote" sur votre téléphone pour utiliser le clavier de votre téléphone et taper beaucoup plus vite.',
+        imageAlt: 'Saisie des identifiants IPTV sur Android TV avec clavier virtuel',
       },
       {
-        title: 'Paramètres Android TV Optimaux',
-        description: 'Configuration pour meilleure expérience',
+        title: 'Profiter de vos chaînes et optimiser les paramètres',
+        description: 'Tout est prêt ! Voici comment naviguer et optimiser l\'expérience IPTV sur votre TV.',
         details: [
-          'Settings > Player : Sélectionnez "ExoPlayer"',
-          'Qualité : "Auto" ou "4K" selon votre TV',
-          'Interface : Mode "Android TV Leanback"',
-          'EPG : Activez guide TV électronique',
-          'Contrôle parental : PIN pour contenus adultes',
+          'L\'écran d\'accueil affiche : Live TV, Movies, Series, Catch-Up TV, EPG',
+          'Naviguez avec les flèches de la télécommande et validez avec OK',
+          'Dans "Live TV" : les chaînes sont classées par catégories (France, Sport, Cinéma, etc.)',
+          'Appuyez sur OK sur une chaîne pour la regarder',
+          'Paramètres recommandés : Settings > Player Selection > sélectionnez "ExoPlayer" (meilleur pour Android TV)',
+          'EPG (Guide TV) : si disponible avec votre abonnement, le programme des émissions s\'affiche automatiquement',
+          'Favoris : appuyez longuement sur une chaîne pour l\'ajouter à vos favoris',
+          'Pour la qualité 4K : vérifiez que la résolution de sortie de votre box est bien en 4K (Paramètres Android TV > Affichage)',
         ],
-        imageAlt: 'Android TV IPTV Settings Configuration',
+        imageAlt: 'Interface IPTV Smarters Pro sur Android TV avec chaînes en direct',
       },
     ],
     tips: [
-      'Nvidia Shield offre les meilleures performances pour 4K',
-      'Utilisez souris Bluetooth pour navigation plus rapide',
-      'Activez "Restez connecté" pour ne pas ressaisir identifiants',
-      'Créez des favoris pour accès rapide à vos chaînes',
-      'Mettez à jour Android TV et IPTV SMARTERS régulièrement',
-      'Utilisez VPN sur Android TV pour confidentialité accrue',
+      'Le Nvidia Shield est la meilleure box Android TV pour l\'IPTV — puissance maximale, support 4K HDR et mises à jour régulières',
+      'Connectez une souris Bluetooth pour naviguer plus facilement dans l\'application — beaucoup plus rapide que la télécommande',
+      'Utilisez l\'application "Android TV Remote" sur votre téléphone comme télécommande avec clavier intégré',
+      'Branchez un câble Ethernet si possible (certaines box ont un port Ethernet) pour une connexion plus stable',
+      'Activez "Rester connecté" dans les paramètres de l\'app pour ne pas avoir à ressaisir vos identifiants à chaque ouverture',
+      'Mettez à jour votre box Android TV régulièrement : Paramètres > Système > À propos > Mise à jour du système',
     ],
     troubleshooting: [
       {
-        problem: 'Play Store n\'est pas disponible sur ma Box IPTV',
-        solution: 'Utilisez méthode APK : Téléchargez IPTV Smarters APK sur clé USB, connectez à la box, installez avec un gestionnaire de fichiers. Ou activez sources inconnues et utilisez Downloader.',
+        problem: 'Ma box n\'a pas le Google Play Store',
+        solution: 'C\'est fréquent sur les box génériques. Deux solutions : 1) Téléchargez l\'APK de IPTV Smarters sur une clé USB depuis un PC, branchez la clé sur la box, et installez l\'APK avec un gestionnaire de fichiers. 2) Activez les sources inconnues et installez Downloader pour télécharger l\'APK directement (même méthode que Fire TV Stick).',
       },
       {
-        problem: 'L\'application freeze ou crash sur Android TV',
-        solution: 'Videz le cache : Settings > Apps > IPTV Smarters > Clear cache. Redémarrez Android TV. Vérifiez mémoire disponible (minimum 1 GB recommandé). Fermez apps en arrière-plan.',
+        problem: 'L\'application est très lente ou plante régulièrement',
+        solution: 'Votre box manque peut-être de mémoire. Allez dans Paramètres > Applications > IPTV Smarters > Vider le cache. Fermez toutes les autres applications. Si le problème persiste, votre box est peut-être trop ancienne ou pas assez puissante (minimum recommandé : 2 Go de RAM).',
       },
       {
-        problem: 'Qualité vidéo mauvaise malgré connexion rapide',
-        solution: 'Forcez qualité "4K" ou "Full HD" dans paramètres. Changez de serveur IPTV. Désactivez upscaling automatique TV. Vérifiez résolution sortie Android TV (4K@60Hz).',
+        problem: 'La qualité vidéo est mauvaise alors que ma connexion est rapide',
+        solution: 'Vérifiez la résolution de sortie de votre box : Paramètres > Affichage et son > Résolution. Sélectionnez 4K ou 1080p. Dans l\'app, allez dans Settings et sélectionnez "Auto" ou "Original" pour la qualité vidéo. Utilisez le lecteur ExoPlayer.',
       },
       {
-        problem: 'Télécommande ne répond pas dans l\'application',
-        solution: 'Appairez à nouveau la télécommande dans paramètres Android TV. Utilisez une souris USB comme alternative. Vérifiez que les piles sont chargées. Redémarrez l\'appareil.',
+        problem: 'La télécommande ne fonctionne pas correctement dans l\'application',
+        solution: 'Certaines télécommandes de box génériques sont mal compatibles. Connectez une souris USB ou Bluetooth à votre box comme alternative. Vous pouvez aussi utiliser l\'application "Android TV Remote" sur votre smartphone pour contrôler la box.',
       },
     ],
   },
@@ -652,7 +736,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const tutorial = tutorialsData[slug];
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
-  const seoHomeUrl = `${baseUrl}/abonnement-iptv/`;
   
   if (!tutorial) {
     return {
@@ -689,6 +772,39 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
+/* Icon mapping for step types based on keywords in the title */
+function getStepIcon(title: string, slug: string) {
+  const t = title.toLowerCase();
+  if (t.includes('télécharger') || t.includes('download') || t.includes('installer l\'application') || t.includes('installer downloader')) return <Download className="w-6 h-6" />;
+  if (t.includes('autoriser') || t.includes('sources inconnues') || t.includes('activer') || t.includes('développeur')) return <Shield className="w-6 h-6" />;
+  if (t.includes('connecter') || t.includes('identifiant') || t.includes('login') || t.includes('connexion') || t.includes('abonnement')) return <LogIn className="w-6 h-6" />;
+  if (t.includes('paramètre') || t.includes('optimis') || t.includes('configur') || t.includes('settings')) return <Settings className="w-6 h-6" />;
+  if (t.includes('naviguer') || t.includes('profiter') || t.includes('découvrir') || t.includes('chaînes') || t.includes('regarder')) return <Play className="w-6 h-6" />;
+  if (t.includes('installer') || t.includes('installation')) return <Download className="w-6 h-6" />;
+  if (t.includes('lancer') || t.includes('ouvrir') || t.includes('premier')) return <Zap className="w-6 h-6" />;
+  if (t.includes('vérifier') || t.includes('choisir') || t.includes('comprendre')) return <Search className="w-6 h-6" />;
+  if (t.includes('vlc') || t.includes('alternative')) return <Monitor className="w-6 h-6" />;
+  if (t.includes('playlist') || t.includes('m3u') || t.includes('mac')) return <Wifi className="w-6 h-6" />;
+  
+  // Default based on device
+  if (slug === 'smart-tv' || slug === 'android-tv') return <Tv className="w-6 h-6" />;
+  if (slug === 'pc-mac') return <Monitor className="w-6 h-6" />;
+  return <Smartphone className="w-6 h-6" />;
+}
+
+/* Device icon for the hero section */
+function getDeviceIcon(slug: string) {
+  switch (slug) {
+    case 'android': return <Smartphone className="w-8 h-8" />;
+    case 'ios': return <Smartphone className="w-8 h-8" />;
+    case 'smart-tv': return <Tv className="w-8 h-8" />;
+    case 'fire-tv': return <Play className="w-8 h-8" />;
+    case 'pc-mac': return <Monitor className="w-8 h-8" />;
+    case 'android-tv': return <Tv className="w-8 h-8" />;
+    default: return <Smartphone className="w-8 h-8" />;
+  }
+}
+
 export default async function TutorialPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const tutorial = tutorialsData[slug];
@@ -700,7 +816,7 @@ export default async function TutorialPage({ params }: { params: Promise<{ slug:
       <main className="min-h-screen bg-black">
         <NavigationHeader />
         <div className="pt-32 pb-20 px-6 text-center">
-          <h1 className="text-4xl font-black text-white mb-4">Tutoriel non trouve</h1>
+          <h1 className="text-4xl font-black text-white mb-4">Tutoriel non trouvé</h1>
           <Link href="/tutoriels" className="text-cyan-400 hover:underline">
             Retour aux tutoriels
           </Link>
@@ -757,23 +873,33 @@ export default async function TutorialPage({ params }: { params: Promise<{ slug:
             href="/tutoriels"
             className="inline-flex items-center gap-2 text-cyan-400 hover:text-purple-400 transition-colors mb-8"
           >
-            ← Retour aux tutoriels
+            &#8592; Retour aux tutoriels
           </Link>
 
           <div className="mb-8">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
-              {tutorial.title}
-            </h1>
-            <p className="text-xl text-white/70 mb-6">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                {getDeviceIcon(slug)}
+              </div>
+              <div>
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-white">
+                  {tutorial.title}
+                </h1>
+              </div>
+            </div>
+            <p className="text-xl text-white/70 mb-6 max-w-3xl">
               {tutorial.description}
             </p>
 
             <div className="flex flex-wrap items-center gap-4">
               <div className="px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30">
-                <span className="text-sm font-bold text-cyan-400">⏱️ {tutorial.duration}</span>
+                <span className="text-sm font-bold text-cyan-400">Durée : {tutorial.duration}</span>
               </div>
               <div className="px-4 py-2 rounded-full bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30">
-                <span className="text-sm font-bold text-green-400">📊 {tutorial.difficulty}</span>
+                <span className="text-sm font-bold text-green-400">Difficulté : {tutorial.difficulty}</span>
+              </div>
+              <div className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30">
+                <span className="text-sm font-bold text-purple-400">{tutorial.steps.length} étapes</span>
               </div>
             </div>
           </div>
@@ -782,12 +908,12 @@ export default async function TutorialPage({ params }: { params: Promise<{ slug:
           <div className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 mb-8">
             <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
               <CheckCircle className="w-6 h-6 text-blue-400" />
-              Prérequis
+              Ce dont vous avez besoin avant de commencer
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               {tutorial.requirements.map((req, index) => (
                 <li key={index} className="flex items-start gap-3 text-white/70">
-                  <span className="text-blue-400 mt-1">✓</span>
+                  <span className="text-blue-400 mt-1 font-bold">&#10003;</span>
                   <span>{req}</span>
                 </li>
               ))}
@@ -799,41 +925,70 @@ export default async function TutorialPage({ params }: { params: Promise<{ slug:
       {/* Steps Section */}
       <section className="py-16 px-6">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-black text-white mb-12 text-center">
+          <h2 className="text-3xl md:text-4xl font-black text-white mb-4 text-center">
             Guide Étape par <span className="text-cyan-400">Étape</span>
           </h2>
+          <p className="text-white/50 text-center mb-12 max-w-2xl mx-auto">
+            Suivez chaque étape dans l&apos;ordre. Si vous rencontrez un problème, consultez la section Dépannage en bas de page.
+          </p>
+
+          {/* Progress indicator */}
+          <div className="flex items-center justify-center gap-2 mb-12">
+            {tutorial.steps.map((_, index) => (
+              <div key={index} className="flex items-center">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center text-white font-bold text-xs">
+                  {index + 1}
+                </div>
+                {index < tutorial.steps.length - 1 && (
+                  <div className="w-8 md:w-16 h-0.5 bg-gradient-to-r from-cyan-500/50 to-purple-500/50" />
+                )}
+              </div>
+            ))}
+          </div>
 
           <div className="space-y-8">
             {tutorial.steps.map((step, index) => (
               <div
                 key={index}
+                id={`etape-${index + 1}`}
                 className="p-8 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10"
               >
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg">
+                  <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg">
                     {index + 1}
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-white mb-2">{step.title}</h3>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-cyan-400">{getStepIcon(step.title, slug)}</span>
+                      <h3 className="text-2xl font-bold text-white">{step.title}</h3>
+                    </div>
                     <p className="text-white/60">{step.description}</p>
                   </div>
                 </div>
 
-                <div className="ml-16">
+                <div className="ml-0 md:ml-[4.5rem]">
                   <ul className="space-y-3 mb-6">
                     {step.details.map((detail, idx) => (
-                      <li key={idx} className="flex items-start gap-3 text-white/70">
-                        <ArrowRight className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
-                        <span>{detail}</span>
-                      </li>
+                      detail === '' ? (
+                        <li key={idx} className="h-2" />
+                      ) : (
+                        <li key={idx} className="flex items-start gap-3 text-white/80">
+                          <span className="flex-shrink-0 w-6 h-6 rounded-full bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-xs text-cyan-400 font-bold mt-0.5">
+                            {idx + 1}
+                          </span>
+                          <span className="leading-relaxed">{detail}</span>
+                        </li>
+                      )
                     ))}
                   </ul>
 
-                  {/* Placeholder for image */}
-                  <div className="rounded-xl bg-gradient-to-br from-purple-500/10 to-cyan-500/10 border border-white/10 p-8 text-center">
-                    <Smartphone className="w-16 h-16 text-cyan-400 mx-auto mb-4" />
-                    <p className="text-white/60 text-sm">{step.imageAlt}</p>
-                  </div>
+                  {/* Note/Warning if exists */}
+                  {step.note && (
+                    <div className="rounded-xl bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 p-4 flex items-start gap-3">
+                      <Info className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                      <p className="text-amber-200/80 text-sm leading-relaxed">{step.note}</p>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -856,7 +1011,7 @@ export default async function TutorialPage({ params }: { params: Promise<{ slug:
               >
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-white/70">{tip}</p>
+                  <p className="text-white/70 leading-relaxed">{tip}</p>
                 </div>
               </div>
             ))}
@@ -867,21 +1022,29 @@ export default async function TutorialPage({ params }: { params: Promise<{ slug:
       {/* Troubleshooting Section */}
       <section className="py-16 px-6">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-black text-white mb-12 text-center">
+          <h2 className="text-3xl md:text-4xl font-black text-white mb-4 text-center">
             Dépannage <span className="text-cyan-400">IPTV</span>
           </h2>
+          <p className="text-white/50 text-center mb-12 max-w-2xl mx-auto">
+            Un problème ? Trouvez la solution ici. Si votre problème n&apos;est pas listé, contactez notre support 24/7.
+          </p>
 
           <div className="space-y-6">
             {tutorial.troubleshooting.map((item, index) => (
               <div
                 key={index}
-                className="p-6 rounded-2xl bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30"
+                className="p-6 rounded-2xl bg-gradient-to-br from-red-500/5 to-orange-500/5 border border-red-500/20"
               >
-                <div className="flex items-start gap-3 mb-3">
+                <div className="flex items-start gap-3 mb-4">
                   <AlertCircle className="w-6 h-6 text-red-400 flex-shrink-0 mt-0.5" />
                   <h3 className="text-lg font-bold text-white">{item.problem}</h3>
                 </div>
-                <p className="ml-9 text-white/70 leading-relaxed">{item.solution}</p>
+                <div className="ml-9 p-4 rounded-lg bg-green-500/5 border border-green-500/20">
+                  <p className="text-green-300/80 leading-relaxed flex items-start gap-2">
+                    <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+                    <span>{item.solution}</span>
+                  </p>
+                </div>
               </div>
             ))}
           </div>
@@ -893,10 +1056,11 @@ export default async function TutorialPage({ params }: { params: Promise<{ slug:
         <div className="max-w-4xl mx-auto text-center">
           <div className="relative p-12 rounded-3xl bg-gradient-to-br from-cyan-500/10 to-purple-500/10 backdrop-blur-sm border border-cyan-500/20">
             <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
-              Besoin d'Aide ?
+              Besoin d&apos;Aide ?
             </h2>
             <p className="text-white/70 text-lg mb-8">
-              Notre support 24/7 est là pour vous aider avec l'installation de votre <strong>abonnement IPTV SMARTERS PRO</strong>
+              Notre support 24/7 est là pour vous aider avec l&apos;installation de votre <strong>abonnement IPTV SMARTERS PRO</strong>. 
+              Contactez-nous par email ou WhatsApp pour une assistance personnalisée.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -910,7 +1074,7 @@ export default async function TutorialPage({ params }: { params: Promise<{ slug:
                 href="/abonnement-iptv/#pricing"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/20 text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300"
               >
-                S'abonner Maintenant
+                S&apos;abonner Maintenant
                 <ArrowRight className="w-5 h-5" />
               </Link>
             </div>

@@ -146,7 +146,7 @@ export default function AdminDashboard() {
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white font-bold rounded-lg hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all duration-300"
               >
                 <Sparkles className="w-5 h-5" />
-                Générer avec IA
+                Générer avec IA (Claude + Gemini)
               </Link>
               <Link
                 href="/vxodnasait/posts/new"

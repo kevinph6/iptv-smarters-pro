@@ -30,7 +30,18 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: 'Googlebot',
-        allow: '/',
+        allow: [
+          '/',
+          '/blog/',
+          '/tutoriels/',
+          '/produits/',
+          '/abonnement-iptv/',
+          '/chaines',
+          '/*.jpg$',
+          '/*.jpeg$',
+          '/*.png$',
+          '/*.webp$',
+        ],
         disallow: [
           '/vxodnasait/',
           '/api/',
@@ -43,7 +54,10 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: 'Googlebot-Image',
-        allow: '/',
+        allow: [
+          '/',
+          '/uploads/',
+        ],
       },
       {
         userAgent: 'Bingbot',
@@ -60,7 +74,10 @@ export default function robots(): MetadataRoute.Robots {
         crawlDelay: 1,
       },
     ],
-    sitemap: `${baseUrl}/sitemap_index.xml`,
+    sitemap: [
+      `${baseUrl}/sitemap.xml`,
+      `${baseUrl}/sitemap_index.xml`,
+    ],
     host: baseUrl,
   };
 }

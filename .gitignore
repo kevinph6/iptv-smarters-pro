@@ -45,3 +45,6 @@ local.db-journal
 .env
 .env.local
 .env.production
+
+# AI-generated blog images (uploaded at runtime)
+/public/uploads/blog/
