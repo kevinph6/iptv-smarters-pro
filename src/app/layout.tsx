@@ -136,12 +136,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className={inter.variable}>
       <head>
-        {/* ── Performance: DNS Prefetch & Preconnect ── */}
-        <link rel="dns-prefetch" href="https://slelguoygbfzlpylpxfs.supabase.co" />
-        <link rel="preconnect" href="https://slelguoygbfzlpylpxfs.supabase.co" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Preconnect only for origins used in critical path. Supabase & fonts load lazy / next/font, so omitted to avoid unused preconnect. */}
 
         <script
           type="application/ld+json"
