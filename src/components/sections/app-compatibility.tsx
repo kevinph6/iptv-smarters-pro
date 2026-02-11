@@ -97,13 +97,6 @@ const AppCompatibility = () => {
                   {app.name}
                 </p>
                 
-                {/* SEO Keywords */}
-                <p className="text-white/60 text-[9px] text-center leading-tight">
-                  IPTV SMARTERS PRO
-                </p>
-                <p className="text-white/60 text-[9px] text-center leading-tight">
-                  Abonnement iptv
-                </p>
               </div>
             </div>
           ))}

@@ -131,10 +131,6 @@ const FeaturesOverview = () => {
                         <span className="text-white/60 text-sm">{feature.stats.label}</span>
                       </div>
                       
-                      {/* SEO Keywords */}
-                      <p className="text-white/10 text-[10px] mt-2">
-                        IPTV SMARTERS PRO • Abonnement iptv
-                      </p>
                     </div>
                   </div>
                 </div>
@@ -175,13 +171,6 @@ const FeaturesOverview = () => {
                     </div>
                     <p className="text-white font-semibold text-sm mb-0.5">{device.name}</p>
                     <p className="text-white/40 text-xs">{device.type}</p>
-                    {/* SEO Keywords */}
-                    <p className="text-white/10 text-[9px] mt-1 leading-tight">
-                      IPTV SMARTERS PRO
-                    </p>
-                    <p className="text-white/10 text-[9px] leading-tight">
-                      Abonnement iptv
-                    </p>
                   </div>
                 </div>
               );

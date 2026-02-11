@@ -88,7 +88,7 @@ export function PurchaseNotification() {
 
   return (
     <div
-      className={`fixed left-4 bottom-4 md:left-6 md:bottom-6 z-50 transition-all duration-700 ease-out ${
+      className={`hidden md:block fixed md:left-6 md:bottom-6 z-50 transition-all duration-700 ease-out ${
         isVisible
           ? "translate-x-0 opacity-100 scale-100"
           : "-translate-x-full opacity-0 scale-95 pointer-events-none"

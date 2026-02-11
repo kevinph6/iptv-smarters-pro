@@ -90,15 +90,6 @@ const QualityFeatures = () => {
                     {feature.description}
                   </p>
                   
-                  {/* SEO Keywords */}
-                  <div className="border-t border-white/5 pt-3 mt-3">
-                    <p className="text-white/10 text-[9px] leading-tight">
-                      IPTV SMARTERS PRO • Abonnement iptv premium
-                    </p>
-                    <p className="text-white/10 text-[9px] leading-tight mt-0.5">
-                      Service IPTV fiable • IPTV SMARTERS PRO France
-                    </p>
-                  </div>
 
                   {/* Bottom accent line */}
                   <div className={`absolute bottom-0 left-8 right-8 h-0.5 bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />

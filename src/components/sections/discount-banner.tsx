@@ -27,8 +27,8 @@ const DiscountBanner = () => {
 
   return (
     <div className="relative max-w-5xl mx-auto">
-      {/* Glow */}
-      <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-2xl" />
+      {/* Glow - hidden on mobile to reduce visual noise */}
+      <div className="hidden lg:block absolute -inset-4 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-2xl" />
 
       {/* Outer wrapper */}
       <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-white/10 to-white/5 p-1.5">
@@ -36,7 +36,7 @@ const DiscountBanner = () => {
         {/* Banner */}
         <a
           href="#pricing"
-          className="group relative flex flex-col items-center justify-center rounded-xl overflow-hidden px-6 py-6 md:py-8"
+          className="group relative flex flex-col items-center justify-center rounded-xl overflow-hidden px-4 py-4 sm:px-6 sm:py-6 md:py-8"
         >
           {/* Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#0a0014] via-[#140025] to-[#0a0014]" />
@@ -120,9 +120,6 @@ const DiscountBanner = () => {
         </div>
       </div>
 
-      <p className="text-white/60 text-[10px] text-center mt-3">
-        IPTV SMARTERS PRO • Abonnement iptv • Meilleur service IPTV France
-      </p>
     </div>
   );
 };

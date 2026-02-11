@@ -8,21 +8,21 @@ const OnDemandBanner = () => {
       
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="relative">
-          {/* Glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-3xl blur-2xl" />
+          {/* Glow effect - hidden on mobile */}
+          <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-3xl blur-2xl" />
           
           <div className="relative bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 backdrop-blur-sm rounded-3xl border border-white/10 p-8 md:p-10">
-            {/* Corner decorations */}
-            <div className="absolute top-4 left-4">
+            {/* Corner decorations - hidden on mobile */}
+            <div className="hidden sm:block absolute top-4 left-4">
               <Star className="w-5 h-5 text-cyan-400/30" />
             </div>
-            <div className="absolute top-4 right-4">
+            <div className="hidden sm:block absolute top-4 right-4">
               <Sparkles className="w-5 h-5 text-purple-400/30" />
             </div>
-            <div className="absolute bottom-4 left-4">
+            <div className="hidden sm:block absolute bottom-4 left-4">
               <Sparkles className="w-5 h-5 text-pink-400/30" />
             </div>
-            <div className="absolute bottom-4 right-4">
+            <div className="hidden sm:block absolute bottom-4 right-4">
               <Star className="w-5 h-5 text-cyan-400/30" />
             </div>
             
@@ -53,8 +53,8 @@ const OnDemandBanner = () => {
         </div>
       </div>
       
-      {/* Section header for pricing */}
-      <div className="container mx-auto px-6 max-w-6xl mt-16 text-center">
+      {/* Section header for pricing - hidden on mobile where pricing appears before this banner */}
+      <div className="hidden lg:block container mx-auto px-6 max-w-6xl mt-16 text-center">
         <span className="inline-block text-cyan-400 font-bold text-sm uppercase tracking-[0.2em] mb-4">Tarification Simple</span>
         <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
           Choisissez votre <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">abonnement</span>

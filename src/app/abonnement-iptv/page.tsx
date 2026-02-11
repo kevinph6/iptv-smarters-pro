@@ -74,8 +74,15 @@ export default function AbonnementIptvPage() {
     <main className="min-h-screen bg-black">
       <NavigationHeader />
       <HeroSection />
-      <OnDemandBanner />
-      <StandardPricingCards />
+      {/* On mobile: pricing first, then on-demand banner. On desktop: original order preserved via CSS order */}
+      <div className="flex flex-col">
+        <div className="order-2 lg:order-1">
+          <OnDemandBanner />
+        </div>
+        <div className="order-1 lg:order-2">
+          <StandardPricingCards />
+        </div>
+      </div>
       <FeaturesOverview />
       <QualityFeatures />
       <TrustSignals />
