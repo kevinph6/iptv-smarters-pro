@@ -53,8 +53,9 @@ const ComparisonSection = () => {
                 className="w-full h-full object-cover"
                 controls
                 poster="/og-image.jpg"
-                src="https://darkorchid-goldfish-662671.hostingersite.com/wp-content/uploads/2025/10/ISP-FRANCE-2024.mp4"
+                preload="none"
               >
+                {/* Video src removed: previous URL returned 404. Add a valid demo video URL when available. */}
                 Votre navigateur ne prend pas en charge la balise vidéo.
               </video>
               

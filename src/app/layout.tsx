@@ -3,8 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import VisualEditsMessengerDeferred from "../visual-edits/VisualEditsMessengerDeferred";
 import ErrorReporter from "@/components/ErrorReporter";
-import Script from "next/script";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
+import { OrchidsScript } from "@/components/OrchidsScript";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -370,12 +370,7 @@ export default function RootLayout({
         <link rel="alternate" hrefLang="x-default" href={seoHomeUrl} />
       </head>
         <body className={`${inter.className} antialiased`}>
-          <Script
-            id="orchids-browser-logs"
-            src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts/orchids-browser-logs.js"
-            strategy="lazyOnload"
-            data-orchids-project-id="4333d292-4a82-4247-86b6-117a058e7bdd"
-          />
+          <OrchidsScript />
           <ErrorReporter />
           {children}
           <WhatsAppButton />
