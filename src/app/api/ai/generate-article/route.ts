@@ -149,40 +149,53 @@ IMPORTANT: Le JSON doit être valide. Le contenu HTML ne doit PAS contenir de sa
         ],
         max_tokens: 4096,
         temperature: 0.7,
-        response_format: { type: 'json_object' },
       }),
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      console.error('OpenRouter API error:', error);
+      const errorBody = await response.text();
+      console.error('OpenRouter API error:', response.status, errorBody);
       return NextResponse.json({ 
-        error: `Failed to generate article: ${error?.error?.message || 'Unknown error'}`,
-        details: error 
+        error: `OpenRouter API error (${response.status}): ${errorBody.substring(0, 200)}`,
       }, { status: 500 });
     }
 
     const data = await response.json();
-    const rawContent = data.choices[0].message.content;
     
-    // Parse the JSON, handling potential markdown wrapping
+    if (!data.choices?.[0]?.message?.content) {
+      console.error('No content in response:', JSON.stringify(data).substring(0, 500));
+      return NextResponse.json({ error: 'AI returned empty response' }, { status: 500 });
+    }
+
+    const rawContent = data.choices[0].message.content;
+    console.log('Raw AI response length:', rawContent.length);
+    
+    // Parse the JSON robustly - handle markdown wrapping, nested quotes, etc.
     let generatedContent;
     try {
       generatedContent = JSON.parse(rawContent);
     } catch {
-      // Try to extract JSON from markdown code blocks
-      const jsonMatch = rawContent.match(/```(?:json)?\s*([\s\S]*?)```/);
-      if (jsonMatch) {
-        generatedContent = JSON.parse(jsonMatch[1].trim());
-      } else {
-        // Try to find JSON object in the response
-        const jsonStart = rawContent.indexOf('{');
-        const jsonEnd = rawContent.lastIndexOf('}');
-        if (jsonStart !== -1 && jsonEnd !== -1) {
-          generatedContent = JSON.parse(rawContent.slice(jsonStart, jsonEnd + 1));
+      try {
+        // Try to extract JSON from markdown code blocks
+        const jsonMatch = rawContent.match(/```(?:json)?\s*([\s\S]*?)```/);
+        if (jsonMatch) {
+          generatedContent = JSON.parse(jsonMatch[1].trim());
         } else {
-          throw new Error('Could not parse AI response as JSON');
+          // Try to find JSON object in the response
+          const jsonStart = rawContent.indexOf('{');
+          const jsonEnd = rawContent.lastIndexOf('}');
+          if (jsonStart !== -1 && jsonEnd !== -1) {
+            generatedContent = JSON.parse(rawContent.slice(jsonStart, jsonEnd + 1));
+          } else {
+            throw new Error('No JSON found');
+          }
         }
+      } catch (parseError: any) {
+        console.error('JSON parse error:', parseError.message);
+        console.error('Raw content (first 500 chars):', rawContent.substring(0, 500));
+        return NextResponse.json({ 
+          error: `Failed to parse AI response: ${parseError.message}`,
+        }, { status: 500 });
       }
     }
 
@@ -190,8 +203,8 @@ IMPORTANT: Le JSON doit être valide. Le contenu HTML ne doit PAS contenir de sa
     generatedContent.modelUsed = modelId;
 
     return NextResponse.json(generatedContent);
-  } catch (error) {
-    console.error('Article generation error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Article generation error:', error?.message || error);
+    return NextResponse.json({ error: error?.message || 'Internal server error' }, { status: 500 });
   }
 }
