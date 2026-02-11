@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShoppingCart, Shield, Lock, Mail, ArrowLeft, Loader2, Check, CreditCard, Smartphone, Globe, Tv, Zap, Clock, Star, Crown, Users, Headphones, RefreshCw, Gift, User, Phone } from 'lucide-react';
+import { Shield, Lock, Mail, ArrowLeft, Loader2, Check, CreditCard, Smartphone, Globe, Tv, Zap, Clock, Star, Crown, Users, Headphones, RefreshCw, Gift, User, Phone } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { use } from 'react';
@@ -177,6 +177,7 @@ export default function CheckoutPage({ params }: Props) {
   const [email, setEmail] = useState('');
   const [confirmEmail, setConfirmEmail] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState<'card' | 'revolut'>('card');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -224,7 +225,7 @@ export default function CheckoutPage({ params }: Props) {
       const response = await fetch('/api/checkout/create-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, email, customerName: customerName.trim(), customerPhone: customerPhone.trim() }),
+        body: JSON.stringify({ slug, email, customerName: customerName.trim(), customerPhone: customerPhone.trim(), paymentMethod }),
       });
 
       const data = await response.json();
@@ -426,6 +427,76 @@ export default function CheckoutPage({ params }: Props) {
                   </div>
                 </div>
 
+                {/* Payment Method Selection */}
+                <div>
+                  <label className="block text-white/70 text-sm font-semibold mb-3">
+                    Méthode de paiement <span className="text-red-400">*</span>
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {/* Card Payment Option */}
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod('card')}
+                      className={`relative flex flex-col items-center gap-2.5 p-5 rounded-xl border-2 transition-all duration-200 ${
+                        paymentMethod === 'card'
+                          ? 'border-cyan-500 bg-cyan-500/10 shadow-[0_0_20px_rgba(6,182,212,0.15)]'
+                          : 'border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.05]'
+                      }`}
+                    >
+                      {paymentMethod === 'card' && (
+                        <div className="absolute top-2.5 right-2.5 w-5 h-5 rounded-full bg-cyan-500 flex items-center justify-center">
+                          <Check className="w-3 h-3 text-white" />
+                        </div>
+                      )}
+                      <CreditCard className={`w-7 h-7 ${paymentMethod === 'card' ? 'text-cyan-400' : 'text-white/40'}`} />
+                      <div className="text-center">
+                        <p className={`text-sm font-bold ${paymentMethod === 'card' ? 'text-white' : 'text-white/70'}`}>Carte Bancaire</p>
+                        <p className="text-[10px] text-white/40 mt-0.5">Visa, Mastercard, Apple Pay...</p>
+                      </div>
+                    </button>
+
+                    {/* Revolut Option */}
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod('revolut')}
+                      className={`relative flex flex-col items-center gap-2.5 p-5 rounded-xl border-2 transition-all duration-200 ${
+                        paymentMethod === 'revolut'
+                          ? 'border-cyan-500 bg-cyan-500/10 shadow-[0_0_20px_rgba(6,182,212,0.15)]'
+                          : 'border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.05]'
+                      }`}
+                    >
+                      {paymentMethod === 'revolut' && (
+                        <div className="absolute top-2.5 right-2.5 w-5 h-5 rounded-full bg-cyan-500 flex items-center justify-center">
+                          <Check className="w-3 h-3 text-white" />
+                        </div>
+                      )}
+                      <svg className={`w-7 h-7 ${paymentMethod === 'revolut' ? 'text-cyan-400' : 'text-white/40'}`} viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.3 2H8.3C6.5 2 5 3.5 5 5.3v13.4c0 .4.3.8.8.8h2.5c.4 0 .8-.3.8-.8v-5.4h4.1l4.5 5.8c.2.2.4.4.7.4h3c.3 0 .5-.1.6-.4.2-.3.1-.5 0-.7l-4.3-5.4c2.4-.9 4-3.2 4-5.8V5.3C21.7 3.5 20.2 2 18.4 2h1.9zm-2.6 6.2c0 1.6-1.3 2.8-2.8 2.8H9.1V5.3h5.8c1.6 0 2.8 1.3 2.8 2.8v.1z"/>
+                      </svg>
+                      <div className="text-center">
+                        <p className={`text-sm font-bold ${paymentMethod === 'revolut' ? 'text-white' : 'text-white/70'}`}>Revolut</p>
+                        <p className="text-[10px] text-white/40 mt-0.5">Payer via Revolut</p>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Secure Payment Trust Notice */}
+                <div className="bg-emerald-500/5 border border-emerald-500/15 rounded-xl p-4">
+                  <div className="flex items-start gap-3">
+                    <Shield className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-emerald-300 text-sm font-semibold flex items-center gap-1.5">
+                        <Lock className="w-3.5 h-3.5" />
+                        Paiement 100% Sécurisé &amp; Anonyme
+                      </p>
+                      <p className="text-emerald-200/50 text-xs mt-1.5 leading-relaxed">
+                        Le paiement est traité par un processeur certifié. Vous serez redirigé vers une page sécurisée pour finaliser votre règlement par carte. Une vérification d&apos;identité rapide peut être demandée pour protéger votre transaction. <span className="text-emerald-300/70 font-medium">Aucune donnée n&apos;est stockée chez nous.</span> La transaction est entièrement chiffrée — invisible pour tout tiers, y compris les autorités. <span className="text-emerald-300/70 font-medium">Vous êtes 100% protégé.</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Error Message */}
                 {error && (
                   <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4">
@@ -444,12 +515,21 @@ export default function CheckoutPage({ params }: Props) {
                     {loading ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin" />
-                        Préparation du paiement...
+                        Redirection vers le paiement sécurisé...
                       </>
                     ) : (
                       <>
-                        <ShoppingCart className="w-5 h-5" />
-                        Payer {product.price}€ — Activation Instantanée
+                        {paymentMethod === 'revolut' ? (
+                          <>
+                            <Globe className="w-5 h-5" />
+                            Payer {product.price}€ via Revolut
+                          </>
+                        ) : (
+                          <>
+                            <CreditCard className="w-5 h-5" />
+                            Payer {product.price}€ par Carte
+                          </>
+                        )}
                       </>
                     )}
                   </span>
@@ -457,18 +537,33 @@ export default function CheckoutPage({ params }: Props) {
 
                 {/* Payment Methods Icons */}
                 <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-                  <div className="flex items-center gap-1.5 text-white/30 text-xs">
-                    <CreditCard className="w-4 h-4" />
-                    <span>Carte bancaire</span>
-                  </div>
-                  <div className="flex items-center gap-1.5 text-white/30 text-xs">
-                    <Smartphone className="w-4 h-4" />
-                    <span>Apple / Google Pay</span>
-                  </div>
-                  <div className="flex items-center gap-1.5 text-white/30 text-xs">
-                    <Globe className="w-4 h-4" />
-                    <span>Crypto (USDC)</span>
-                  </div>
+                  {paymentMethod === 'card' ? (
+                    <>
+                      <div className="flex items-center gap-1.5 text-white/30 text-xs">
+                        <CreditCard className="w-4 h-4" />
+                        <span>Visa / Mastercard</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-white/30 text-xs">
+                        <Smartphone className="w-4 h-4" />
+                        <span>Apple / Google Pay</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-white/30 text-xs">
+                        <Lock className="w-4 h-4" />
+                        <span>Chiffrement SSL</span>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex items-center gap-1.5 text-white/30 text-xs">
+                        <Globe className="w-4 h-4" />
+                        <span>Revolut</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-white/30 text-xs">
+                        <Lock className="w-4 h-4" />
+                        <span>Paiement sécurisé</span>
+                      </div>
+                    </>
+                  )}
                 </div>
               </form>
             </div>

@@ -29,7 +29,7 @@ const PRODUCTS: Record<string, { title: string; price: string; type: string; dur
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { slug, email, customerName, customerPhone } = body;
+    const { slug, email, customerName, customerPhone, paymentMethod } = body;
 
     // Validate inputs
     if (!slug || !email || !customerName || !customerPhone) {
@@ -69,8 +69,11 @@ export async function POST(request: NextRequest) {
     // Load payment settings
     const settings = await loadPaymentSettings();
     const usdcWallet = settings['paygate_usdc_wallet'];
-    const provider = settings['paygate_provider'] || 'multi';
     const currency = settings['paygate_currency'] || 'EUR';
+
+    // Determine provider based on user's payment method choice
+    // 'revolut' → single provider (Revolut), 'card' (default) → multi-provider page
+    const provider = paymentMethod === 'revolut' ? 'revolut' : 'multi';
 
     if (!usdcWallet) {
       console.error('[Checkout] Missing USDC wallet in payment settings');

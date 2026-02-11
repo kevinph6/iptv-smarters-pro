@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Save, Loader2, Wallet, Server, Mail, Package, Eye, EyeOff } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Wallet, Server, Mail, Package, Eye, EyeOff, CreditCard } from 'lucide-react';
 import { toast } from 'sonner';
 import { useSession, clearSessionFromStorage } from '@/lib/auth-client';
 
