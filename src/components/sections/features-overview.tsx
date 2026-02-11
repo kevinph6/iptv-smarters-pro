@@ -90,9 +90,6 @@ const FeaturesOverview = () => {
           <p className="text-white/50 text-lg max-w-3xl mx-auto leading-relaxed">
             Découvrez pourquoi des milliers de clients nous font confiance pour leur <span className="text-cyan-400">abonnement IPTV</span> et divertissement quotidien avec <span className="text-purple-400">SMARTERS PRO</span>
           </p>
-          <p className="text-white/70 text-sm mt-2">
-            IPTV SMARTERS PRO • Abonnement iptv premium France • Service IPTV de qualité
-          </p>
         </div>
 
         {/* Features Grid - Hexagonal Style */}

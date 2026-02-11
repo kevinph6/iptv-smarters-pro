@@ -1,4 +1,4 @@
-import { ArrowRight, Play, Globe, Clock, Headphones } from 'lucide-react';
+import { ArrowRight, Play, Globe, Clock, Headphones, Star } from 'lucide-react';
 import DiscountBanner from './discount-banner';
 
 const HeroSection = () => {
@@ -56,7 +56,7 @@ const HeroSection = () => {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-wrap justify-center gap-4 mb-8 lg:mb-16">
+          <div className="flex flex-wrap justify-center gap-4 mb-5 lg:mb-8">
             <a
               href="#pricing"
               className="group relative inline-flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-5 rounded-2xl overflow-hidden">
@@ -75,6 +75,30 @@ const HeroSection = () => {
               </div>
               Voir la démo
             </a>
+          </div>
+
+          {/* Trustpilot Trust Badge */}
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 lg:mb-8">
+            <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" fill="none">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#00b67a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <div className="flex items-center gap-1.5">
+              <span className="text-white font-bold text-sm sm:text-base">Excellent</span>
+              <div className="flex items-center gap-0.5">
+                {[1, 2, 3, 4].map((i) => (
+                  <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#00b67a] fill-[#00b67a]" />
+                ))}
+                <div className="relative w-3.5 h-3.5 sm:w-4 sm:h-4">
+                  <Star className="absolute inset-0 w-full h-full text-white/20 fill-white/20" />
+                  <div className="absolute inset-0 overflow-hidden" style={{ width: '50%' }}>
+                    <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#00b67a] fill-[#00b67a]" />
+                  </div>
+                </div>
+              </div>
+              <span className="text-white/50 text-xs sm:text-sm">4.5</span>
+            </div>
+            <span className="text-white/40 text-[10px] sm:text-xs">|</span>
+            <span className="text-white/50 text-[10px] sm:text-xs">Vérifié par <span className="text-white/70 font-semibold">50,000+</span> avis</span>
           </div>
         </div>
 

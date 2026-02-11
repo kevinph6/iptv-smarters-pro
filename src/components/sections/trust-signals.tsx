@@ -71,7 +71,7 @@ export default function TrustSignals() {
             Confiance & Sécurité
           </span>
           <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
-            Pourquoi Nous <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Choisir ?</span>
+            Pourquoi Nous <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Choisir&nbsp;?</span>
           </h2>
           <h3 className="text-3xl md:text-4xl font-black text-white mb-4">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-400">Notre Promesse</span>
