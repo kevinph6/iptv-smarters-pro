@@ -78,15 +78,14 @@ const AppCompatibility = () => {
               {/* Glow effect on hover */}
               <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/20 to-purple-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
-              <div className="relative flex flex-col items-center justify-center p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm transition-all duration-300 group-hover:bg-white/10 group-hover:border-cyan-500/30 group-hover:-translate-y-2 group-hover:scale-105">
+                <div className="relative flex flex-col items-center justify-center p-5 rounded-2xl bg-white/5 border border-white/10 transition-[background-color,border-color,transform] duration-200 group-hover:bg-white/10 group-hover:border-cyan-500/30 group-hover:-translate-y-1">
                 {/* App Icon */}
                 <div className="relative w-16 h-16 mb-3 flex items-center justify-center">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                    <Image
                     src={app.icon}
                     alt={`${app.name} - IPTV SMARTERS PRO compatible`}
-                    width={64}
-                    height={64}
+                    width={56}
+                    height={56}
                     className="w-14 h-14 object-contain drop-shadow-[0_0_8px_rgba(6,182,212,0.3)]"
                     loading="lazy"
                   />

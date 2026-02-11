@@ -82,12 +82,6 @@ export function middleware(request: NextRequest) {
   // ── Performance headers for all pages ──
   response.headers.set('X-DNS-Prefetch-Control', 'on');
   response.headers.set('X-Content-Type-Options', 'nosniff');
-  
-  // Enable early hints for faster resource loading
-  response.headers.set('Link', [
-    '<https://fonts.gstatic.com>; rel=preconnect; crossorigin',
-    '<https://slelguoygbfzlpylpxfs.supabase.co>; rel=preconnect; crossorigin',
-  ].join(', '));
 
   return response;
 }

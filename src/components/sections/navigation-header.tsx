@@ -36,9 +36,9 @@ const NavigationHeader = () => {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-[1000] transition-all duration-500 ${
+      <header className={`fixed top-0 left-0 right-0 z-[1000] transition-[background-color,border-color,box-shadow] duration-300 ${
         scrolled 
-          ? 'bg-black/95 backdrop-blur-xl border-b border-cyan-500/20 shadow-[0_0_30px_rgba(6,182,212,0.1)]' 
+          ? 'bg-black/95 backdrop-blur-sm border-b border-cyan-500/20 shadow-[0_0_30px_rgba(6,182,212,0.1)]' 
           : 'bg-transparent'
       }`}>
         <div className="max-w-7xl mx-auto flex h-20 items-center justify-between px-6">
@@ -73,11 +73,11 @@ const NavigationHeader = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className="relative px-5 py-2.5 text-sm font-medium text-white/70 hover:text-white transition-all duration-300 group"
+                className="relative px-5 py-2.5 text-sm font-medium text-white/70 hover:text-white transition-colors duration-200 group"
               >
                 <span className="relative z-10">{link.label}</span>
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity scale-90 group-hover:scale-100" />
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:w-1/2 transition-all duration-300" />
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:w-1/2 transition-[width] duration-200" />
               </Link>
             ))}
             
@@ -88,22 +88,22 @@ const NavigationHeader = () => {
               onMouseLeave={() => setMenuDropdownOpen(false)}
             >
               <button
-                className="relative px-5 py-2.5 text-sm font-medium text-white/70 hover:text-white transition-all duration-300 group flex items-center gap-1"
+                className="relative px-5 py-2.5 text-sm font-medium text-white/70 hover:text-white transition-colors duration-200 group flex items-center gap-1"
               >
                 <span className="relative z-10">Menu</span>
-                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${menuDropdownOpen ? 'rotate-180' : ''}`} />
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity scale-90 group-hover:scale-100" />
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:w-1/2 transition-all duration-300" />
+                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${menuDropdownOpen ? 'rotate-180' : ''}`} />
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:w-1/2 transition-[width] duration-200" />
               </button>
               
               {/* Dropdown */}
-              <div className={`absolute top-full left-0 mt-2 w-56 transition-all duration-300 ${
+              <div className={`absolute top-full left-0 mt-2 w-56 transition-[opacity,transform] duration-200 ${
                 menuDropdownOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'
               }`}>
                 <div className="bg-black/95 backdrop-blur-xl rounded-xl border border-cyan-500/20 shadow-[0_0_30px_rgba(6,182,212,0.2)] overflow-hidden">
                   <Link
                     href="/tutoriels"
-                    className="block px-5 py-3 text-sm font-medium text-white/70 hover:text-white hover:bg-cyan-500/10 transition-all duration-200"
+                    className="block px-5 py-3 text-sm font-medium text-white/70 hover:text-white hover:bg-cyan-500/10 transition-colors duration-200"
                   >
                     Comment l'utiliser
                   </Link>
@@ -118,7 +118,7 @@ const NavigationHeader = () => {
               href="/abonnement-iptv/#pricing"
               className="relative group"
             >
-              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-full blur-md opacity-70 group-hover:opacity-100 transition-opacity animate-pulse" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-full blur-md opacity-70 group-hover:opacity-100 transition-opacity" />
               <div className="relative px-8 py-3 bg-black rounded-full border border-cyan-500/50 group-hover:border-cyan-400 transition-colors">
                 <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">S'abonner</span>
               </div>
@@ -138,12 +138,12 @@ const NavigationHeader = () => {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 z-[999] lg:hidden transition-all duration-500 ${
+        className={`fixed inset-0 z-[999] lg:hidden transition-opacity duration-300 ${
           isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
-        <div className="absolute inset-0 bg-black/95 backdrop-blur-2xl" onClick={closeMenu} />
-        <div className={`absolute top-24 left-4 right-4 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 backdrop-blur-xl rounded-3xl border border-cyan-500/20 p-8 transition-all duration-500 ${
+        <div className="absolute inset-0 bg-black/95" onClick={closeMenu} />
+        <div className={`absolute top-24 left-4 right-4 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl border border-cyan-500/20 p-8 transition-[opacity,transform] duration-300 ${
           isOpen ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'
         }`}>
           <nav className="flex flex-col gap-3">
@@ -152,7 +152,7 @@ const NavigationHeader = () => {
                 key={link.href}
                 href={link.href}
                 onClick={closeMenu}
-                className="px-5 py-4 rounded-xl text-white/80 hover:text-white hover:bg-white/5 border border-transparent hover:border-cyan-500/20 transition-all duration-300 font-medium"
+                className="px-5 py-4 rounded-xl text-white/80 hover:text-white hover:bg-white/5 border border-transparent hover:border-cyan-500/20 transition-colors duration-200 font-medium"
               >
                 {link.label}
               </Link>
@@ -162,7 +162,7 @@ const NavigationHeader = () => {
             <Link
               href="/tutoriels"
               onClick={closeMenu}
-              className="px-5 py-4 rounded-xl text-white/80 hover:text-white hover:bg-white/5 border border-transparent hover:border-cyan-500/20 transition-all duration-300 font-medium"
+              className="px-5 py-4 rounded-xl text-white/80 hover:text-white hover:bg-white/5 border border-transparent hover:border-cyan-500/20 transition-colors duration-200 font-medium"
             >
               Comment l'utiliser
             </Link>
