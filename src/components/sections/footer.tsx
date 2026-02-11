@@ -77,14 +77,14 @@ const Footer = () => {
               </div>
               <div>
                 <span className="font-black text-xl text-white">IPTV SMARTERS PRO</span>
-                <span className="block text-[10px] text-white/40 uppercase tracking-widest">Officiel IPTV</span>
+                <span className="block text-[10px] text-white/70 uppercase tracking-widest">Officiel IPTV</span>
               </div>
             </div>
             <p className="text-white/50 text-sm leading-relaxed max-w-md mb-6">
               IPTV SMARTERS PRO est l'un des principaux fournisseurs mondiaux de technologies de l'information et de la communication de nouvelle génération. Notre mission est de fournir le meilleur service de streaming à nos clients.
             </p>
             <div className="flex items-center gap-4">
-              <a href="mailto:support@example.com" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors text-sm">
+              <a href="mailto:support@example.com" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors text-sm underline underline-offset-2">
                 <Mail className="w-4 h-4" />
                 support@example.com
               </a>
@@ -139,7 +139,7 @@ const Footer = () => {
 
         {/* Bottom Section with DMCA Badge and Payment Icons */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
-          <p className="text-white/30 text-sm">
+          <p className="text-white/70 text-sm">
             Copyright 2026 © All Rights are Reserved
           </p>
           
@@ -164,10 +164,10 @@ const Footer = () => {
               </div>
             </a>
             
-            <Link href="/privacy-policy" className="text-white/30 hover:text-white/60 text-sm transition-colors">
+            <Link href="/privacy-policy" className="text-white/70 hover:text-white text-sm transition-colors underline underline-offset-2">
               Confidentialité
             </Link>
-            <Link href="/terms-of-use" className="text-white/30 hover:text-white/60 text-sm transition-colors">
+            <Link href="/terms-of-use" className="text-white/70 hover:text-white text-sm transition-colors underline underline-offset-2">
               Conditions
             </Link>
           </div>
@@ -235,8 +235,8 @@ const Footer = () => {
               <h4 className="text-white/80 font-bold text-sm mb-2 flex items-center gap-2">
                 DMCA Compliance & Copyright Protection
               </h4>
-              <p className="text-white/40 text-xs leading-relaxed">
-                <strong className="text-white/60">Important Notice:</strong> We are fully compliant with DMCA regulations. We do not host, upload, or store any video content on our servers. All content is provided by independent third-party sources. This website functions solely as a search engine and content aggregator. We respect intellectual property rights and will promptly respond to valid DMCA takedown requests.
+              <p className="text-white/70 text-xs leading-relaxed">
+                <strong className="text-white">Important Notice:</strong> We are fully compliant with DMCA regulations. We do not host, upload, or store any video content on our servers. All content is provided by independent third-party sources. This website functions solely as a search engine and content aggregator. We respect intellectual property rights and will promptly respond to valid DMCA takedown requests.
                 <br /><br />
                 If you believe your copyrighted material has been indexed or linked without authorization, please submit a formal DMCA notice to{" "}
                 <a href="mailto:support@example.com" className="text-cyan-400 hover:text-cyan-300 underline font-semibold">

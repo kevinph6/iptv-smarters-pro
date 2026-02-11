@@ -16,7 +16,7 @@ export default function SeoContentSection() {
           </p>
           
           <p>
-            Notre <Link href="/chaines" className="text-cyan-400 hover:text-purple-400 transition-colors">liste de chaines IPTV</Link> couvre 
+            Notre <Link href="/chaines" className="text-cyan-400 hover:text-purple-400 transition-colors underline underline-offset-2">liste de chaines IPTV</Link> couvre 
             toutes les chaines francaises populaires comme TF1, France 2, M6, Canal+, ainsi que les chaines sportives comme beIN Sports, RMC Sport et Eurosport. 
             Que vous souhaitiez regarder le football, le cinema, les documentaires ou les programmes pour enfants, 
             notre abonnement IPTV premium couvre tous vos besoins.
@@ -25,20 +25,20 @@ export default function SeoContentSection() {
           <p>
             L&apos;activation de votre <strong className="text-white">abonnement IPTV</strong> est instantanee et prend maximum 5 minutes. 
             Notre equipe de support est disponible 24h/24 et 7j/7 par email et WhatsApp pour vous accompagner dans la 
-            <Link href="/tutoriels" className="text-cyan-400 hover:text-purple-400 transition-colors"> configuration sur tous vos appareils</Link> : 
+            <Link href="/tutoriels" className="text-cyan-400 hover:text-purple-400 transition-colors underline underline-offset-2"> configuration sur tous vos appareils</Link> : 
             Smart TV Samsung et LG, Android TV, Apple TV, Amazon Fire TV Stick, iPhone, iPad, smartphones Android, PC Windows, Mac et bien plus encore.
           </p>
           
           <p>
             Nos serveurs europeens dedies avec connexion 20 Gbps garantissent une stabilite optimale avec une ouverture des chaines 
-            en moins de 0,5 seconde. Nous proposons des <Link href="/abonnement-iptv/#pricing" className="text-cyan-400 hover:text-purple-400 transition-colors">abonnements IPTV</Link> flexibles 
+            en moins de 0,5 seconde. Nous proposons des <Link href="/abonnement-iptv/#pricing" className="text-cyan-400 hover:text-purple-400 transition-colors underline underline-offset-2">abonnements IPTV</Link> flexibles 
             allant de 3 mois a 24 mois, avec des offres speciales incluant des mois gratuits supplementaires. 
             Choisissez entre notre pack standard HD ou notre <strong className="text-white">pack Premium 4K</strong> pour la meilleure experience visuelle possible.
           </p>
           
           <p>
             Rejoignez plus de 50 000 clients satisfaits en France qui font confiance a IPTV Smarters Pro pour leur divertissement quotidien. 
-            Consultez notre <Link href="/blog" className="text-cyan-400 hover:text-purple-400 transition-colors">blog IPTV</Link> pour des guides, 
+            Consultez notre <Link href="/blog" className="text-cyan-400 hover:text-purple-400 transition-colors underline underline-offset-2">blog IPTV</Link> pour des guides, 
             tutoriels et les dernieres actualites sur le streaming IPTV en France.
           </p>
         </div>

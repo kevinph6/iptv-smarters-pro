@@ -62,7 +62,7 @@ const DiscountBanner = () => {
               </span>
               <div className="h-8 md:h-10 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent" />
               <div className="flex flex-col">
-                <span className="text-[9px] md:text-xs text-white/40 font-medium italic leading-none">Officiel</span>
+                <span className="text-[9px] md:text-xs text-white/70 font-medium italic leading-none">Officiel</span>
                 <span className="text-lg sm:text-xl md:text-3xl font-black text-white tracking-tight leading-none">
                   IPTV SMARTERS <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">PRO</span>
                 </span>
@@ -71,7 +71,7 @@ const DiscountBanner = () => {
 
             {/* Countdown row */}
             <div className="flex items-center gap-2 md:gap-3">
-              <span className="text-[9px] md:text-[11px] text-white/40 font-semibold uppercase tracking-wider hidden sm:inline">
+              <span className="text-[9px] md:text-[11px] text-white/70 font-semibold uppercase tracking-wider hidden sm:inline">
                 Expire dans
               </span>
               <div className="flex gap-1">
@@ -85,8 +85,8 @@ const DiscountBanner = () => {
                     <span className="bg-white/10 rounded px-1 md:px-1.5 py-0.5 text-[11px] md:text-sm font-black text-white tabular-nums">
                       {t.v.toString().padStart(2, '0')}
                     </span>
-                    <span className="text-[8px] md:text-[10px] text-white/30 font-bold">{t.l}</span>
-                    {i < 3 && <span className="text-white/15 mx-0.5 text-[10px]">:</span>}
+                    <span className="text-[8px] md:text-[10px] text-white/70 font-bold">{t.l}</span>
+                    {i < 3 && <span className="text-white/50 mx-0.5 text-[10px]">:</span>}
                   </div>
                 ))}
               </div>
@@ -120,7 +120,7 @@ const DiscountBanner = () => {
         </div>
       </div>
 
-      <p className="text-white/15 text-[10px] text-center mt-3">
+      <p className="text-white/60 text-[10px] text-center mt-3">
         IPTV SMARTERS PRO • Abonnement iptv • Meilleur service IPTV France
       </p>
     </div>

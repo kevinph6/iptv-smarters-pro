@@ -1,10 +1,5 @@
-import dynamic from 'next/dynamic';
 import { ArrowRight, Play, Globe, Clock, Headphones } from 'lucide-react';
-
-// Lazy-load the countdown timer (client component) - not needed for initial paint
-const DiscountBanner = dynamic(() => import('./discount-banner'), {
-  loading: () => <div className="max-w-5xl mx-auto h-32 bg-white/5 rounded-2xl" />,
-});
+import DiscountBanner from './discount-banner';
 
 const HeroSection = () => {
   return (
@@ -56,7 +51,7 @@ const HeroSection = () => {
           </p>
           
           {/* SEO Keywords under hero text */}
-          <p className="text-white/20 text-xs mb-8">
+          <p className="text-white/60 text-xs mb-8">
             IPTV SMARTERS PRO • Abonnement iptv France • IPTV SMARTERS PRO Premium • Abonnement iptv 4K • IPTV SMARTERS PRO Fiable
           </p>
 
