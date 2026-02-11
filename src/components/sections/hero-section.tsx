@@ -26,7 +26,7 @@ const HeroSection = () => {
 
         {/* Main Content */}
         <div className="text-center max-w-5xl mx-auto mb-16">
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-8">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-8 font-sans">
             <span className="block">IPTV Smarters Pro</span>
             <span className="relative inline-block">
               <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
