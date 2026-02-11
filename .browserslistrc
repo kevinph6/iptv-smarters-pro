@@ -1,7 +1,8 @@
-# Target modern browsers only to reduce legacy polyfills (PageSpeed legacy JS)
-last 2 Chrome versions
-last 2 Firefox versions
-last 2 Safari versions
-last 2 Edge versions
+# Target very modern browsers to avoid polyfills (Array.at, Object.hasOwn, etc. = ~11 KiB savings)
+# These versions support all Baseline 2023+ features without polyfills
+Chrome >= 92
+Firefox >= 90
+Safari >= 15.4
+Edge >= 92
 not dead
 not IE 11

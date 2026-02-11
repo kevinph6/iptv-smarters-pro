@@ -40,6 +40,8 @@ const nextConfig: NextConfig = {
 
   // ── Experimental Performance Features ──
   experimental: {
+    // Inline CSS into HTML to eliminate render-blocking link requests (~550ms savings on mobile)
+    inlineCss: true,
     // Enable optimized package imports to tree-shake heavy libraries
     optimizePackageImports: [
       'lucide-react',
