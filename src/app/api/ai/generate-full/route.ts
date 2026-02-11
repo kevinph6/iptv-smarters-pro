@@ -9,10 +9,23 @@ export const maxDuration = 60;
 
 const editorRoles = new Set(['admin', 'dev', 'writer']);
 
-// SEO keywords baked in
 const PRIMARY_KEYWORDS = [
   'iptv', 'abonnement iptv', 'iptv smarters pro', 'iptv france',
   'iptv premium', 'iptv 4k', 'meilleur iptv', 'iptv pas cher',
+];
+
+// Themed IPTV images for blog posts (fallback)
+const THEMED_IMAGES = [
+  'https://images.unsplash.com/photo-1593784991095-a205069470b6?w=1200&h=630&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=1200&h=630&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=1200&h=630&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1461151304267-38535e780c79?w=1200&h=630&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1588508065123-287b28e013da?w=1200&h=630&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1200&h=630&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1586210579191-33b45e38fa2c?w=1200&h=630&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&h=630&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1567690187548-f07b1d7bf5a9?w=1200&h=630&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1578269174936-2709b6aeb913?w=1200&h=630&fit=crop&q=80',
 ];
 
 async function requireEditor(request: NextRequest) {
@@ -51,6 +64,16 @@ function getModelId(model: string): string {
     case 'gpt': return 'openai/gpt-4o';
     default: return 'anthropic/claude-sonnet-4';
   }
+}
+
+function getThemedImage(topic: string): string {
+  // Use a hash of the topic to pick a consistent image
+  let hash = 0;
+  for (let i = 0; i < topic.length; i++) {
+    hash = ((hash << 5) - hash) + topic.charCodeAt(i);
+    hash |= 0;
+  }
+  return THEMED_IMAGES[Math.abs(hash) % THEMED_IMAGES.length];
 }
 
 async function generateArticle(topic: string, keywords: string, model: string, apiKey: string) {
@@ -113,7 +136,6 @@ FORMAT JSON:
   const data = await response.json();
   const raw = data.choices[0].message.content;
 
-  // Parse JSON robustly
   try {
     return { ...JSON.parse(raw), modelUsed: modelId };
   } catch {
@@ -123,6 +145,56 @@ FORMAT JSON:
     const end = raw.lastIndexOf('}');
     if (start !== -1 && end !== -1) return { ...JSON.parse(raw.slice(start, end + 1)), modelUsed: modelId };
     throw new Error('Could not parse AI response');
+  }
+}
+
+async function generateImage(topic: string, apiKey: string): Promise<string | null> {
+  try {
+    const prompt = `Generate a professional, modern featured image for a blog article about "${topic}" in the IPTV and streaming industry. Clean design, modern tech aesthetic with purple/cyan/blue gradients. No text. 16:9 aspect ratio.`;
+
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+        'HTTP-Referer': 'https://officieliptvsmarterspro.fr',
+        'X-Title': 'IPTV Blog Image Generator',
+      },
+      body: JSON.stringify({
+        model: 'google/gemini-2.5-flash-preview:thinking',
+        max_tokens: 2048,
+        messages: [{ role: 'user', content: prompt }],
+      }),
+    });
+
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    const message = data.choices?.[0]?.message;
+    if (!message) return null;
+
+    // Check various response formats for image URL
+    if (message.images?.length > 0) {
+      const img = message.images[0];
+      if (!img.startsWith('data:')) return img; // Return URL directly
+    }
+
+    if (Array.isArray(message.content)) {
+      for (const part of message.content) {
+        if (part.type === 'image_url' && part.image_url?.url && !part.image_url.url.startsWith('data:')) {
+          return part.image_url.url;
+        }
+      }
+    }
+
+    if (typeof message.content === 'string' && message.content.startsWith('http')) {
+      return message.content;
+    }
+
+    return null;
+  } catch (error) {
+    console.error('[IMAGE GEN] Error:', error);
+    return null;
   }
 }
 
@@ -148,12 +220,24 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'OpenRouter API key not configured' }, { status: 500 });
     }
 
-    // Step 1: Generate article directly via OpenRouter
-    console.log(`[FULL GEN] Generating article for "${topic}" with model: ${model}...`);
+    // Step 1: Generate article via OpenRouter (Claude)
+    console.log(`[FULL GEN] Generating article for "${topic}"...`);
     const articleData = await generateArticle(topic, keywords, model, apiKey);
-    console.log(`[FULL GEN] Article generated: "${articleData.title}"`);
+    console.log(`[FULL GEN] Article: "${articleData.title}"`);
 
-    // Step 2: Save to database (skip image gen on Vercel to avoid timeout)
+    // Step 2: Try to generate image with Gemini, fallback to themed stock image
+    console.log(`[FULL GEN] Generating image...`);
+    let featuredImageUrl = await generateImage(articleData.title || topic, apiKey);
+    
+    if (!featuredImageUrl) {
+      // Use a themed stock image as fallback
+      featuredImageUrl = getThemedImage(articleData.title || topic);
+      console.log(`[FULL GEN] Using themed stock image: ${featuredImageUrl}`);
+    } else {
+      console.log(`[FULL GEN] AI image generated: ${featuredImageUrl}`);
+    }
+
+    // Step 3: Save to database
     const baseSlug = generateSlug(articleData.title || topic);
     const slug = await ensureUniqueSlug(baseSlug);
     const now = new Date().toISOString();
@@ -166,13 +250,13 @@ export async function POST(request: NextRequest) {
       content: articleData.content,
       author,
       category,
-      featuredImageUrl: null,
+      featuredImageUrl,
       published: autoPublish,
       createdAt: now,
       updatedAt: now,
     });
 
-    console.log(`[FULL GEN] Saved: /blog/${slug} (published: ${autoPublish})`);
+    console.log(`[FULL GEN] Saved: /blog/${slug}`);
 
     return NextResponse.json({
       success: true,
@@ -183,7 +267,7 @@ export async function POST(request: NextRequest) {
         metaDescription: articleData.metaDescription,
         category,
         author,
-        featuredImageUrl: null,
+        featuredImageUrl,
         published: autoPublish,
         suggestedKeywords: articleData.suggestedKeywords,
         modelUsed: articleData.modelUsed,
