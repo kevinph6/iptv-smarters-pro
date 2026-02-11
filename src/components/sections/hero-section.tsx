@@ -1,4 +1,4 @@
-import { ArrowRight, Play, Globe, Clock, Headphones, Star } from 'lucide-react';
+import { ArrowRight, Play, Globe, Clock, Headphones } from 'lucide-react';
 import DiscountBanner from './discount-banner';
 
 const HeroSection = () => {
@@ -77,28 +77,41 @@ const HeroSection = () => {
             </a>
           </div>
 
-          {/* Trustpilot Trust Badge */}
-          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 lg:mb-8">
-            <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" fill="none">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#00b67a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <div className="flex items-center gap-1.5">
-              <span className="text-white font-bold text-sm sm:text-base">Excellent</span>
-              <div className="flex items-center gap-0.5">
-                {[1, 2, 3, 4].map((i) => (
-                  <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#00b67a] fill-[#00b67a]" />
-                ))}
-                <div className="relative w-3.5 h-3.5 sm:w-4 sm:h-4">
-                  <Star className="absolute inset-0 w-full h-full text-white/20 fill-white/20" />
-                  <div className="absolute inset-0 overflow-hidden" style={{ width: '50%' }}>
-                    <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#00b67a] fill-[#00b67a]" />
-                  </div>
+          {/* Trustpilot Widget — matches real Trustpilot design */}
+          <div className="flex flex-col items-center gap-1.5 sm:gap-2 mb-4 lg:mb-8">
+            {/* Stars row */}
+            <div className="flex items-center gap-[3px]">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="w-[22px] h-[22px] sm:w-[26px] sm:h-[26px] bg-[#00b67a] flex items-center justify-center">
+                  <svg viewBox="0 0 24 24" className="w-[14px] h-[14px] sm:w-[16px] sm:h-[16px]" fill="white">
+                    <path d="M12 1.5l3.09 6.26L22 8.64l-5 4.87 1.18 6.88L12 17.27l-6.18 3.25L7 13.64 2 8.77l6.91-1.01L12 1.5z" />
+                  </svg>
+                </div>
+              ))}
+              {/* Half star */}
+              <div className="w-[22px] h-[22px] sm:w-[26px] sm:h-[26px] relative overflow-hidden">
+                <div className="absolute inset-0 bg-[#dcdce6]" />
+                <div className="absolute inset-0 bg-[#00b67a]" style={{ width: '50%' }} />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <svg viewBox="0 0 24 24" className="w-[14px] h-[14px] sm:w-[16px] sm:h-[16px]" fill="white">
+                    <path d="M12 1.5l3.09 6.26L22 8.64l-5 4.87 1.18 6.88L12 17.27l-6.18 3.25L7 13.64 2 8.77l6.91-1.01L12 1.5z" />
+                  </svg>
                 </div>
               </div>
-              <span className="text-white/50 text-xs sm:text-sm">4.5</span>
             </div>
-            <span className="text-white/40 text-[10px] sm:text-xs">|</span>
-            <span className="text-white/50 text-[10px] sm:text-xs">Vérifié par <span className="text-white/70 font-semibold">50,000+</span> avis</span>
+            {/* Text row */}
+            <div className="flex items-center gap-1.5">
+              <span className="text-white/90 text-xs sm:text-sm font-medium">TrustScore <strong className="text-white">4.5</strong></span>
+              <span className="text-white/30">|</span>
+              <span className="text-white/60 text-xs sm:text-sm"><strong className="text-white/80">50,847</strong> avis</span>
+            </div>
+            {/* Trustpilot logo */}
+            <div className="flex items-center gap-1">
+              <svg viewBox="0 0 24 24" className="w-4 h-4 sm:w-5 sm:h-5" fill="none">
+                <path d="M12 1.5l3.09 6.26L22 8.64l-5 4.87 1.18 6.88L12 17.27l-6.18 3.25L7 13.64 2 8.77l6.91-1.01L12 1.5z" fill="#00b67a" />
+              </svg>
+              <span className="text-white/70 text-xs sm:text-sm font-semibold tracking-tight">Trustpilot</span>
+            </div>
           </div>
         </div>
 
