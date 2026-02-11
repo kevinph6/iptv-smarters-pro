@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export const runtime = 'nodejs';
+export const maxDuration = 60;
+
 // SEO target keywords for IPTV ranking
 const PRIMARY_KEYWORDS = [
   'iptv', 'abonnement iptv', 'iptv smarters pro', 'iptv france',
@@ -42,7 +45,7 @@ export async function POST(req: NextRequest) {
     let modelId: string;
     switch (model) {
       case 'opus':
-        modelId = 'anthropic/claude-sonnet-4';
+        modelId = 'anthropic/claude-opus-4';
         break;
       case 'sonnet':
         modelId = 'anthropic/claude-sonnet-4';

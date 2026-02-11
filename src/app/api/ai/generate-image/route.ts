@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
+
+export const runtime = 'nodejs';
+export const maxDuration = 60;
 import path from 'path';
 import { existsSync } from 'fs';
 
