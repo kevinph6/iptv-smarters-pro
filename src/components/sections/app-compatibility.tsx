@@ -63,7 +63,7 @@ const AppCompatibility = () => {
           <p className="text-white/50 text-lg max-w-2xl mx-auto">
             Vous ne voyez pas votre application? Notre <span className="text-cyan-400">abonnement IPTV SMARTERS PRO</span> est disponible sur d{`'`}autres applications
           </p>
-          <p className="text-white/30 text-sm mt-2">
+          <p className="text-white/70 text-sm mt-2">
             IPTV SMARTERS PRO • Abonnement iptv premium pour toutes les applications IPTV
           </p>
         </div>
@@ -98,10 +98,10 @@ const AppCompatibility = () => {
                 </p>
                 
                 {/* SEO Keywords */}
-                <p className="text-white/20 text-[9px] text-center leading-tight">
+                <p className="text-white/60 text-[9px] text-center leading-tight">
                   IPTV SMARTERS PRO
                 </p>
-                <p className="text-white/20 text-[9px] text-center leading-tight">
+                <p className="text-white/60 text-[9px] text-center leading-tight">
                   Abonnement iptv
                 </p>
               </div>
@@ -114,7 +114,7 @@ const AppCompatibility = () => {
           <p className="text-white/40 text-sm mb-2">
             + Des centaines d{`'`}autres applications compatibles avec IPTV SMARTERS PRO
           </p>
-          <p className="text-white/20 text-xs">
+          <p className="text-white/60 text-xs">
             Abonnement iptv • IPTV SMARTERS PRO • Service IPTV Premium France
           </p>
         </div>

@@ -51,7 +51,7 @@ const QualityFeatures = () => {
           <h2 className="text-3xl md:text-4xl font-black text-white">
             Pourquoi nous <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">choisir</span> ?
           </h2>
-          <p className="text-white/30 text-sm mt-3">
+          <p className="text-white/70 text-sm mt-3">
             IPTV SMARTERS PRO • Abonnement iptv stable • Meilleur IPTV France • Service premium IPTV SMARTERS PRO
           </p>
         </div>
@@ -110,7 +110,7 @@ const QualityFeatures = () => {
         
         {/* Bottom SEO text */}
         <div className="text-center mt-12">
-          <p className="text-white/20 text-xs">
+          <p className="text-white/60 text-xs">
             IPTV SMARTERS PRO • Abonnement iptv • Qualité garantie • Support 24/7 • Activation instantanée
           </p>
         </div>

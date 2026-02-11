@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
+import VisualEditsMessengerDeferred from "../visual-edits/VisualEditsMessengerDeferred";
 import ErrorReporter from "@/components/ErrorReporter";
 import Script from "next/script";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
@@ -379,7 +379,7 @@ export default function RootLayout({
           <ErrorReporter />
           {children}
           <WhatsAppButton />
-          <VisualEditsMessenger />
+          <VisualEditsMessengerDeferred />
         </body>
 
     </html>

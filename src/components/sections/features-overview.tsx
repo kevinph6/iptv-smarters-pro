@@ -90,7 +90,7 @@ const FeaturesOverview = () => {
           <p className="text-white/50 text-lg max-w-3xl mx-auto leading-relaxed">
             Découvrez pourquoi des milliers de clients nous font confiance pour leur <span className="text-cyan-400">abonnement IPTV</span> et divertissement quotidien avec <span className="text-purple-400">SMARTERS PRO</span>
           </p>
-          <p className="text-white/30 text-sm mt-2">
+          <p className="text-white/70 text-sm mt-2">
             IPTV SMARTERS PRO • Abonnement iptv premium France • Service IPTV de qualité
           </p>
         </div>
@@ -154,7 +154,7 @@ const FeaturesOverview = () => {
             <h3 className="text-2xl md:text-3xl font-bold text-white">
               Compatible avec <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">tous vos appareils</span>
             </h3>
-            <p className="text-white/30 text-sm mt-2">
+            <p className="text-white/70 text-sm mt-2">
               IPTV SMARTERS PRO compatible avec tous les appareils • Abonnement iptv universel
             </p>
           </div>
@@ -189,7 +189,7 @@ const FeaturesOverview = () => {
           </div>
           
           <div className="text-center mt-8">
-            <p className="text-white/20 text-xs">
+            <p className="text-white/60 text-xs">
               Abonnement iptv compatible • IPTV SMARTERS PRO • Installation facile sur tous appareils
             </p>
           </div>
