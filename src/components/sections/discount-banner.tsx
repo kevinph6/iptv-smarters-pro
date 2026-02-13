@@ -105,7 +105,7 @@ const DiscountBanner = () => {
       <div className="absolute left-4 top-1/3 -translate-x-1/2 animate-bounce hidden lg:block">
         <div className="px-3 py-2 rounded-xl bg-black/80 backdrop-blur-xl border border-cyan-500/30 shadow-xl">
           <div className="flex items-center gap-2">
-            <Zap className="w-4 h-4 text-cyan-400" />
+            <Zap className="w-4 h-4 text-cyan-400" aria-hidden="true" />
             <span className="text-white font-semibold text-xs">4K Ultra HD</span>
           </div>
         </div>
@@ -114,7 +114,7 @@ const DiscountBanner = () => {
       <div className="absolute right-4 bottom-1/3 translate-x-1/2 animate-bounce delay-500 hidden lg:block">
         <div className="px-3 py-2 rounded-xl bg-black/80 backdrop-blur-xl border border-purple-500/30 shadow-xl">
           <div className="flex items-center gap-2">
-            <Globe className="w-4 h-4 text-purple-400" />
+            <Globe className="w-4 h-4 text-purple-400" aria-hidden="true" />
             <span className="text-white font-semibold text-xs">Multi-écrans</span>
           </div>
         </div>

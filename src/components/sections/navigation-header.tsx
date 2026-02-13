@@ -84,7 +84,7 @@ const NavigationHeader = () => {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-2">
+          <nav className="hidden lg:flex items-center gap-2" aria-label="Navigation principale">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -105,9 +105,11 @@ const NavigationHeader = () => {
             >
               <button
                 className="relative px-5 py-2.5 text-sm font-medium text-white/70 hover:text-white transition-colors duration-200 group flex items-center gap-1"
+                aria-expanded={menuDropdownOpen}
+                aria-haspopup="true"
               >
                 <span className="relative z-10">Menu</span>
-                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${menuDropdownOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${menuDropdownOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:w-1/2 transition-[width] duration-200" />
               </button>
@@ -162,7 +164,7 @@ const NavigationHeader = () => {
         <div className={`absolute top-24 left-4 right-4 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl border border-cyan-500/20 p-8 transition-[opacity,transform] duration-300 ${
           isOpen ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'
         }`}>
-          <nav className="flex flex-col gap-3">
+          <nav className="flex flex-col gap-3" aria-label="Menu de navigation mobile">
             {navLinks.map((link) => (
               <Link
                 key={link.href}

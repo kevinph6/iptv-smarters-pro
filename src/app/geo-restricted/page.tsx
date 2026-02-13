@@ -20,7 +20,7 @@ export default async function GeoRestrictedPage({
   const blockedCountry = params.blocked_country;
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
+    <main id="main" className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
       {/* Header */}
       <header className="border-b border-white/10 bg-black/50 backdrop-blur-sm">
         <div className="container mx-auto flex items-center gap-3 px-6 py-4">

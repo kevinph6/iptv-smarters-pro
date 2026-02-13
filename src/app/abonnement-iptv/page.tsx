@@ -91,7 +91,7 @@ export const metadata: Metadata = {
 
 export default function AbonnementIptvPage() {
   return (
-    <main className="min-h-screen bg-black">
+    <main id="main" className="min-h-screen bg-black">
       <NavigationHeader />
       <HeroSection />
       {/* On mobile: pricing first, then on-demand banner. On desktop: original order preserved via CSS order */}

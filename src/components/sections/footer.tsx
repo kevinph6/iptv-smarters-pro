@@ -44,7 +44,7 @@ const Footer = () => {
             <h3 className="text-3xl md:text-4xl font-black text-white mb-4">
               Prêt à commencer votre <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">expérience TV ultime</span> ?
             </h3>
-            <p className="text-white/50 mb-8 max-w-2xl mx-auto">
+            <p className="text-white/70 mb-8 max-w-2xl mx-auto">
               Rejoignez plus de 50,000 clients satisfaits et profitez de plus de 160,000 chaînes en qualité 4K
             </p>
             <Link
@@ -82,7 +82,7 @@ const Footer = () => {
                 <span className="block text-[10px] text-white/70 uppercase tracking-widest">Officiel IPTV</span>
               </div>
             </div>
-            <p className="text-white/50 text-sm leading-relaxed max-w-md mb-6">
+            <p className="text-white/70 text-sm leading-relaxed max-w-md mb-6">
               IPTV SMARTERS PRO est l'un des principaux fournisseurs mondiaux de technologies de l'information et de la communication de nouvelle génération. Notre mission est de fournir le meilleur service de streaming à nos clients.
             </p>
             <div className="flex items-center gap-4">
@@ -104,7 +104,7 @@ const Footer = () => {
                 <li key={link.text}>
                   <Link
                     href={link.href}
-                    className="group flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm"
+                    className="group flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm"
                   >
                     <div className="w-1.5 h-1.5 rounded-full bg-cyan-500/50 group-hover:bg-cyan-500 transition-colors" />
                     {link.text}
@@ -125,7 +125,7 @@ const Footer = () => {
                 <li key={link.text}>
                   <Link
                     href={link.href}
-                    className="group flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm"
+                    className="group flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm"
                   >
                     <ExternalLink className="w-3.5 h-3.5 text-purple-500/50 group-hover:text-purple-500 transition-colors" />
                     {link.text}

@@ -241,7 +241,7 @@ export default async function ProductPage({ params }: Props) {
   };
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white selection:bg-white/20 overflow-x-hidden">
+    <main id="main" className="min-h-screen bg-[#050505] text-white selection:bg-white/20 overflow-x-hidden">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
       
       {/* Sleek Header */}

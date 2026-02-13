@@ -335,6 +335,10 @@ export default function RootLayout({
         {/* Hreflang should be page-specific; avoid emitting site-wide alternates to the home URL. */}
       </head>
         <body className={`${inter.className} antialiased`}>
+          {/* Skip to main content — accessibility requirement */}
+          <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:z-[9999] focus:top-4 focus:left-4 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:font-bold focus:text-sm">
+            Aller au contenu principal
+          </a>
           {GA_ID && (
             <>
               <Script

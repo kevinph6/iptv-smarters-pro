@@ -43,7 +43,7 @@ const ComparisonSection = () => {
                 <div className="w-3 h-3 rounded-full bg-green-500" />
               </div>
               <div className="flex-1 text-center">
-                <span className="text-white/40 text-sm font-medium">Démonstration vidéo</span>
+                <span className="text-white/60 text-sm font-medium">Démonstration vidéo</span>
               </div>
             </div>
             
@@ -54,6 +54,7 @@ const ComparisonSection = () => {
                 controls
                 poster="/og-image.jpg"
                 preload="none"
+                title="Démonstration comparaison packs IPTV Smarters Pro"
               >
                 {/* Video src removed: previous URL returned 404. Add a valid demo video URL when available. */}
                 Votre navigateur ne prend pas en charge la balise vidéo.
@@ -73,11 +74,11 @@ const ComparisonSection = () => {
         <div className="grid grid-cols-2 gap-4 mt-8">
           <div className="p-6 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 text-center">
             <p className="text-cyan-400 font-bold text-lg mb-1">IPTV Standard</p>
-            <p className="text-white/50 text-sm">120K+ chaînes • HD/FHD</p>
+            <p className="text-white/70 text-sm">120K+ chaînes • HD/FHD</p>
           </div>
           <div className="p-6 rounded-2xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20 text-center">
             <p className="text-purple-400 font-bold text-lg mb-1">IPTV Premium</p>
-            <p className="text-white/50 text-sm">120K+ chaînes • 4K/FHD + Contenu exclusif</p>
+            <p className="text-white/70 text-sm">120K+ chaînes • 4K/FHD + Contenu exclusif</p>
           </div>
         </div>
       </div>

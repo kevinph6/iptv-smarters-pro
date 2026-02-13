@@ -257,7 +257,7 @@ export default function CheckoutPage({ params }: Props) {
   };
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white selection:bg-white/20">
+    <main id="main" className="min-h-screen bg-[#050505] text-white selection:bg-white/20">
       {/* Secure Header */}
       <nav className="bg-black/80 backdrop-blur-xl border-b border-white/5 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">

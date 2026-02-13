@@ -814,7 +814,7 @@ export default async function TutorialPage({ params }: { params: Promise<{ slug:
 
   if (!tutorial) {
     return (
-      <main className="min-h-screen bg-black">
+      <main id="main" className="min-h-screen bg-black">
         <NavigationHeader />
         <div className="pt-32 pb-20 px-6 text-center">
           <h1 className="text-4xl font-black text-white mb-4">Tutoriel non trouvé</h1>
@@ -890,7 +890,7 @@ export default async function TutorialPage({ params }: { params: Promise<{ slug:
   };
 
   return (
-    <main className="min-h-screen bg-black">
+    <main id="main" className="min-h-screen bg-black">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />

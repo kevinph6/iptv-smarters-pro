@@ -263,7 +263,7 @@ function ChannelsSchema() {
 
 export default function ChannelsPage() {
   return (
-    <main className="min-h-screen bg-black">
+    <main id="main" className="min-h-screen bg-black">
       <ChannelsSchema />
       <NavigationHeader />
       <div className="pt-20"><BreadcrumbNav items={[{ label: 'Chaines IPTV' }]} /></div>

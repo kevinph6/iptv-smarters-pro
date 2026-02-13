@@ -25,7 +25,7 @@ interface OrderStatus {
 export default function CheckoutSuccessPage() {
   return (
     <Suspense fallback={
-      <main className="min-h-screen bg-black flex items-center justify-center px-4">
+      <main id="main" className="min-h-screen bg-black flex items-center justify-center px-4">
         <div className="max-w-md w-full text-center">
           <div className="w-24 h-24 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto flex items-center justify-center animate-pulse">
             <Loader2 className="w-12 h-12 text-white animate-spin" />
@@ -126,7 +126,7 @@ function CheckoutSuccessContent() {
 
   if (error) {
     return (
-      <main className="min-h-screen bg-black flex items-center justify-center px-4">
+      <main id="main" className="min-h-screen bg-black flex items-center justify-center px-4">
         <div className="max-w-md w-full text-center">
           <AlertTriangle className="w-16 h-16 text-yellow-400 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-white mb-2">Oops!</h1>
@@ -146,7 +146,7 @@ function CheckoutSuccessContent() {
   // Still loading / polling
   if (loading && (!order || order.status === 'pending' || order.status === 'paid')) {
     return (
-      <main className="min-h-screen bg-black flex items-center justify-center px-4">
+      <main id="main" className="min-h-screen bg-black flex items-center justify-center px-4">
         <div className="max-w-md w-full text-center">
           <div className="relative mb-8">
             <div className="w-24 h-24 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto flex items-center justify-center animate-pulse">
@@ -178,7 +178,7 @@ function CheckoutSuccessContent() {
   // Order provisioned - show credentials
   if (order?.status === 'provisioned' && order.credentials) {
     return (
-      <main className="min-h-screen bg-black py-12 px-4">
+      <main id="main" className="min-h-screen bg-black py-12 px-4">
         <div className="max-w-2xl mx-auto">
           {/* Success Header */}
           <div className="text-center mb-8">
@@ -296,7 +296,7 @@ function CheckoutSuccessContent() {
 
   // Order failed or unknown status
   return (
-    <main className="min-h-screen bg-black flex items-center justify-center px-4">
+    <main id="main" className="min-h-screen bg-black flex items-center justify-center px-4">
       <div className="max-w-md w-full text-center">
         <AlertTriangle className="w-16 h-16 text-yellow-400 mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-white mb-2">

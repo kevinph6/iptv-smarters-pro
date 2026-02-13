@@ -350,7 +350,7 @@ export default async function ProgrammaticPage({ params }: { params: Promise<{ s
   return (
     <>
       <NavigationHeader />
-      <main className="bg-black min-h-screen">
+      <main id="main" className="bg-black min-h-screen">
         {/* JSON-LD */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 

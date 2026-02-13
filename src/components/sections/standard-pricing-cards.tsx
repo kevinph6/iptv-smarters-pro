@@ -236,25 +236,27 @@ const StandardPricingCards = () => {
 
               <button
                 onClick={() => switchTier("premium")}
+                aria-pressed={activeTier === "premium"}
                 className={`relative z-10 flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm sm:text-base font-bold transition-colors duration-300 ${
                   activeTier === "premium"
                     ? "text-white"
-                    : "text-white/50 hover:text-white/70"
+                    : "text-white/70 hover:text-white/80"
                 }`}
               >
-                <Crown className="w-4 h-4" />
+                <Crown className="w-4 h-4" aria-hidden="true" />
                 <span>Premium 4K</span>
               </button>
 
               <button
                 onClick={() => switchTier("standard")}
+                aria-pressed={activeTier === "standard"}
                 className={`relative z-10 flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm sm:text-base font-bold transition-colors duration-300 ${
                   activeTier === "standard"
                     ? "text-white"
-                    : "text-white/50 hover:text-white/70"
+                    : "text-white/70 hover:text-white/80"
                 }`}
               >
-                <Sparkles className="w-4 h-4" />
+                <Sparkles className="w-4 h-4" aria-hidden="true" />
                 <span>IPTV HD</span>
               </button>
             </div>
@@ -313,7 +315,7 @@ const StandardPricingCards = () => {
                         </div>
                         <div className="text-right">
                           <div className="flex items-start">
-                            <span className="text-sm text-white/60 mt-1">&euro;</span>
+                            <span className="text-sm text-white/70 mt-1">&euro;</span>
                             <span className={`text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r ${plan.gradient}`}>
                               {plan.price}
                             </span>
@@ -389,13 +391,13 @@ const StandardPricingCards = () => {
                     <div className="px-6 pb-6">
                       <div className="relative p-6 rounded-2xl bg-black/30 border border-white/5 text-center">
                         <div className="flex items-start justify-center gap-1">
-                          <span className="text-2xl font-bold text-white/60 mt-2">&euro;</span>
+                          <span className="text-2xl font-bold text-white/70 mt-2">&euro;</span>
                           <span className={`text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r ${plan.gradient}`}>
                             {plan.price}
                           </span>
-                          <span className="text-xl text-white/40 mt-2">.{plan.cents}</span>
+                          <span className="text-xl text-white/60 mt-2">.{plan.cents}</span>
                         </div>
-                        <p className="text-white/50 text-sm mt-2 font-medium">paiement unique</p>
+                        <p className="text-white/70 text-sm mt-2 font-medium">paiement unique</p>
 
                         {plan.bonus && (
                           <div className="mt-4 flex justify-center">

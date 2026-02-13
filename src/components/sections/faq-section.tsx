@@ -65,7 +65,7 @@ const FaqSection = () => {
           <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
             Questions <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Fréquentes</span>
           </h2>
-          <p className="text-white/50 text-lg">
+          <p className="text-white/70 text-lg">
             Tout ce que vous devez savoir sur IPTV Smarters Pro
           </p>
         </div>
@@ -86,6 +86,8 @@ const FaqSection = () => {
                 <button
                   onClick={() => toggleFaq(index)}
                   className="w-full flex items-center justify-between p-6 text-left"
+                  aria-expanded={openIndex === index}
+                  aria-controls={`faq-answer-${index}`}
                 >
                   <span className={`font-semibold text-lg pr-4 transition-colors ${
                     openIndex === index ? 'text-white' : 'text-white/80'
@@ -99,17 +101,21 @@ const FaqSection = () => {
                   }`}>
                     <ChevronDown className={`w-5 h-5 transition-colors ${
                       openIndex === index ? 'text-white' : 'text-white/60'
-                    }`} />
+                    }`} aria-hidden="true" />
                   </div>
                 </button>
 
                 {/* Answer Content */}
-                <div className={`overflow-hidden transition-all duration-300 ${
+                <div
+                  id={`faq-answer-${index}`}
+                  role="region"
+                  aria-labelledby={`faq-question-${index}`}
+                  className={`overflow-hidden transition-all duration-300 ${
                   openIndex === index ? 'max-h-96' : 'max-h-0'
                 }`}>
                   <div className="px-6 pb-6">
                     <div className="h-px bg-gradient-to-r from-purple-500/30 to-pink-500/30 mb-4" />
-                    <p className="text-white/60 leading-relaxed">
+                    <p className="text-white/70 leading-relaxed">
                       {item.answer}
                     </p>
                   </div>

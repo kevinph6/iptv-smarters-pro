@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 
 export default function RefundPolicyPage() {
   return (
-    <main className="min-h-screen bg-black">
+    <main id="main" className="min-h-screen bg-black">
       <NavigationHeader />
       <div className="pt-20"><BreadcrumbNav items={[{ label: 'Politique de Remboursement' }]} /></div>
       

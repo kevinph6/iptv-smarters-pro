@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function TestCheckoutPage() {
   return (
-    <main className="min-h-screen bg-black flex items-center justify-center px-4">
+    <main id="main" className="min-h-screen bg-black flex items-center justify-center px-4">
       <div className="max-w-md w-full">
         <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
           <div className="w-16 h-16 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 mx-auto flex items-center justify-center mb-6">
