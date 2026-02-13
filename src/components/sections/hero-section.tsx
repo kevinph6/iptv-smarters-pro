@@ -1,5 +1,35 @@
-import { ArrowRight, Play, Globe, Clock, Headphones } from 'lucide-react';
-import DiscountBanner from './discount-banner';
+import dynamic from 'next/dynamic';
+
+// Lazy load the client-side DiscountBanner (below fold on mobile, has timer interval)
+const DiscountBanner = dynamic(() => import('./discount-banner'), {
+  loading: () => <div className="max-w-5xl mx-auto h-32 rounded-2xl bg-white/5" />,
+});
+
+// ── Inline SVG icons to avoid importing lucide-react for above-the-fold content ──
+const ArrowRightIcon = () => (
+  <svg className="relative w-5 h-5 text-white group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+);
+const PlayIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+);
+const GlobeIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+);
+const ClockIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+);
+const HeadphonesIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg>
+);
+
+const starPath = "M12 1.5l3.09 6.26L22 8.64l-5 4.87 1.18 6.88L12 17.27l-6.18 3.25L7 13.64 2 8.77l6.91-1.01L12 1.5z";
+
+const stats = [
+  { Icon: GlobeIcon, value: "160K+", label: "Chaînes", color: "cyan" },
+  { Icon: PlayIcon, value: "20K+", label: "Films & Séries", color: "purple" },
+  { Icon: ClockIcon, value: "Instant", label: "Activation", color: "pink" },
+  { Icon: HeadphonesIcon, value: "24/7", label: "Support", color: "emerald" },
+] as const;
 
 const HeroSection = () => {
   return (
@@ -33,9 +63,9 @@ const HeroSection = () => {
                 Meilleur Abonnement IPTV France
               </span>
               <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none">
-                <path d="M2 10C50 4 100 2 150 6C200 10 250 4 298 8" stroke="url(#gradient)" strokeWidth="3" strokeLinecap="round" />
+                <path d="M2 10C50 4 100 2 150 6C200 10 250 4 298 8" stroke="url(#hero-grad)" strokeWidth="3" strokeLinecap="round" />
                 <defs>
-                  <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <linearGradient id="hero-grad" x1="0%" y1="0%" x2="100%" y2="0%">
                     <stop offset="0%" stopColor="#06b6d4" />
                     <stop offset="50%" stopColor="#a855f7" />
                     <stop offset="100%" stopColor="#ec4899" />
@@ -45,7 +75,7 @@ const HeroSection = () => {
             </span>
           </h1>
 
-          {/* Short mobile paragraph */}
+          {/* Short mobile paragraph — THIS IS THE LCP ELEMENT */}
           <p className="sm:hidden text-base text-white/60 leading-relaxed max-w-md mx-auto mb-6">
             Regardez toutes les chaînes françaises en 4K. Fonctionne sur tous vos appareils.
           </p>
@@ -64,14 +94,14 @@ const HeroSection = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500" />
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 opacity-0 group-hover:opacity-100 transition-opacity" />
               <span className="relative font-bold text-base sm:text-lg text-white">Commencer maintenant</span>
-              <ArrowRight className="relative w-5 h-5 text-white group-hover:translate-x-1 transition-transform" />
+              <ArrowRightIcon />
             </a>
             <a
               href="#comparison"
               className="hidden sm:inline-flex group items-center gap-3 px-8 py-5 rounded-2xl bg-white/5 border border-white/10 text-white font-semibold hover:bg-white/10 hover:border-cyan-500/30 transition-all">
 
               <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
-                <Play className="w-5 h-5 fill-white" />
+                <PlayIcon className="w-5 h-5 fill-white" />
               </div>
               Voir la démo
             </a>
@@ -84,7 +114,7 @@ const HeroSection = () => {
               {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="w-[22px] h-[22px] sm:w-[26px] sm:h-[26px] bg-[#00b67a] flex items-center justify-center">
                   <svg viewBox="0 0 24 24" className="w-[14px] h-[14px] sm:w-[16px] sm:h-[16px]" fill="white">
-                    <path d="M12 1.5l3.09 6.26L22 8.64l-5 4.87 1.18 6.88L12 17.27l-6.18 3.25L7 13.64 2 8.77l6.91-1.01L12 1.5z" />
+                    <path d={starPath} />
                   </svg>
                 </div>
               ))}
@@ -94,7 +124,7 @@ const HeroSection = () => {
                 <div className="absolute inset-0 bg-[#00b67a]" style={{ width: '50%' }} />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <svg viewBox="0 0 24 24" className="w-[14px] h-[14px] sm:w-[16px] sm:h-[16px]" fill="white">
-                    <path d="M12 1.5l3.09 6.26L22 8.64l-5 4.87 1.18 6.88L12 17.27l-6.18 3.25L7 13.64 2 8.77l6.91-1.01L12 1.5z" />
+                    <path d={starPath} />
                   </svg>
                 </div>
               </div>
@@ -108,7 +138,7 @@ const HeroSection = () => {
             {/* Trustpilot logo */}
             <div className="flex items-center gap-1">
               <svg viewBox="0 0 24 24" className="w-4 h-4 sm:w-5 sm:h-5" fill="none">
-                <path d="M12 1.5l3.09 6.26L22 8.64l-5 4.87 1.18 6.88L12 17.27l-6.18 3.25L7 13.64 2 8.77l6.91-1.01L12 1.5z" fill="#00b67a" />
+                <path d={starPath} fill="#00b67a" />
               </svg>
               <span className="text-white/70 text-xs sm:text-sm font-semibold tracking-tight">Trustpilot</span>
             </div>
@@ -117,23 +147,18 @@ const HeroSection = () => {
 
         {/* Stats Cards - hidden on mobile to reduce visual overload */}
         <div className="hidden lg:grid lg:grid-cols-4 gap-4 max-w-4xl mx-auto mb-16">
-          {[
-          { icon: Globe, value: "160K+", label: "Chaînes", color: "cyan" },
-          { icon: Play, value: "20K+", label: "Films & Séries", color: "purple" },
-          { icon: Clock, value: "Instant", label: "Activation", color: "pink" },
-          { icon: Headphones, value: "24/7", label: "Support", color: "emerald" }].
-          map((stat, i) =>
-          <div key={i} className="group relative">
+          {stats.map((stat, i) => (
+            <div key={i} className="group relative">
               <div className={`absolute inset-0 bg-${stat.color}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity`} />
               <div className="relative p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-cyan-500/30 transition-all text-center">
                 <div className={`w-12 h-12 mx-auto mb-4 rounded-xl bg-gradient-to-br from-${stat.color}-500/20 to-${stat.color}-500/5 flex items-center justify-center`}>
-                  <stat.icon className={`w-6 h-6 text-${stat.color}-400`} />
+                  <stat.Icon className={`w-6 h-6 text-${stat.color}-400`} />
                 </div>
                 <p className="text-3xl font-black text-white mb-1">{stat.value}</p>
                 <p className="text-sm text-white/50">{stat.label}</p>
               </div>
             </div>
-          )}
+          ))}
         </div>
 
         {/* Hero Banner with Discount */}

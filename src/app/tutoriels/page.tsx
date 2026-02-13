@@ -100,9 +100,57 @@ const tutorials = [
   },
 ];
 
+function TutorialsSchema() {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "name": "Tutoriels IPTV - Guide Installation IPTV SMARTERS PRO sur Tous Appareils",
+        "description": "Guides complets pas-à-pas pour installer et configurer IPTV Smarters Pro sur Android, iOS, Smart TV, Fire TV, PC et Mac.",
+        "url": `${baseUrl}/tutoriels`,
+        "isPartOf": { "@id": `${baseUrl}/#website` },
+        "mainEntity": {
+          "@type": "ItemList",
+          "name": "Tutoriels d'Installation IPTV",
+          "numberOfItems": tutorials.length,
+          "itemListElement": tutorials.map((t, i) => ({
+            "@type": "ListItem",
+            "position": i + 1,
+            "item": {
+              "@type": "HowTo",
+              "name": `Installer IPTV Smarters Pro sur ${t.title}`,
+              "description": t.description,
+              "url": `${baseUrl}/tutoriels/${t.slug}`,
+              "totalTime": `PT${parseInt(t.duration)}M`,
+              "image": `${baseUrl}/og-image.jpg`,
+            }
+          }))
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": `${baseUrl}/abonnement-iptv/` },
+          { "@type": "ListItem", "position": 2, "name": "Tutoriels IPTV", "item": `${baseUrl}/tutoriels` }
+        ]
+      }
+    ]
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 export default function TutorialsPage() {
   return (
     <main className="min-h-screen bg-black">
+      <TutorialsSchema />
       <NavigationHeader />
       <div className="pt-20"><BreadcrumbNav items={[{ label: 'Tutoriels IPTV' }]} /></div>
       

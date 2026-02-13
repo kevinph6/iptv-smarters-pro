@@ -3,24 +3,52 @@ export const revalidate = 0;
 
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
-  const seoHomeUrl = `${baseUrl}/abonnement-iptv/`;
-  
+
   const staticPages = [
-    { url: seoHomeUrl, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
-    { url: `${baseUrl}/chaines`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${baseUrl}/tutoriels`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
-    { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
-    { url: `${baseUrl}/confidentialite`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
-    { url: `${baseUrl}/remboursement`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
+    {
+      url: `${baseUrl}/abonnement-iptv/`,
+      changefreq: 'daily',
+      priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/chaines`,
+      changefreq: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/tutoriels`,
+      changefreq: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/blog`,
+      changefreq: 'daily',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/confidentialite`,
+      changefreq: 'monthly',
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/remboursement`,
+      changefreq: 'monthly',
+      priority: 0.3,
+    },
   ];
 
+  const now = new Date().toISOString();
+
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${staticPages.map(page => `  <url>
     <loc>${page.url}</loc>
-    <lastmod>${page.lastModified.toISOString()}</lastmod>
-    <changefreq>${page.changeFrequency}</changefreq>
+    <lastmod>${now}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="${page.url}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${page.url}" />
   </url>`).join('\n')}
 </urlset>`;
 

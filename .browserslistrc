@@ -1,8 +1,10 @@
-# Target very modern browsers to avoid polyfills (Array.at, Object.hasOwn, etc. = ~11 KiB savings)
-# These versions support all Baseline 2023+ features without polyfills
-Chrome >= 92
-Firefox >= 90
+# Target modern browsers only — eliminates ALL legacy polyfills (~11 KiB savings)
+# All listed APIs (Array.at, Array.flat, Array.flatMap, Object.fromEntries,
+# Object.hasOwn, String.trimEnd, String.trimStart) are natively supported
+Chrome >= 97
+Firefox >= 94
 Safari >= 15.4
-Edge >= 92
+Edge >= 97
 not dead
 not IE 11
+not op_mini all

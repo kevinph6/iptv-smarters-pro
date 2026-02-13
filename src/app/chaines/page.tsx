@@ -220,9 +220,51 @@ const channelCategories = [
   },
 ];
 
+function ChannelsSchema() {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "name": "Chaînes IPTV - 160 000+ Chaînes Mondiales 4K/Full HD",
+        "description": "Catalogue complet des chaînes IPTV disponibles avec l'abonnement IPTV SMARTERS PRO. Sport, cinéma, séries, documentaires, enfants en 4K.",
+        "url": `${baseUrl}/chaines`,
+        "isPartOf": { "@id": `${baseUrl}/#website` },
+        "mainEntity": {
+          "@type": "ItemList",
+          "name": "Catégories de Chaînes IPTV",
+          "numberOfItems": channelCategories.length,
+          "itemListElement": channelCategories.map((cat, i) => ({
+            "@type": "ListItem",
+            "position": i + 1,
+            "name": cat.title,
+            "description": `${cat.count} chaînes: ${cat.description}`,
+          }))
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": `${baseUrl}/abonnement-iptv/` },
+          { "@type": "ListItem", "position": 2, "name": "Chaînes IPTV", "item": `${baseUrl}/chaines` }
+        ]
+      }
+    ]
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 export default function ChannelsPage() {
   return (
     <main className="min-h-screen bg-black">
+      <ChannelsSchema />
       <NavigationHeader />
       <div className="pt-20"><BreadcrumbNav items={[{ label: 'Chaines IPTV' }]} /></div>
       

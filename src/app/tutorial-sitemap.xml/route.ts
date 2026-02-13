@@ -3,36 +3,66 @@ export const revalidate = 0;
 
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
-  
+
   const tutorials = [
-    { slug: 'android', title: 'Installer IPTV Smarters Pro sur Android', lastModified: new Date('2026-02-01'), priority: 0.7 },
-    { slug: 'ios', title: 'Installer IPTV Smarters Pro sur iPhone/iPad (iOS)', lastModified: new Date('2026-02-01'), priority: 0.7 },
-    { slug: 'smart-tv', title: 'Installer IPTV sur Smart TV Samsung/LG', lastModified: new Date('2026-02-01'), priority: 0.7 },
-    { slug: 'fire-tv', title: 'Installer IPTV sur Fire TV Stick Amazon', lastModified: new Date('2026-02-01'), priority: 0.7 },
-    { slug: 'pc-mac', title: 'Installer IPTV sur PC Windows et Mac', lastModified: new Date('2026-02-01'), priority: 0.7 },
-    { slug: 'android-tv', title: 'Installer IPTV sur Android TV / Box TV', lastModified: new Date('2026-02-01'), priority: 0.7 },
+    {
+      slug: 'android',
+      title: 'Installation IPTV SMARTERS PRO sur Android',
+      description: 'Guide complet pour installer IPTV Smarters Pro sur smartphone et tablette Android',
+    },
+    {
+      slug: 'ios',
+      title: 'Installation IPTV SMARTERS PRO sur iPhone/iPad (iOS)',
+      description: 'Guide complet pour installer IPTV Smarters Pro sur iPhone et iPad',
+    },
+    {
+      slug: 'smart-tv',
+      title: 'Installation IPTV sur Smart TV Samsung/LG',
+      description: 'Guide complet pour installer IPTV Smarters Pro sur Smart TV Samsung et LG',
+    },
+    {
+      slug: 'fire-tv',
+      title: 'Installation IPTV sur Fire TV Stick Amazon',
+      description: 'Guide complet pour installer IPTV Smarters Pro sur Fire TV Stick',
+    },
+    {
+      slug: 'pc-mac',
+      title: 'Installation IPTV sur PC Windows et Mac',
+      description: 'Guide complet pour installer IPTV Smarters Pro sur ordinateur PC et Mac',
+    },
+    {
+      slug: 'android-tv',
+      title: 'Installation IPTV sur Android TV / Box TV',
+      description: 'Guide complet pour installer IPTV Smarters Pro sur Android TV et Box TV',
+    },
   ];
 
-  const tutorialsPage = {
-    url: `${baseUrl}/tutoriels`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly',
-    priority: 0.8,
-  };
+  const now = new Date().toISOString();
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>${tutorialsPage.url}</loc>
-    <lastmod>${tutorialsPage.lastModified.toISOString()}</lastmod>
-    <changefreq>${tutorialsPage.changeFrequency}</changefreq>
-    <priority>${tutorialsPage.priority}</priority>
+    <loc>${baseUrl}/tutoriels</loc>
+    <lastmod>${now}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="${baseUrl}/tutoriels" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/tutoriels" />
   </url>
-${tutorials.map(tutorial => `  <url>
-    <loc>${baseUrl}/tutoriels/${tutorial.slug}</loc>
-    <lastmod>${tutorial.lastModified.toISOString()}</lastmod>
+${tutorials.map(t => `  <url>
+    <loc>${baseUrl}/tutoriels/${t.slug}</loc>
+    <lastmod>${now}</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>${tutorial.priority}</priority>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="${baseUrl}/tutoriels/${t.slug}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/tutoriels/${t.slug}" />
+    <image:image>
+      <image:loc>${baseUrl}/og-image.jpg</image:loc>
+      <image:title>${escapeXml(t.title)}</image:title>
+      <image:caption>${escapeXml(t.description)}</image:caption>
+    </image:image>
   </url>`).join('\n')}
 </urlset>`;
 
@@ -42,4 +72,13 @@ ${tutorials.map(tutorial => `  <url>
       'Cache-Control': 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=600',
     },
   });
+}
+
+function escapeXml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
 }

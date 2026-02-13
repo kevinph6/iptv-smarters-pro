@@ -52,6 +52,74 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogPage() {
-  return <BlogPageClient />;
+async function BlogItemListSchema() {
+  try {
+    const { db } = await import('@/db');
+    const { blogPosts } = await import('@/db/schema');
+    const { eq, desc } = await import('drizzle-orm');
+
+    const posts = await db
+      .select({
+        title: blogPosts.title,
+        slug: blogPosts.slug,
+        excerpt: blogPosts.excerpt,
+        featuredImageUrl: blogPosts.featuredImageUrl,
+        createdAt: blogPosts.createdAt,
+        author: blogPosts.author,
+      })
+      .from(blogPosts)
+      .where(eq(blogPosts.published, true))
+      .orderBy(desc(blogPosts.createdAt))
+      .limit(20)
+      .all();
+
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Blog IPTV France 2026 - Guides, Comparatifs & Avis",
+      "description": "Guides complets, comparatifs et tutoriels pour choisir et installer votre abonnement IPTV en France.",
+      "url": `${baseUrl}/blog`,
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": posts.map((post, index) => ({
+          "@type": "ListItem",
+          "position": index + 1,
+          "item": {
+            "@type": "BlogPosting",
+            "headline": post.title,
+            "description": post.excerpt,
+            "url": `${baseUrl}/blog/${post.slug}`,
+            "image": post.featuredImageUrl
+              ? (post.featuredImageUrl.startsWith('http') ? post.featuredImageUrl : `${baseUrl}${post.featuredImageUrl}`)
+              : `${baseUrl}/og-image.jpg`,
+            "datePublished": post.createdAt,
+            "author": { "@type": "Person", "name": post.author },
+            "publisher": {
+              "@type": "Organization",
+              "name": "IPTV SMARTERS PRO",
+              "logo": { "@type": "ImageObject", "url": `${baseUrl}/logo.png` }
+            }
+          }
+        }))
+      }
+    };
+
+    return (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+    );
+  } catch {
+    return null;
+  }
+}
+
+export default async function BlogPage() {
+  return (
+    <>
+      <BlogItemListSchema />
+      <BlogPageClient />
+    </>
+  );
 }

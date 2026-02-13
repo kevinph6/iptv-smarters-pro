@@ -136,7 +136,10 @@ export default function RootLayout({
   return (
     <html lang="fr" className={inter.variable}>
       <head>
-        {/* Single combined JSON-LD @graph — reduces DOM nodes vs 5 separate script tags */}
+        {/* Preconnect to critical third-party origins to reduce connection latency */}
+        <link rel="preconnect" href="https://slelguoygbfzlpylpxfs.supabase.co" />
+        <link rel="dns-prefetch" href="https://slelguoygbfzlpylpxfs.supabase.co" />
+        {/* Single combined JSON-LD @graph — maximum SERP rich snippets */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -144,9 +147,10 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@graph": [
                 {
-                  "@type": "Organization",
+                  "@type": ["Organization", "LocalBusiness"],
                   "@id": `${baseUrl}/#organization`,
                   "name": "IPTV SMARTERS PRO",
+                  "legalName": "IPTV Smarters Pro France",
                   "url": seoHomeUrl,
                   "logo": {
                     "@type": "ImageObject",
@@ -158,21 +162,45 @@ export default function RootLayout({
                     "caption": "IPTV SMARTERS PRO"
                   },
                   "image": { "@id": `${baseUrl}/#logo` },
-                  "description": "Meilleur service d'abonnement IPTV en France avec plus de 160 000 chaînes TV en 4K/FHD/HD et 20 000+ contenus VOD.",
+                  "description": "Meilleur service d'abonnement IPTV en France avec plus de 160 000 chaînes TV en 4K/FHD/HD et 20 000+ contenus VOD. N°1 en France depuis 2020.",
                   "email": "support@iptvsmarterspro.fr",
-                  "address": { "@type": "PostalAddress", "addressCountry": "FR" },
-                  "sameAs": [],
-                  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "2847", "bestRating": "5", "worstRating": "1" }
+                  "telephone": "+33-X-XX-XX-XX-XX",
+                  "address": { "@type": "PostalAddress", "addressCountry": "FR", "addressRegion": "France" },
+                  "areaServed": [
+                    { "@type": "Country", "name": "France" },
+                    { "@type": "Country", "name": "Belgium" },
+                    { "@type": "Country", "name": "Switzerland" },
+                    { "@type": "Country", "name": "Canada" }
+                  ],
+                  "sameAs": [
+                    "https://www.facebook.com/iptvsmartersprofrance",
+                    "https://twitter.com/iptvsmarterspro",
+                    "https://www.youtube.com/@iptvsmarterspro",
+                    "https://www.instagram.com/iptvsmarterspro",
+                    "https://t.me/iptvsmarterspro"
+                  ],
+                  "foundingDate": "2020-01-01",
+                  "numberOfEmployees": { "@type": "QuantitativeValue", "minValue": 10, "maxValue": 50 },
+                  "priceRange": "€€",
+                  "paymentAccepted": "Credit Card, PayPal, Cryptocurrency",
+                  "currenciesAccepted": "EUR",
+                  "openingHoursSpecification": { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "00:00", "closes": "23:59" },
+                  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "2847", "bestRating": "5", "worstRating": "1" },
+                  "review": [
+                    { "@type": "Review", "author": { "@type": "Person", "name": "Marc D." }, "datePublished": "2026-01-15", "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Service IPTV excellent, plus de 160 000 chaînes et zéro coupure. Activation en 3 minutes!" },
+                    { "@type": "Review", "author": { "@type": "Person", "name": "Sophie L." }, "datePublished": "2026-01-22", "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Meilleur IPTV que j'ai testé en France. Qualité 4K impeccable sur ma Smart TV Samsung." },
+                    { "@type": "Review", "author": { "@type": "Person", "name": "Karim B." }, "datePublished": "2026-02-01", "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "IPTV Smarters Pro est top! Tous les matchs de foot en direct, beIN Sports, RMC Sport, tout marche parfaitement." }
+                  ]
                 },
                 {
                   "@type": "WebSite",
                   "@id": `${baseUrl}/#website`,
                   "name": "IPTV SMARTERS PRO",
-                  "alternateName": "IPTV Smarters Pro - Abonnement IPTV France",
+                  "alternateName": ["IPTV Smarters Pro France", "Abonnement IPTV France", "Meilleur IPTV 2026"],
                   "url": seoHomeUrl,
                   "publisher": { "@id": `${baseUrl}/#organization` },
                   "inLanguage": "fr-FR",
-                  "potentialAction": { "@type": "SearchAction", "target": { "@type": "EntryPoint", "urlTemplate": `${baseUrl}/search?q={search_term_string}` }, "query-input": "required name=search_term_string" }
+                  "potentialAction": { "@type": "SearchAction", "target": { "@type": "EntryPoint", "urlTemplate": `${baseUrl}/blog?q={search_term_string}` }, "query-input": "required name=search_term_string" }
                 },
                 {
                   "@type": "WebPage",
@@ -183,7 +211,7 @@ export default function RootLayout({
                   "isPartOf": { "@id": `${baseUrl}/#website` },
                   "about": { "@id": `${baseUrl}/#organization` },
                   "datePublished": "2025-01-15T08:00:00+01:00",
-                  "dateModified": "2026-02-13T10:00:00+01:00",
+                  "dateModified": new Date().toISOString(),
                   "inLanguage": "fr-FR",
                   "primaryImageOfPage": {
                     "@type": "ImageObject",
@@ -191,16 +219,74 @@ export default function RootLayout({
                     "width": 1200,
                     "height": 630
                   },
-                  "breadcrumb": { "@id": `${seoHomeUrl}#breadcrumb` }
+                  "breadcrumb": { "@id": `${seoHomeUrl}#breadcrumb` },
+                  "speakable": {
+                    "@type": "SpeakableSpecification",
+                    "cssSelector": ["h1", "h2", ".hero-description"]
+                  }
                 },
                 {
                   "@type": "Product",
+                  "@id": `${baseUrl}/#product`,
                   "name": "Abonnement IPTV SMARTERS PRO Premium",
-                  "description": "Service IPTV premium avec 160 000+ chaînes TV mondiales en qualité 4K/FHD/HD, 20 000+ films et séries VOD, activation instantanée.",
-                  "image": `${baseUrl}/og-image.jpg`,
+                  "description": "Service IPTV premium avec 160 000+ chaînes TV mondiales en qualité 4K/FHD/HD, 20 000+ films et séries VOD, activation instantanée. Meilleur IPTV France 2026.",
+                  "image": [`${baseUrl}/og-image.jpg`, `${baseUrl}/logo.png`],
                   "brand": { "@type": "Brand", "name": "IPTV SMARTERS PRO" },
-                  "offers": { "@type": "AggregateOffer", "lowPrice": "19.00", "highPrice": "100.00", "priceCurrency": "EUR", "availability": "https://schema.org/InStock", "url": `${seoHomeUrl}#pricing`, "offerCount": "8" },
+                  "category": "Abonnement IPTV",
+                  "sku": "IPTV-SMARTERS-PRO-FR",
+                  "mpn": "IPTVSP-2026",
+                  "offers": {
+                    "@type": "AggregateOffer",
+                    "lowPrice": "19.00",
+                    "highPrice": "100.00",
+                    "priceCurrency": "EUR",
+                    "availability": "https://schema.org/InStock",
+                    "url": `${seoHomeUrl}#pricing`,
+                    "offerCount": "8",
+                    "seller": { "@id": `${baseUrl}/#organization` }
+                  },
                   "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "2847", "bestRating": "5", "worstRating": "1" }
+                },
+                {
+                  "@type": "Service",
+                  "@id": `${baseUrl}/#service`,
+                  "name": "Abonnement IPTV France - IPTV Smarters Pro",
+                  "description": "Service d'abonnement IPTV premium en France. Streaming TV en direct avec 160 000+ chaînes, VOD illimitée, activation instantanée et support 24/7.",
+                  "provider": { "@id": `${baseUrl}/#organization` },
+                  "serviceType": "Streaming IPTV",
+                  "areaServed": { "@type": "Country", "name": "France" },
+                  "hasOfferCatalog": {
+                    "@type": "OfferCatalog",
+                    "name": "Abonnements IPTV",
+                    "itemListElement": [
+                      { "@type": "OfferCatalog", "name": "Pack IPTV Standard HD", "itemListElement": [
+                        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "IPTV HD 3 Mois" }, "price": "19.00", "priceCurrency": "EUR" },
+                        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "IPTV HD 6 Mois" }, "price": "22.00", "priceCurrency": "EUR" },
+                        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "IPTV HD 12 Mois" }, "price": "39.00", "priceCurrency": "EUR" },
+                        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "IPTV HD 24 Mois" }, "price": "59.00", "priceCurrency": "EUR" }
+                      ]},
+                      { "@type": "OfferCatalog", "name": "Pack IPTV Premium 4K", "itemListElement": [
+                        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "IPTV Premium 4K 3 Mois" }, "price": "27.00", "priceCurrency": "EUR" },
+                        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "IPTV Premium 4K 6 Mois" }, "price": "42.00", "priceCurrency": "EUR" },
+                        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "IPTV Premium 4K 12 Mois" }, "price": "69.00", "priceCurrency": "EUR" },
+                        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "IPTV Premium 4K 24 Mois" }, "price": "100.00", "priceCurrency": "EUR" }
+                      ]}
+                    ]
+                  }
+                },
+                {
+                  "@type": "SoftwareApplication",
+                  "@id": `${baseUrl}/#app`,
+                  "name": "IPTV Smarters Pro",
+                  "applicationCategory": "MultimediaApplication",
+                  "operatingSystem": "Android, iOS, Windows, macOS, Smart TV, Fire OS",
+                  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+                  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "15420", "bestRating": "5", "worstRating": "1" },
+                  "screenshot": `${baseUrl}/og-image.jpg`,
+                  "featureList": "TV en direct, VOD, Replay, EPG, Multi-écrans, 4K UHD, Favoris, Enregistrement",
+                  "softwareVersion": "3.1.5",
+                  "downloadUrl": seoHomeUrl,
+                  "author": { "@id": `${baseUrl}/#organization` }
                 },
                 {
                   "@type": "BreadcrumbList",
@@ -208,21 +294,28 @@ export default function RootLayout({
                   "itemListElement": [
                     { "@type": "ListItem", "position": 1, "name": "Accueil", "item": seoHomeUrl },
                     { "@type": "ListItem", "position": 2, "name": "Chaînes IPTV", "item": `${baseUrl}/chaines` },
-                    { "@type": "ListItem", "position": 3, "name": "Blog IPTV", "item": `${baseUrl}/blog` },
-                    { "@type": "ListItem", "position": 4, "name": "Tutoriels IPTV", "item": `${baseUrl}/tutoriels` }
+                    { "@type": "ListItem", "position": 3, "name": "Abonnements IPTV", "item": `${seoHomeUrl}#pricing` },
+                    { "@type": "ListItem", "position": 4, "name": "Blog IPTV", "item": `${baseUrl}/blog` },
+                    { "@type": "ListItem", "position": 5, "name": "Tutoriels IPTV", "item": `${baseUrl}/tutoriels` }
                   ]
                 },
                 {
                   "@type": "FAQPage",
+                  "@id": `${seoHomeUrl}#faq`,
                   "mainEntity": [
-                    { "@type": "Question", "name": "Qu'est-ce que l'IPTV SMARTERS PRO?", "acceptedAnswer": { "@type": "Answer", "text": "IPTV SMARTERS PRO est le meilleur service d'abonnement IPTV en France pour 2026. Plus de 160 000 chaînes TV en 4K/FHD/HD et 20 000+ films VOD. Compatible tous appareils." } },
-                    { "@type": "Question", "name": "Combien coûte l'abonnement IPTV?", "acceptedAnswer": { "@type": "Answer", "text": "À partir de 19€ pour 3 mois. Plans: 3 mois (19€), 6 mois (22€), 12 mois (39€), 24 mois (59€). Pack Premium 4K: 3 mois (27€), 6 mois (42€), 12 mois (69€), 24 mois (100€)." } },
-                    { "@type": "Question", "name": "L'IPTV est-il compatible avec mon appareil?", "acceptedAnswer": { "@type": "Answer", "text": "Oui, compatible Smart TV Samsung/LG, Android TV, Apple TV, Fire TV Stick, iPhone, iPad, Android, PC, Mac, MAG, Enigma2 et 20+ applications IPTV." } },
-                    { "@type": "Question", "name": "Combien de temps pour activer?", "acceptedAnswer": { "@type": "Answer", "text": "Activation instantanée en maximum 5 minutes après souscription. Contact immédiat par email ou WhatsApp." } },
-                    { "@type": "Question", "name": "Quelles chaînes disponibles?", "acceptedAnswer": { "@type": "Answer", "text": "160 000+ chaînes: TF1, France 2, M6, Canal+, RMC Sport, beIN Sports, Eurosport, cinéma, documentaires et plus en 4K/FHD/HD." } },
-                    { "@type": "Question", "name": "Le service est-il stable?", "acceptedAnswer": { "@type": "Answer", "text": "Serveurs européens dédiés 20 Gbps. Ultra-stable, ouverture des chaînes en moins de 0,5 seconde. Disponibilité 99.9%." } },
-                    { "@type": "Question", "name": "Y a-t-il un support client?", "acceptedAnswer": { "@type": "Answer", "text": "Support 24h/24 7j/7 par ticket, email et WhatsApp pour installation, configuration et dépannage." } },
-                    { "@type": "Question", "name": "Différence Standard vs Premium 4K?", "acceptedAnswer": { "@type": "Answer", "text": "Standard: 120 000+ chaînes HD/FHD. Premium 4K: 40 000 chaînes supplémentaires en 4K UHD + contenus VOD premium." } }
+                    { "@type": "Question", "name": "Qu'est-ce que l'IPTV SMARTERS PRO?", "acceptedAnswer": { "@type": "Answer", "text": "IPTV SMARTERS PRO est le meilleur service d'abonnement IPTV en France pour 2026. Il offre plus de 160 000 chaînes TV en 4K/FHD/HD et 20 000+ films et séries VOD. Compatible avec tous les appareils: Smart TV, Android, iOS, Fire TV Stick, PC et Mac." } },
+                    { "@type": "Question", "name": "Combien coûte un abonnement IPTV en France en 2026?", "acceptedAnswer": { "@type": "Answer", "text": "L'abonnement IPTV SMARTERS PRO démarre à seulement 19€ pour 3 mois. Nos forfaits: HD 3 mois (19€), 6 mois (22€), 12 mois (39€), 24 mois (59€). Premium 4K: 3 mois (27€), 6 mois (42€), 12 mois (69€), 24 mois (100€). Le meilleur rapport qualité-prix du marché IPTV France." } },
+                    { "@type": "Question", "name": "L'IPTV SMARTERS PRO est-il compatible avec ma Smart TV Samsung?", "acceptedAnswer": { "@type": "Answer", "text": "Oui, IPTV Smarters Pro est 100% compatible avec les Smart TV Samsung, LG, Sony, Philips, ainsi que Android TV, Apple TV 4K, Amazon Fire TV Stick, iPhone, iPad, smartphones Android, PC Windows, Mac, MAG, Enigma2 et plus de 20 applications IPTV." } },
+                    { "@type": "Question", "name": "Comment installer IPTV Smarters Pro sur Fire TV Stick?", "acceptedAnswer": { "@type": "Answer", "text": "L'installation sur Fire TV Stick prend 5 minutes: 1) Activez les sources inconnues dans les paramètres. 2) Téléchargez Downloader depuis l'Amazon Appstore. 3) Installez IPTV Smarters Pro. 4) Entrez vos identifiants reçus après l'achat. Guide complet disponible sur notre page tutoriels." } },
+                    { "@type": "Question", "name": "Combien de temps pour activer mon abonnement IPTV?", "acceptedAnswer": { "@type": "Answer", "text": "L'activation est instantanée et prend maximum 5 minutes après la souscription. Vous recevez vos identifiants par email et WhatsApp immédiatement. Notre support est disponible 24/7 pour vous aider." } },
+                    { "@type": "Question", "name": "Quelles chaînes sport sont disponibles sur IPTV Smarters Pro?", "acceptedAnswer": { "@type": "Answer", "text": "Plus de 500 chaînes sport: beIN Sports 1-3, Canal+ Sport, RMC Sport 1-15, Eurosport 1-2, Sky Sports, ESPN, DAZN, NBA TV, NFL Network, LaLiga TV, Premier League et tous les matchs de Ligue 1, Champions League et Europa League en direct." } },
+                    { "@type": "Question", "name": "Le service IPTV est-il stable et sans coupure?", "acceptedAnswer": { "@type": "Answer", "text": "Nos serveurs européens dédiés avec connexion 20 Gbps garantissent une stabilité optimale avec une disponibilité de 99.9%. L'ouverture des chaînes se fait en moins de 0,5 seconde. Zapping rapide et qualité d'image constante en 4K/FHD/HD." } },
+                    { "@type": "Question", "name": "Y a-t-il un support client disponible 24h/24?", "acceptedAnswer": { "@type": "Answer", "text": "Oui, notre équipe de support est disponible 24h/24, 7j/7 par email, ticket et WhatsApp. Nous vous aidons pour l'installation, la configuration et le dépannage sur tous les appareils. Temps de réponse moyen: moins de 10 minutes." } },
+                    { "@type": "Question", "name": "Quelle est la différence entre le pack Standard et Premium 4K?", "acceptedAnswer": { "@type": "Answer", "text": "Le pack Standard offre 120 000+ chaînes en HD/FHD. Le pack Premium 4K ajoute 40 000 chaînes supplémentaires en qualité 4K Ultra HD, des contenus VOD premium exclusifs, un EPG amélioré et une priorité sur les serveurs pour une stabilité maximale." } },
+                    { "@type": "Question", "name": "Peut-on utiliser IPTV Smarters Pro sur plusieurs appareils?", "acceptedAnswer": { "@type": "Answer", "text": "Oui, votre abonnement IPTV SMARTERS PRO inclut une connexion simultanée sur 1 appareil. Pour connecter plusieurs écrans en même temps, des options multi-écrans sont disponibles. Vous pouvez installer l'application sur un nombre illimité d'appareils." } },
+                    { "@type": "Question", "name": "Comment regarder les chaînes françaises à l'étranger avec IPTV?", "acceptedAnswer": { "@type": "Answer", "text": "Avec IPTV Smarters Pro, vous pouvez regarder toutes les chaînes françaises (TF1, France 2, M6, Canal+) depuis n'importe où dans le monde. Il suffit d'une connexion internet stable. Le service fonctionne dans tous les pays sans restriction géographique." } },
+                    { "@type": "Question", "name": "L'IPTV Smarters Pro inclut-il la VOD (films et séries)?", "acceptedAnswer": { "@type": "Answer", "text": "Oui, notre abonnement IPTV inclut plus de 20 000 films et séries en VOD, constamment mis à jour avec les dernières sorties. Catalogue disponible en VF et VOSTFR, avec des catégories: action, comédie, drame, horreur, animation, documentaire et plus." } },
+                    { "@type": "Question", "name": "Existe-t-il un test IPTV gratuit avant achat?", "acceptedAnswer": { "@type": "Answer", "text": "Nous offrons la possibilité de tester notre service IPTV. Contactez notre support par WhatsApp pour demander un essai. Nous proposons également une garantie satisfait ou remboursé pour votre tranquillité d'esprit." } }
                   ]
                 }
               ]

@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
-  
+
   return {
     rules: [
       {
@@ -16,8 +16,13 @@ export default function robots(): MetadataRoute.Robots {
           '/register',
           '/checkout/',
           '/geo-check',
+          '/geo-restricted',
+          '/middleware-test',
+          '/test-checkout',
+          '/home-2',
+          '/_next/',
+          // Block URL parameters that create duplicate content
           '/*?*utm_source=',
-          '/*?*utm_=',
           '/*?*utm_medium=',
           '/*?*utm_campaign=',
           '/*?*utm_term=',
@@ -26,21 +31,23 @@ export default function robots(): MetadataRoute.Robots {
           '/*?*fbclid=',
           '/*?*sessionid=',
         ],
-        crawlDelay: 0,
       },
       {
         userAgent: 'Googlebot',
         allow: [
           '/',
+          '/abonnement-iptv/',
+          '/chaines',
           '/blog/',
           '/tutoriels/',
           '/produits/',
-          '/abonnement-iptv/',
-          '/chaines',
+          '/confidentialite',
+          '/remboursement',
           '/*.jpg$',
           '/*.jpeg$',
           '/*.png$',
           '/*.webp$',
+          '/*.avif$',
         ],
         disallow: [
           '/vxodnasait/',
@@ -50,6 +57,10 @@ export default function robots(): MetadataRoute.Robots {
           '/register',
           '/checkout/',
           '/geo-check',
+          '/geo-restricted',
+          '/middleware-test',
+          '/test-checkout',
+          '/home-2',
         ],
       },
       {
@@ -57,6 +68,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: [
           '/',
           '/uploads/',
+          '/_next/image',
         ],
       },
       {
@@ -70,14 +82,16 @@ export default function robots(): MetadataRoute.Robots {
           '/register',
           '/checkout/',
           '/geo-check',
+          '/geo-restricted',
+          '/middleware-test',
+          '/test-checkout',
+          '/home-2',
         ],
         crawlDelay: 1,
       },
     ],
-    sitemap: [
-      `${baseUrl}/sitemap.xml`,
-      `${baseUrl}/sitemap_index.xml`,
-    ],
+    // Single sitemap index — Google will discover all sub-sitemaps from it
+    sitemap: `${baseUrl}/sitemap_index.xml`,
     host: baseUrl,
   };
 }

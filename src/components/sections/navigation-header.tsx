@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X, ChevronDown } from 'lucide-react';
@@ -16,19 +16,35 @@ const NavigationHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [menuDropdownOpen, setMenuDropdownOpen] = useState(false);
+  const rafRef = useRef<number>(0);
 
   useEffect(() => {
+    // Use rAF-throttled scroll handler to avoid forced reflows
+    let ticking = false;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      if (!ticking) {
+        ticking = true;
+        rafRef.current = requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+      }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = '';
     };
   }, [isOpen]);
 
