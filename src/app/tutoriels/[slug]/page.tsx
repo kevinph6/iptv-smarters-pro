@@ -1,5 +1,6 @@
 import NavigationHeader from '@/components/sections/navigation-header';
 import Footer from '@/components/sections/footer';
+import InternalLinksSilo from '@/components/sections/internal-links-silo';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle, AlertCircle, Download, Settings, Play, Smartphone, Tv, Monitor, Shield, Search, LogIn, Wifi, Zap, Info } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -858,10 +859,42 @@ export default async function TutorialPage({ params }: { params: Promise<{ slug:
     ],
   };
 
+  // FAQPage schema from troubleshooting — double dips on rich snippets
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": tutorial.troubleshooting.map((t) => ({
+      "@type": "Question",
+      "name": t.problem,
+      "acceptedAnswer": { "@type": "Answer", "text": t.solution },
+    })),
+  };
+
+  // VideoObject schema — references tutorial video content
+  const videoSchema = {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": `Tutoriel: ${tutorial.title}`,
+    "description": `Guide vidéo: ${tutorial.description}`,
+    "thumbnailUrl": `${baseUrl}/og-image.jpg`,
+    "uploadDate": "2026-01-15T08:00:00+01:00",
+    "duration": `PT${tutorial.duration.replace(' minutes', 'M')}`,
+    "contentUrl": `https://www.youtube.com/@iptvsmarterspro`,
+    "embedUrl": `https://www.youtube.com/@iptvsmarterspro`,
+    "publisher": {
+      "@type": "Organization",
+      "name": "IPTV SMARTERS PRO",
+      "logo": { "@type": "ImageObject", "url": `${baseUrl}/logo.png` }
+    },
+    "inLanguage": "fr-FR",
+  };
+
   return (
     <main className="min-h-screen bg-black">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }} />
       <NavigationHeader />
       
       {/* Hero Section */}
@@ -1082,6 +1115,7 @@ export default async function TutorialPage({ params }: { params: Promise<{ slug:
         </div>
       </section>
 
+      <InternalLinksSilo />
       <Footer />
     </main>
   );

@@ -760,7 +760,7 @@ function NetflixFooter() {
               <span className="font-black text-lg text-white">IPTV <span className="text-red-600">SMARTERS PRO</span></span>
             </div>
             <p className="text-gray-600 text-xs leading-relaxed max-w-sm mb-4">IPTV SMARTERS PRO est l&apos;un des principaux fournisseurs mondiaux de technologie IPTV. Notre mission est de fournir le meilleur service de streaming.</p>
-            <a href="mailto:support@example.com" className="inline-flex items-center gap-1.5 text-red-400 text-xs hover:text-red-300 transition-colors"><Mail className="w-3.5 h-3.5" />support@example.com</a>
+            <a href="mailto:support@iptvsmarterspro.fr" className="inline-flex items-center gap-1.5 text-red-400 text-xs hover:text-red-300 transition-colors"><Mail className="w-3.5 h-3.5" />support@iptvsmarterspro.fr</a>
           </div>
           <div>
             <h4 className="text-white font-bold text-sm mb-4">Liens Rapides</h4>

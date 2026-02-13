@@ -20,6 +20,13 @@ export const metadata: Metadata = {
     title: 'Politique de Confidentialite - IPTV SMARTERS PRO',
     description: 'Protection de vos donnees personnelles. Conformite RGPD.',
     siteName: 'IPTV SMARTERS PRO',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'IPTV SMARTERS PRO - Confidentialité', type: 'image/png' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Politique de Confidentialite - IPTV SMARTERS PRO',
+    description: 'Protection de vos donnees personnelles. Conformite RGPD.',
+    images: ['/og-image.jpg'],
   },
 };
 

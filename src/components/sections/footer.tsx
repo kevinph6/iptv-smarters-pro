@@ -18,8 +18,10 @@ const legalLinks: LegalLink[] = [
 ];
 
 const partnerLinks = [
-  { text: "Meilleur abonnement IPTV", href: "#" },
-  { text: "IPTV France", href: "#" },
+  { text: "Meilleur abonnement IPTV", href: "/abonnement-iptv/" },
+  { text: "IPTV France Premium 4K", href: "/abonnement-iptv/#pricing" },
+  { text: "Chaînes IPTV en direct", href: "/chaines" },
+  { text: "Tutoriels installation IPTV", href: "/tutoriels" },
 ];
 
 const Footer = () => {
@@ -84,9 +86,9 @@ const Footer = () => {
               IPTV SMARTERS PRO est l'un des principaux fournisseurs mondiaux de technologies de l'information et de la communication de nouvelle génération. Notre mission est de fournir le meilleur service de streaming à nos clients.
             </p>
             <div className="flex items-center gap-4">
-              <a href="mailto:support@example.com" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors text-sm underline underline-offset-2">
+              <a href="mailto:support@iptvsmarterspro.fr" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors text-sm underline underline-offset-2">
                 <Mail className="w-4 h-4" />
-                support@example.com
+                support@iptvsmarterspro.fr
               </a>
             </div>
           </div>
@@ -121,13 +123,13 @@ const Footer = () => {
             <ul className="space-y-3">
               {partnerLinks.map((link) => (
                 <li key={link.text}>
-                  <a
+                  <Link
                     href={link.href}
                     className="group flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm"
                   >
                     <ExternalLink className="w-3.5 h-3.5 text-purple-500/50 group-hover:text-purple-500 transition-colors" />
                     {link.text}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -164,10 +166,10 @@ const Footer = () => {
               </div>
             </a>
             
-            <Link href="/privacy-policy" className="text-white/70 hover:text-white text-sm transition-colors underline underline-offset-2">
+            <Link href="/confidentialite" className="text-white/70 hover:text-white text-sm transition-colors underline underline-offset-2">
               Confidentialité
             </Link>
-            <Link href="/terms-of-use" className="text-white/70 hover:text-white text-sm transition-colors underline underline-offset-2">
+            <Link href="/remboursement" className="text-white/70 hover:text-white text-sm transition-colors underline underline-offset-2">
               Conditions
             </Link>
           </div>
@@ -239,8 +241,8 @@ const Footer = () => {
                 <strong className="text-white">Important Notice:</strong> We are fully compliant with DMCA regulations. We do not host, upload, or store any video content on our servers. All content is provided by independent third-party sources. This website functions solely as a search engine and content aggregator. We respect intellectual property rights and will promptly respond to valid DMCA takedown requests.
                 <br /><br />
                 If you believe your copyrighted material has been indexed or linked without authorization, please submit a formal DMCA notice to{" "}
-                <a href="mailto:support@example.com" className="text-cyan-400 hover:text-cyan-300 underline font-semibold">
-                  support@example.com
+                <a href="mailto:support@iptvsmarterspro.fr" className="text-cyan-400 hover:text-cyan-300 underline font-semibold">
+                  support@iptvsmarterspro.fr
                 </a>
                 {" "}with detailed information including: (1) Description of copyrighted work, (2) URL of infringing content, (3) Your contact information, (4) Good faith statement, (5) Statement of accuracy under penalty of perjury. We will investigate and take appropriate action, including content removal, within 24-48 hours.
               </p>

@@ -59,13 +59,33 @@ const PurchaseNotification = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: 'IPTV SMARTERS PRO - Meilleur Abonnement IPTV N°1 en France 2026 | Abonnement IPTV Premium',
-  description: 'IPTV SMARTERS PRO: Decouvrez le meilleur abonnement IPTV France 2026. Abonnement IPTV premium avec 160 000+ chaines TV 4K/FHD/HD, 20 000+ films VOD, activation instantanee, support 24/7. Compatible tous appareils. Abonnement IPTV stable et fiable.',
+  title: 'Abonnement IPTV France 2026 | IPTV Smarters Pro N°1 Premium 4K',
+  description: 'Meilleur abonnement IPTV France 2026. 160 000+ chaînes 4K, 20 000+ VOD, activation 5min, support 24/7. Dès 19€. IPTV Smarters Pro, N°1 en France.',
+  keywords: [
+    'abonnement iptv', 'iptv france', 'iptv smarters pro', 'meilleur iptv', 'iptv 4k',
+    'abonnement iptv france', 'iptv premium', 'iptv pas cher', 'iptv stable', 'iptv fiable',
+    'abonnement iptv premium', 'meilleur abonnement iptv', 'iptv 4k france', 'iptv smart tv',
+    'iptv firestick', 'iptv samsung', 'iptv lg', 'iptv android', 'iptv apple tv',
+    'iptv sport', 'iptv vod', 'chaînes iptv', 'iptv streaming', 'iptv 2026',
+  ],
   alternates: {
     canonical: '/abonnement-iptv/',
   },
   openGraph: {
+    type: 'website',
+    locale: 'fr_FR',
     url: '/abonnement-iptv/',
+    siteName: 'IPTV SMARTERS PRO',
+    title: 'Abonnement IPTV France 2026 | IPTV Smarters Pro 4K Premium',
+    description: '160 000+ chaînes 4K, 20 000+ VOD, activation instantanée. Le meilleur abonnement IPTV France 2026 dès 19€.',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'IPTV Smarters Pro - Abonnement IPTV France 2026', type: 'image/png' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Abonnement IPTV France 2026 | IPTV Smarters Pro',
+    description: '160 000+ chaînes 4K | 20 000+ VOD | Activation 5min | Dès 19€',
+    images: ['/og-image.jpg'],
+    creator: '@iptvsmarterspro',
   },
 };
 

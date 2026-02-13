@@ -1,10 +1,19 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import VisualEditsMessengerDeferred from "../visual-edits/VisualEditsMessengerDeferred";
 import ErrorReporter from "@/components/ErrorReporter";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 import { OrchidsScript } from "@/components/OrchidsScript";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://officieliptvsmarterspro.fr";
+const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const GOOGLE_VERIFICATION =
+  process.env.GOOGLE_VERIFICATION_CODE ||
+  "Ka-PXBBWg2iC5A13iVwtzBqsfEDXR6cZT4nK3kreoZA";
+const BING_VERIFICATION = process.env.BING_VERIFICATION_CODE;
+const YANDEX_VERIFICATION = process.env.YANDEX_VERIFICATION_CODE;
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,12 +34,12 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: 'IPTV SMARTERS PRO - Meilleur Abonnement IPTV France 2026 | Abonnement IPTV Premium 4K',
-    template: '%s | IPTV SMARTERS PRO - Abonnement IPTV France'
+    default: 'Abonnement IPTV France 2026 | IPTV Smarters Pro 4K Premium',
+    template: '%s | IPTV Smarters Pro - Abonnement IPTV France'
   },
-  description: 'IPTV SMARTERS PRO: Meilleur abonnement IPTV France 2026. Plus de 160 000 chaînes TV 4K/FHD/HD, 20 000+ films VOD, activation instantanée en 5min, support 24/7. Compatible Smart TV, Android, iOS, FireStick. Abonnement IPTV stable et premium.',
+  description: 'Meilleur abonnement IPTV France 2026. 160 000+ chaînes 4K, 20 000+ VOD, activation 5min. Dès 19€. Essayez IPTV Smarters Pro maintenant !',
   keywords: [
     'iptv',
     'abonnement iptv',
@@ -70,7 +79,7 @@ export const metadata: Metadata = {
     'duplex iptv',
     'net iptv',
   ],
-  authors: [{ name: 'IPTV SMARTERS PRO', url: 'https://officieliptvsmarterspro.fr/abonnement-iptv/' }],
+  authors: [{ name: 'IPTV SMARTERS PRO', url: '/abonnement-iptv/' }],
   creator: 'IPTV SMARTERS PRO',
   publisher: 'IPTV SMARTERS PRO',
   formatDetection: {
@@ -90,7 +99,7 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: 'IPTV SMARTERS PRO - Meilleur Abonnement IPTV France 2026',
-        type: 'image/jpeg',
+        type: 'image/png',
       },
     ],
   },
@@ -115,11 +124,9 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'Ka-PXBBWg2iC5A13iVwtzBqsfEDXR6cZT4nK3kreoZA',
-    yandex: 'your-yandex-verification-code',
-    other: {
-      'bing': 'your-bing-verification-code',
-    },
+    google: GOOGLE_VERIFICATION,
+    ...(YANDEX_VERIFICATION ? { yandex: YANDEX_VERIFICATION } : {}),
+    ...(BING_VERIFICATION ? { other: { bing: BING_VERIFICATION } } : {}),
   },
   category: 'technology',
   classification: 'IPTV Service, Streaming, Entertainment',
@@ -130,12 +137,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
+  const baseUrl = SITE_URL;
   const seoHomeUrl = `${baseUrl}/abonnement-iptv/`;
   
   return (
     <html lang="fr" className={inter.variable}>
       <head>
+        {/* Web App Manifest */}
+        <link rel="manifest" href="/site.webmanifest" />
+        {/* RSS Feed auto-discovery for syndication */}
+        <link rel="alternate" type="application/rss+xml" title="IPTV Smarters Pro - Blog IPTV France" href={`${baseUrl}/blog/feed.xml`} />
         {/* Preconnect to critical third-party origins to reduce connection latency */}
         <link rel="preconnect" href="https://slelguoygbfzlpylpxfs.supabase.co" />
         <link rel="dns-prefetch" href="https://slelguoygbfzlpylpxfs.supabase.co" />
@@ -164,7 +175,6 @@ export default function RootLayout({
                   "image": { "@id": `${baseUrl}/#logo` },
                   "description": "Meilleur service d'abonnement IPTV en France avec plus de 160 000 chaînes TV en 4K/FHD/HD et 20 000+ contenus VOD. N°1 en France depuis 2020.",
                   "email": "support@iptvsmarterspro.fr",
-                  "telephone": "+33-X-XX-XX-XX-XX",
                   "address": { "@type": "PostalAddress", "addressCountry": "FR", "addressRegion": "France" },
                   "areaServed": [
                     { "@type": "Country", "name": "France" },
@@ -211,7 +221,7 @@ export default function RootLayout({
                   "isPartOf": { "@id": `${baseUrl}/#website` },
                   "about": { "@id": `${baseUrl}/#organization` },
                   "datePublished": "2025-01-15T08:00:00+01:00",
-                  "dateModified": new Date().toISOString(),
+                  "dateModified": "2026-02-13T10:00:00+01:00",
                   "inLanguage": "fr-FR",
                   "primaryImageOfPage": {
                     "@type": "ImageObject",
@@ -322,10 +332,20 @@ export default function RootLayout({
             })
           }}
         />
-        <link rel="alternate" hrefLang="fr" href={seoHomeUrl} />
-        <link rel="alternate" hrefLang="x-default" href={seoHomeUrl} />
+        {/* Hreflang should be page-specific; avoid emitting site-wide alternates to the home URL. */}
       </head>
         <body className={`${inter.className} antialiased`}>
+          {GA_ID && (
+            <>
+              <Script
+                src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+                strategy="afterInteractive"
+              />
+              <Script id="ga4-init" strategy="afterInteractive">
+                {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{page_path:window.location.pathname});`}
+              </Script>
+            </>
+          )}
           <OrchidsScript />
           <ErrorReporter />
           {children}

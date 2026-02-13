@@ -90,6 +90,57 @@ export default function SeoContentSection() {
             Consultez notre <Link href="/blog" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors">blog IPTV</Link> pour des guides, 
             tutoriels et les dernieres actualites sur le streaming IPTV en France.
           </p>
+
+          <h3 className="text-2xl font-bold text-white mt-10 mb-4">
+            IPTV disponible partout en France : Paris, Lyon, Marseille et plus
+          </h3>
+
+          <p>
+            Notre <strong className="text-white">service IPTV</strong> est disponible dans toute la France metropolitaine et les DOM-TOM. 
+            Que vous soyez a <Link href="/iptv-paris" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors">Paris</Link>, 
+            <Link href="/iptv-lyon" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> Lyon</Link>, 
+            <Link href="/iptv-marseille" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> Marseille</Link>, 
+            <Link href="/iptv-toulouse" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> Toulouse</Link>, 
+            <Link href="/iptv-bordeaux" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> Bordeaux</Link>, 
+            <Link href="/iptv-lille" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> Lille</Link>, 
+            <Link href="/iptv-nice" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> Nice</Link>, 
+            <Link href="/iptv-nantes" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> Nantes</Link>, 
+            <Link href="/iptv-strasbourg" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> Strasbourg</Link> ou 
+            <Link href="/iptv-montpellier" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> Montpellier</Link>, 
+            notre IPTV fonctionne parfaitement avec tous les operateurs internet francais (Orange, SFR, Free, Bouygues). 
+            L&apos;activation est 100% digitale — pas de parabole, pas d&apos;antenne, pas d&apos;installation physique.
+          </p>
+
+          <h3 className="text-2xl font-bold text-white mt-10 mb-4">
+            IPTV sur tous vos appareils : Samsung, LG, Fire Stick, Apple TV, Android
+          </h3>
+
+          <p>
+            IPTV Smarters Pro est compatible avec <strong className="text-white">tous les appareils</strong>. Installez notre service sur votre 
+            <Link href="/iptv-samsung" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> Smart TV Samsung</Link>, 
+            <Link href="/iptv-lg" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> Smart TV LG</Link>, 
+            <Link href="/iptv-firestick" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> Amazon Fire TV Stick</Link>, 
+            <Link href="/iptv-apple-tv" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> Apple TV 4K</Link>, 
+            <Link href="/iptv-android" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> smartphone Android</Link>, 
+            <Link href="/iptv-ios" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> iPhone/iPad</Link> ou 
+            <Link href="/iptv-android-tv" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors"> box Android TV</Link>. 
+            Plus de 20 applications IPTV compatibles : Smart IPTV, SS IPTV, Set IPTV, Flix IPTV, Duplex IPTV, Net IPTV, TiviMate, XCIPTV et bien d&apos;autres. 
+            Consultez nos <Link href="/tutoriels" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors">tutoriels d&apos;installation</Link> pour 
+            commencer en moins de 5 minutes.
+          </p>
+
+          <h3 className="text-2xl font-bold text-white mt-10 mb-4">
+            Pourquoi IPTV Smarters Pro est le meilleur IPTV en France 2026 ?
+          </h3>
+
+          <p>
+            Depuis 2020, IPTV Smarters Pro s&apos;est impose comme le <strong className="text-white">meilleur service IPTV en France</strong> grace a : 
+            des serveurs europeens dedies avec connexion 20 Gbps pour une stabilite de 99.9%, une ouverture des chaines en moins de 0,5 seconde, 
+            un catalogue de plus de 160 000 chaines dans plus de 100 pays, un support technique 24/7 reactif par email et WhatsApp, 
+            et des prix imbattables a partir de 19€ pour 3 mois. Plus de 50 000 clients satisfaits nous font confiance en France, 
+            en Belgique, en Suisse et au Canada. <Link href="/abonnement-iptv/#pricing" className="text-cyan-300 hover:text-cyan-200 font-medium underline underline-offset-2 decoration-cyan-400/80 transition-colors">Decouvrez nos offres d&apos;abonnement IPTV</Link> et 
+            commencez a regarder des maintenant.
+          </p>
         </div>
       </div>
     </section>

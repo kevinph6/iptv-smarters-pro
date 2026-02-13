@@ -7,6 +7,7 @@ import { blogPosts } from '@/db/schema';
 import { and, eq } from 'drizzle-orm';
 import NavigationHeader from '@/components/sections/navigation-header';
 import Footer from '@/components/sections/footer';
+import InternalLinksSilo from '@/components/sections/internal-links-silo';
 import { Calendar, User, ArrowLeft } from 'lucide-react';
 import { ShareButton } from './share-button';
 
@@ -345,6 +346,7 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </section>
 
+      <InternalLinksSilo />
       <Footer />
     </div>
   );

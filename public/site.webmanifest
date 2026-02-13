@@ -1,0 +1,19 @@
+{
+  "name": "IPTV SMARTERS PRO - Abonnement IPTV France",
+  "short_name": "IPTV Smarters Pro",
+  "description": "Meilleur abonnement IPTV France 2026. 160 000+ chaînes 4K, 20 000+ VOD.",
+  "start_url": "/abonnement-iptv/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "lang": "fr",
+  "categories": ["entertainment", "streaming"],
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

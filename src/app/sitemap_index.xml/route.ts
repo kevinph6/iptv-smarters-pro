@@ -9,6 +9,7 @@ export async function GET() {
     { loc: `${baseUrl}/post-sitemap.xml`, lastmod: new Date().toISOString() },
     { loc: `${baseUrl}/tutorial-sitemap.xml`, lastmod: new Date().toISOString() },
     { loc: `${baseUrl}/product-sitemap.xml`, lastmod: new Date().toISOString() },
+    { loc: `${baseUrl}/programmatic-sitemap.xml`, lastmod: new Date().toISOString() },
   ];
 
   const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>

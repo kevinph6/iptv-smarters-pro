@@ -20,6 +20,13 @@ export const metadata: Metadata = {
     title: 'Politique de Remboursement - IPTV SMARTERS PRO',
     description: 'Conditions de remboursement. Garantie de satisfaction.',
     siteName: 'IPTV SMARTERS PRO',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'IPTV SMARTERS PRO - Remboursement', type: 'image/png' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Politique de Remboursement - IPTV SMARTERS PRO',
+    description: 'Conditions de remboursement. Garantie de satisfaction.',
+    images: ['/og-image.jpg'],
   },
 };
 
