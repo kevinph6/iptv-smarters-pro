@@ -106,18 +106,28 @@ const nextConfig: NextConfig = {
   },
 
   async rewrites() {
-    return [
-      {
-        source: '/:path*',
-        destination: '/geo-restricted',
-        has: [
-          {
-            type: 'host',
-            value: 'restricted.officieliptvsmarterspro.fr',
-          },
-        ],
-      },
-    ];
+    return {
+      beforeFiles: [
+        // Programmatic SEO pages: /iptv-samsung → /iptv/samsung (clean URLs)
+        {
+          source: '/iptv-:slug',
+          destination: '/iptv/:slug',
+        },
+      ],
+      afterFiles: [],
+      fallback: [
+        {
+          source: '/:path*',
+          destination: '/geo-restricted',
+          has: [
+            {
+              type: 'host',
+              value: 'restricted.officieliptvsmarterspro.fr',
+            },
+          ],
+        },
+      ],
+    };
   },
 };
 
