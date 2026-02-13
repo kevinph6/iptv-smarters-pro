@@ -98,22 +98,35 @@ export default async function BlogPostPage({ params }: Props) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officieliptvsmarterspro.fr';
   const seoHomeUrl = `${baseUrl}/abonnement-iptv/`;
 
+  const articleImage = post.featuredImageUrl ? `${baseUrl}${post.featuredImageUrl}` : `${baseUrl}/og-image.jpg`;
+  
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
+    "@id": `${baseUrl}/blog/${post.slug}#article`,
     "headline": post.title,
     "description": post.excerpt,
-    "image": post.featuredImageUrl ? `${baseUrl}${post.featuredImageUrl}` : `${baseUrl}/og-image.jpg`,
+    "image": {
+      "@type": "ImageObject",
+      "url": articleImage,
+      "width": 1200,
+      "height": 630,
+    },
+    "thumbnailUrl": articleImage,
     "author": {
       "@type": "Person",
       "name": post.author,
+      "url": seoHomeUrl,
     },
     "publisher": {
       "@type": "Organization",
+      "@id": `${baseUrl}/#organization`,
       "name": "IPTV SMARTERS PRO",
       "logo": {
         "@type": "ImageObject",
         "url": `${baseUrl}/logo.png`,
+        "width": 512,
+        "height": 512,
       },
     },
     "datePublished": post.createdAt,
@@ -124,6 +137,10 @@ export default async function BlogPostPage({ params }: Props) {
     },
     "articleSection": post.category,
     "inLanguage": "fr-FR",
+    "isPartOf": {
+      "@id": `${baseUrl}/#website`,
+    },
+    "wordCount": post.content ? post.content.replace(/<[^>]*>/g, '').split(/\s+/).length : undefined,
   };
 
   const breadcrumbSchema = {

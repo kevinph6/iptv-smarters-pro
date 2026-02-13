@@ -145,13 +145,53 @@ export default function RootLayout({
               "@graph": [
                 {
                   "@type": "Organization",
+                  "@id": `${baseUrl}/#organization`,
                   "name": "IPTV SMARTERS PRO",
                   "url": seoHomeUrl,
-                  "logo": { "@type": "ImageObject", "url": `${baseUrl}/og-image.jpg`, "width": 1200, "height": 630 },
+                  "logo": {
+                    "@type": "ImageObject",
+                    "@id": `${baseUrl}/#logo`,
+                    "url": `${baseUrl}/logo.png`,
+                    "contentUrl": `${baseUrl}/logo.png`,
+                    "width": 512,
+                    "height": 512,
+                    "caption": "IPTV SMARTERS PRO"
+                  },
+                  "image": { "@id": `${baseUrl}/#logo` },
                   "description": "Meilleur service d'abonnement IPTV en France avec plus de 160 000 chaînes TV en 4K/FHD/HD et 20 000+ contenus VOD.",
                   "email": "support@iptvsmarterspro.fr",
                   "address": { "@type": "PostalAddress", "addressCountry": "FR" },
+                  "sameAs": [],
                   "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "2847", "bestRating": "5", "worstRating": "1" }
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": `${baseUrl}/#website`,
+                  "name": "IPTV SMARTERS PRO",
+                  "alternateName": "IPTV Smarters Pro - Abonnement IPTV France",
+                  "url": seoHomeUrl,
+                  "publisher": { "@id": `${baseUrl}/#organization` },
+                  "inLanguage": "fr-FR",
+                  "potentialAction": { "@type": "SearchAction", "target": { "@type": "EntryPoint", "urlTemplate": `${baseUrl}/search?q={search_term_string}` }, "query-input": "required name=search_term_string" }
+                },
+                {
+                  "@type": "WebPage",
+                  "@id": `${seoHomeUrl}#webpage`,
+                  "url": seoHomeUrl,
+                  "name": "IPTV SMARTERS PRO - Meilleur Abonnement IPTV France 2026",
+                  "description": "Meilleur abonnement IPTV France 2026. Plus de 160 000 chaînes TV 4K/FHD/HD, 20 000+ films VOD, activation instantanée en 5min, support 24/7.",
+                  "isPartOf": { "@id": `${baseUrl}/#website` },
+                  "about": { "@id": `${baseUrl}/#organization` },
+                  "datePublished": "2025-01-15T08:00:00+01:00",
+                  "dateModified": "2026-02-13T10:00:00+01:00",
+                  "inLanguage": "fr-FR",
+                  "primaryImageOfPage": {
+                    "@type": "ImageObject",
+                    "url": `${baseUrl}/og-image.jpg`,
+                    "width": 1200,
+                    "height": 630
+                  },
+                  "breadcrumb": { "@id": `${seoHomeUrl}#breadcrumb` }
                 },
                 {
                   "@type": "Product",
@@ -163,13 +203,8 @@ export default function RootLayout({
                   "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "2847", "bestRating": "5", "worstRating": "1" }
                 },
                 {
-                  "@type": "WebSite",
-                  "name": "IPTV SMARTERS PRO",
-                  "url": seoHomeUrl,
-                  "potentialAction": { "@type": "SearchAction", "target": `${baseUrl}/search?q={search_term_string}`, "query-input": "required name=search_term_string" }
-                },
-                {
                   "@type": "BreadcrumbList",
+                  "@id": `${seoHomeUrl}#breadcrumb`,
                   "itemListElement": [
                     { "@type": "ListItem", "position": 1, "name": "Accueil", "item": seoHomeUrl },
                     { "@type": "ListItem", "position": 2, "name": "Chaînes IPTV", "item": `${baseUrl}/chaines` },
