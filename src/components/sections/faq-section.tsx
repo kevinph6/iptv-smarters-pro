@@ -119,8 +119,8 @@ const FaqSection = () => {
           ))}
         </div>
 
-        {/* Contact CTA */}
-        <div className="text-center mt-12">
+        {/* Contact CTA — TEMPORARILY HIDDEN */}
+        <div className="text-center mt-12 hidden">
           <p className="text-white/50 mb-4">Vous avez d{`'`}autres questions ?</p>
           <a
             href="https://wa.me/212628461599"

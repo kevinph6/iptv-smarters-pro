@@ -159,7 +159,8 @@ export default async function GeoRestrictedPage({
                 </div>
               </div>
               
-              <div className="flex items-center gap-3">
+              {/* TEMPORARILY HIDDEN — WhatsApp contact */}
+              <div className="hidden items-center gap-3">
                 <MessageCircle className="h-5 w-5 text-green-500" />
                 <div>
                   <span className="font-semibold text-red-500">WhatsApp:</span>{' '}

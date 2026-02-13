@@ -474,7 +474,8 @@ function OnDemandSection() {
               <p className="text-white/90 text-lg md:text-xl leading-relaxed mb-6">
                 Vous souhaitez une chaîne ou un film en particulier ? <span className="text-white font-bold">Contactez-nous</span>, nous l&apos;ajoutons à votre abonnement <span className="text-red-500 font-bold">gratuitement sous 24h</span> !
               </p>
-              <a href="https://wa.me/212628461599" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded transition-colors text-sm">
+              {/* TEMPORARILY HIDDEN — WhatsApp button */}
+              <a href="https://wa.me/212628461599" target="_blank" rel="noopener noreferrer" className="hidden items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded transition-colors text-sm">
                 <MessageCircle className="w-4 h-4" />Demander sur WhatsApp
               </a>
             </div>

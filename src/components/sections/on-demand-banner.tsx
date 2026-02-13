@@ -39,11 +39,12 @@ const OnDemandBanner = () => {
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 font-bold"> gratuitement sous 24h</span> !
               </p>
 
+              {/* TEMPORARILY HIDDEN — WhatsApp button */}
               <a
                 href="https://wa.me/212628461599"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold hover:from-green-400 hover:to-emerald-400 transition-all duration-300 shadow-lg shadow-green-500/25 hover:shadow-green-500/40 hover:scale-105"
+                className="hidden items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold hover:from-green-400 hover:to-emerald-400 transition-all duration-300 shadow-lg shadow-green-500/25 hover:shadow-green-500/40 hover:scale-105"
               >
                 <MessageCircle className="w-5 h-5" />
                 Demander sur WhatsApp

@@ -3,6 +3,9 @@
 import { usePathname } from 'next/navigation';
 
 export function WhatsAppButton() {
+  // TEMPORARILY HIDDEN — remove the next line to restore WhatsApp button
+  return null;
+
   const pathname = usePathname();
   
   // Hide on admin, login, and internal pages; also hide until pathname is known (avoids flash on admin)

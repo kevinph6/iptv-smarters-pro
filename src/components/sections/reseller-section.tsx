@@ -58,12 +58,12 @@ const ResellerSection = () => {
               })}
             </div>
 
-            {/* CTA Button */}
+            {/* CTA Button — TEMPORARILY HIDDEN */}
             <a
               href="https://wa.me/212628461599"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-3"
+              className="group relative hidden items-center gap-3"
             >
               <div className="absolute -inset-1 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl blur-lg opacity-70 group-hover:opacity-100 transition-opacity" />
               <div className="relative inline-flex items-center gap-3 px-10 py-5 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold text-lg shadow-2xl shadow-green-500/30 hover:shadow-green-500/50 transition-all duration-300 group-hover:scale-105">
