@@ -3,16 +3,17 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { headers } from "next/headers"
 import { db } from "@/db";
 
-// Detect environment more accurately
-const isLocalhost = typeof window !== 'undefined' 
-    ? window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    : process.env.NODE_ENV === 'development' || !process.env.VERCEL;
+// Resolve auth base URL: prefer BETTER_AUTH_URL unless it points at
+// localhost while a real production URL exists (common misconfiguration).
+const _configured = process.env.BETTER_AUTH_URL;
+const _publicUrl  = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXT_PUBLIC_SITE_URL;
+const _isLocal    = !_configured || /localhost|127\.0\.0\.1/.test(_configured);
 
-const baseURL = process.env.BETTER_AUTH_URL || 
-                (isLocalhost ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_BASE_URL) || 
-                'http://localhost:3000';
+const baseURL = (_configured && !_isLocal)
+	? _configured
+	: (_publicUrl?.startsWith('https://') ? _publicUrl : (_configured || 'http://localhost:3000'));
 
-const isSecure = baseURL.startsWith('https://');
+const isProduction = baseURL.startsWith('https://');
    
 export const auth = betterAuth({
 	baseURL,
@@ -50,16 +51,15 @@ export const auth = betterAuth({
 		}
 	},
 	advanced: {
-		useSecureCookies: isSecure,
-		crossSubDomainCookies: {
-			enabled: true,
-		},
+		useSecureCookies: isProduction,
+		crossSubDomainCookies: isProduction
+			? { enabled: true, domain: ".officieliptvsmarterspro.fr" }
+			: { enabled: false },
 		defaultCookieAttributes: {
-			sameSite: isSecure ? "none" : "lax",
-			secure: isSecure,
+			sameSite: "lax",
+			secure: isProduction,
 			path: "/",
 			httpOnly: true,
-			partitioned: isSecure,
 		}
 	}
 });

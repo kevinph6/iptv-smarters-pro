@@ -92,8 +92,6 @@ export function useSession(): SessionState {
         }
       });
       
-      console.log('Session fetch result:', res);
-      
       if (res.data) {
         const sessionData = res.data as Session;
         setSession(sessionData);

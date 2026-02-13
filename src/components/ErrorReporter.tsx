@@ -44,26 +44,29 @@ export default function ErrorReporter({ error, reset }: ReporterProps) {
         timestamp: Date.now(),
       });
 
-    const pollOverlay = () => {
-      const overlay = document.querySelector("[data-nextjs-dialog-overlay]");
-      const node =
-        overlay?.querySelector(
-          "h1, h2, .error-message, [data-nextjs-dialog-body]"
-        ) ?? null;
-      const txt = node?.textContent ?? node?.innerHTML ?? "";
-      if (txt && txt !== lastOverlayMsg.current) {
-        lastOverlayMsg.current = txt;
-        send({
-          type: "ERROR_CAPTURED",
-          error: { message: txt, source: "nextjs-dev-overlay" },
-          timestamp: Date.now(),
-        });
-      }
-    };
-
     window.addEventListener("error", onError);
     window.addEventListener("unhandledrejection", onReject);
-    pollRef.current = setInterval(pollOverlay, 1000);
+
+    // Only poll the dev overlay in development to avoid forced reflow in production
+    if (process.env.NODE_ENV === "development") {
+      const pollOverlay = () => {
+        const overlay = document.querySelector("[data-nextjs-dialog-overlay]");
+        const node =
+          overlay?.querySelector(
+            "h1, h2, .error-message, [data-nextjs-dialog-body]"
+          ) ?? null;
+        const txt = node?.textContent ?? node?.innerHTML ?? "";
+        if (txt && txt !== lastOverlayMsg.current) {
+          lastOverlayMsg.current = txt;
+          send({
+            type: "ERROR_CAPTURED",
+            error: { message: txt, source: "nextjs-dev-overlay" },
+            timestamp: Date.now(),
+          });
+        }
+      };
+      pollRef.current = setInterval(pollOverlay, 1000);
+    }
 
     return () => {
       window.removeEventListener("error", onError);
