@@ -47,9 +47,10 @@ export function middleware(request: NextRequest) {
     hostname.includes("localhost");
 
   const canonicalHost = envCanonicalHost || hostname.replace(/^restricted\./, "");
-  const canonicalOrigin = `${request.nextUrl.protocol}//${canonicalHost}`;
+  const protocol = isLocalhost ? request.nextUrl.protocol : "https:";
+  const canonicalOrigin = `${protocol}//${canonicalHost}`;
   const restrictedHost = `restricted.${canonicalHost}`;
-  const restrictedOrigin = `${request.nextUrl.protocol}//${restrictedHost}`;
+  const restrictedOrigin = `${protocol}//${restrictedHost}`;
   const isRestrictedSubdomain = hostname === restrictedHost || hostname.startsWith("restricted.");
 
   const geoCountry = (request as NextRequest & { geo?: { country?: string } }).geo?.country;
